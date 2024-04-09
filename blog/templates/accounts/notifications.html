@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}الاشعارات{% endblock title_ar %}
+{% else %}
+{% block title%}Notifications{% endblock title %}
+{% endif %}
+
+
+
+
+{% block content %}
+
+
+<body>
+
+
+
+    {% if user_profile.premium == True %}
+
+
+    <!-- Inbox Start -->
+    <div class="container-fluid py-1" id="inbox" style="padding: 0;">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-9">
+
+
+                    {% if notification|length == 0 %}
+
+                    <div class="contact-form bg-secondary rounded p-4">
+                        <div id="success"></div>
+
+
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-bell"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            الاشعارات ({{notification.count}})
+                            {% else %}
+                            Notifications ({{notification.count}})
+                            {% endif %}
+
+                        </h3>
+                        <div class="text-center">
+                            <p style="font-size: 23px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                لا يوجد اي اشعارات بعد
+                                {% else %}
+                                There isnt any notifications.
+                                {% endif %}
+                            </p>
+
+                        </div>
+
+                    </div>
+                    {% endif %}
+
+                    {% if notification|length >= 1 %}
+
+                    <div class="mb-5 bg-secondary rounded p-3">
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-bell"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+
+                            الاشعارات ({{notification.count}})
+                            {% else %}
+
+                            Notifications ({{notification.count}})
+                            {% endif %}
+
+                        </h3>
+
+                        {% for notification in notification  %}
+                        <div class="media mb-3 rounded">
+
+
+                            <div class="notification-icon" style="display: flex; flex-direction: column;">
+                                <i class="fa-solid fa-bell text-success mr-4" style="font-size: 50px; "></i>
+
+                                <form action="/delete-notification" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{notification.notification_id}}" name="notification"
+                                        hidden />
+
+                                    <button type="submit" class="btn btn-danger mt-3" style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+
+
+                            <!-- <img src="{% static 'img/default-profile-image.jpg' %}"
+                                class="img-fluid rounded-circle mr-3 mt-1" style="width: 45px;" alt=""> -->
+
+                            <div class="media-body bg-white" style="padding: 10px;">
+                                {% if notification.activity_type == 'withdraw' %}
+
+                                <div class="notification-header"
+                                    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                    <h5 class="text-success">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سحب مبلغ
+                                        {% else %}
+                                        Money Withdrawed
+                                        {% endif %}
+                                    </h5>
+                                </div>
+
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <p>لقد تم سحب مبلغ {{notification.money}} جنية من محفظتك , رصيد محفظتك الان:
+                                    {{notification.wallet}} جنية</p>
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% else %}
+                                <p>{{notification.money}} EGP Was withdrawed from your wallet , Your Wallet Credit is
+                                    {{notification.wallet}} EGP now</p>
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% endif %}
+
+
+
+
+                                {% endif %}
+
+                                {% if notification.activity_type == 'charge' %}
+                                <div class="notification-header"
+                                    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                    <h5 class="text-success">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        تم شحن المحفظة بنجاح
+                                        {% else %}
+                                        Wallet Charged Successfully
+                                        {% endif %}
+
+                                    </h5>
+                                </div>
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <p>لقد تم شحن مبلغ {{notification.money}} جنية الي محفظتك , رصيد محفظتك الان:
+                                    {{notification.wallet}} جنية </p>
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% else %}
+                                <p>{{notification.money}} EGP Was charged into your wallet , Your Wallet Credit is
+                                    {{notification.wallet}} EGP now</p>
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% endif %}
+
+
+
+
+                                {% endif %}
+
+                                {% if notification.activity_type == 'purchase' %}
+                                <div class="notification-header"
+                                    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                    <h5 class="text-success">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        تم شراء المحاضرة بنجاح ({{notification.lesson_name}})
+                                        {% else %}
+                                        Lesson Purchased Successufully
+                                        {% endif %}
+
+                                    </h5>
+                                </div>
+
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <p style="text-transform: capitalize; font-size: 16px;">تم شراء المحاضرة بنجاح بواسطة
+                                    {% if notification.purchase_type == 'wallet' %}
+                                    <span style="font-size: 13px;">المحفظة</span></p>
+                                {% endif %}
+
+                                {% if notification.purchase_type == 'code' %}
+                                <span style="font-size: 13px;">كود</span></p>
+                                {% endif %}
+
+
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% else %}
+                                <p style="text-transform: capitalize; font-size: 16px;">{{notification.lesson_name}} ,
+                                    <span style="font-size: 13px;">By {{notification.purchase_type}}</span></p>
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% endif %}
+
+
+
+                                {% endif %}
+
+                                {% if notification.activity_type == 'like' %}
+
+                                <div class="notification-header"
+                                    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                    <h5 class="text-success">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {{notification.liker}} لقد اعجب بالمحاضرة الخاصة بك
+                                        {% else %}
+                                        {{notification.liker}} has liked your lecture.
+                                        {% endif %}
+                                    </h5>
+                                </div>
+
+
+
+                                <p style="text-transform: capitalize; font-size: 16px;">{{notification.lesson_name}} ,
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <span style="font-size: 13px;"> {{notification.money}} اعجابات</span></p>
+                                {% else %}
+                                <span style="font-size: 13px;"> {{notification.money}} Likes</span></p>
+                                {% endif %}
+
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% endif %}
+
+                                {% if notification.activity_type == 'buy' %}
+
+                                <div class="notification-header"
+                                    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                    <h5 class="text-success">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {{notification.liker}} لقد اشتري المحاضرة الخاصة بك
+                                        {% else %}
+                                        {{notification.liker}} has buyed your lecture.
+                                        {% endif %}
+                                    </h5>
+                                </div>
+
+
+
+                                <p style="text-transform: capitalize; font-size: 16px;">{{notification.lesson_name}} ,
+                                    <span style="font-size: 13px;">
+
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {{notification.money}} عمليات شراء
+                                        {% else %}
+                                        {{notification.money}} Buys
+                                        {% endif %}
+                                    </span></p>
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% endif %}
+
+                                {% if notification.activity_type == 'comment' %}
+
+                                <div class="notification-header"
+                                    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                    <h5 class="text-success">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {{notification.liker}} لقد ارسل لك سؤال
+                                        {% else %}
+                                        {{notification.liker}} asked you a question.
+                                        {% endif %}
+                                    </h5>
+                                </div>
+
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <p style="text-transform: capitalize; font-size: 16px;">علي {{notification.lesson_name}}
+                                    , اجب عليه في <a href="/dashboard#questions" class="text-primary">لوحة التحكم</a>
+                                    <br>
+                                    <span style="font-size: 13px;">, {{notification.money}} اسئلة</span></p>
+                                {% else %}
+                                <p style="text-transform: capitalize; font-size: 16px;">On {{notification.lesson_name}}
+                                    , See it in The <a href="/dashboard#questions" class="text-primary">Dashboard</a>
+                                    <span style="font-size: 13px;">, {{notification.money}} Questions</span></p>
+                                {% endif %}
+
+
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% endif %}
+
+                                {% if notification.activity_type == 'reply' %}
+                                <div class="notification-header"
+                                    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                    <h5 class="text-success">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {{notification.liker}} رد علي سؤالك
+                                        {% else %}
+                                        {{notification.liker}} Answered Your Question.
+                                        {% endif %}
+
+                                        ({{notification.lesson_name}})</h5>
+                                </div>
+
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <p style="font-size: 16px;">افتح الرد من خلال <a href="/inbox"
+                                        class="text-primary">الوارد</a> <span style="font-size: 13px;"></span></p>
+                                {% else %}
+                                <p style="font-size: 16px;">See the answer in your <a href="/inbox"
+                                        class="text-primary">Inbox</a> <span style="font-size: 13px;"></span></p>
+                                {% endif %}
+
+
+                                <small><i>{{notification.created_at}}</i></small>
+                                {% endif %}
+
+
+                            </div>
+
+
+
+
+                        </div>
+                        {% endfor %}
+
+
+
+
+                    </div>
+
+
+                    {% endif %}
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Inbox End -->
+
+
+
+
+    {% else %}
+
+
+    <!-- Error Premium Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Premium User To Recharge Codes</p>
+                        <a href="/get-premium" class="btn btn-success mt-3 w-100">Get Premium</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Premium End -->
+
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

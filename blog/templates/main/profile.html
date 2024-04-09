@@ -1,0 +1,1617 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}{{user_profile.user}} - الملف الشخصي{% endblock title_ar %}
+{% else %}
+{% block title%}{{user_profile.user}} Profile{% endblock title %}
+{% endif %}
+
+
+
+
+
+{% block content %}
+
+<body>
+
+
+    {% if profile.user == user %}
+    <div class="container-fluid " style="background-color: white;">
+        <div class="container ">
+
+
+            {% if user_profile.instructor == True %}
+            <div class="search-box" style="padding-top: 50px;">
+                <a href="/search-page" style="text-decoration: none;">
+                    <div class="input-group rounded mb-5">
+                        <input type="search" name="username" class="form-control rounded" placeholder="Search User"
+                            aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit"
+                            style="background-color: white ; border-color: #d9dde2; border: 2px solid #d9dde2; border-radius: 5px;">
+                            <span class="input-group-text border-0" id="search-addon"
+                                style="color: #ff6600; background-color: white">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </button>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+
+
+            <div class="row pb-3 pt-3" style="display: flex; flex-direction: row; justify-content: space-between; ">
+
+
+                <div class="col-12 col-lg-6 mb-4" style="  text-align: center; ">
+                    <div class="box "
+                        style="border-radius: 20px;  padding: 10px; display: flex; flex-direction: column; justify-content: center  ;  background-color: white ; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1);">
+
+                        <div class="profile-image" style="align-content: center;">
+                            {% if profile.image %}
+                            <img src="{{profile.image.url}}" class="rounded-circle mt-3 mb-2"
+                                style="width: 168px; height: 168px;">
+                            {% else %}
+                            <img src="{% static 'images/default-profile-image.jpg' %}" class="rounded-circle mt-3 mb-2"
+                                style="width: 168px; height: 168px;">
+
+                            {% endif %}
+
+                            {% if profile.instructor == True %}
+                            <h3 style="color: black; font-size: 30px; font-weight: 600; margin-top: 10px;">
+                                {{profile.name}} <i class="fa-solid fa-circle-check"></i></h3>
+                            {% endif %}
+                            {% if profile.instructor == False %}
+                            <h3 style="color: black; font-size: 30px; font-weight: 600; margin-top: 10px;">
+                                {{profile.name}}</h3>
+                            {% endif %}
+
+
+                            <h3 class="text-black"
+                                style=" font-size: 20px; font-weight: 400; margin-top: 0px; margin-bottom: 20px;">
+                                @{{profile.user}}</h3>
+
+
+
+                            {% if user_profile.instructor == False %}
+                            <p><i class="fa-solid fa-barcode text-primary" style="font-size: 20px;"></i><span
+                                    style="margin-left: 10px; font-size: 18px; color: black;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    كود الطالب:
+                                    {% else %}
+                                    Student Code :
+                                    {% endif %}
+                                </span><span style="font-size: 18px;"><span style="text-transform: capitalize;">
+                                        {{profile.code}}
+                                    </span></span></p>
+                            {% endif %}
+
+
+
+
+                            {% if profile.instructor == False %}
+                            {% if profile.year == 'none' %}
+                            <p></p>
+                            {% else %}
+                            <p><i class="fa-solid fa-graduation-cap text-primary" style="font-size: 20px;"></i><span
+                                    style="margin-left: 10px; font-size: 18px; color: black;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الصف الدراسي:
+                                    {% else %}
+                                    School Year:
+                                    {% endif %}
+                                </span><span style="font-size: 18px;"><span style="text-transform: capitalize;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {% if profile.year == 'first' %}
+                                        الاول الثانوي
+                                        {% endif %}
+                                        {% if profile.year == 'second' %}
+                                        الثاني الثانوي
+                                        {% endif %}
+                                        {% if profile.year == 'third' %}
+                                        الثالث الثانوي
+                                        {% endif %}
+                                        {% else %}
+                                        {{profile.year}} Secondary
+                                        {% endif %}
+
+                                    </span></span></p>
+                            {% endif %}
+                            {% endif %}
+
+
+
+
+
+
+
+
+                            {% if profile.user == user %}
+                            <a href="/logout" class="btn btn-danger w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i
+                                        class="fa fa-2x fa-right-from-bracket mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تسجيل خروج
+                                {% else %}
+                                Logout
+                                {% endif %}
+                            </a>
+                            {% else %}
+                            <a href=""></a>
+                            {% endif %}
+
+
+                            {% if profile.user == user %}
+                            {% if profile.instructor == False %}
+                            <a href="/wallet/recharge" class="btn btn-success w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                شحن المحفظة
+                                {% else %}
+                                Recharge
+                                Wallet
+                                {% endif %}
+                            </a>
+                            {% endif %}
+                            {% endif %}
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="box "
+                        style=" border-radius: 20px;  padding: 10px; display: flex; flex-direction: column;  background-color: white ; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1);">
+
+                        <div class="profile-details">
+
+
+                            <div style="text-align: start; padding: 10px;">
+
+
+
+
+                                {% if profile.user == user %}
+                                {% if user.email %}
+                                <p><i class="fa-solid fa-envelope text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        البريد الالكتروني:
+                                        {% else %}
+                                        Email Address:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;">{{user.email}}</span></p>
+                                {% endif %}
+                                {% else %}
+                                <a href=""></a>
+                                {% endif %}
+
+
+
+
+
+                                {% if profile.phone %}
+                                <p><i class="fa-solid fa-phone text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        رقم الهاتف :
+                                        {% else %}
+                                        Phone Number:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;">{{profile.phone}}</span></p>
+                                {% endif %}
+
+                                {% if profile.school %}
+                                <p><i class="fa-solid fa-school text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        المدرسة:
+                                        {% else %}
+                                        School:
+                                        {% endif %}
+                                    </span><span style="font-size: 18px;"><span
+                                            style="text-transform: capitalize;">{{profile.school}}
+                                        </span></span></p>
+                                {% endif %}
+
+
+                                {% if profile.location %}
+                                <p><i class="fa-solid fa-location-dot text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        المحافظة:
+                                        {% else %}
+                                        Lives In:
+                                        {% endif %}
+                                    </span><span style="font-size: 18px;"> {{profile.location}}</span></p>
+                                {% endif %}
+
+
+
+
+                                {% if profile.instructor == False %}
+                                {% if profile.year == 'none' %}
+                                <p></p>
+                                {% else %}
+                                <p><i class="fa-solid fa-graduation-cap text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        السنة الدراسية:
+                                        {% else %}
+                                        School Year:
+                                        {% endif %}
+                                    </span><span style="font-size: 18px;"><span style="text-transform: capitalize;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            {% if profile.year == 'first' %}
+                                            الاول الثانوي
+                                            {% endif %}
+                                            {% if profile.year == 'second' %}
+                                            الثاني الثانوي
+                                            {% endif %}
+                                            {% if profile.year == 'third' %}
+                                            الثالث الثانوي
+                                            {% endif %}
+                                            {% else %}
+                                            {{profile.year}} Secondary
+                                            {% endif %}
+                                        </span></span></p>
+                                {% endif %}
+                                {% endif %}
+
+
+
+                                {% if profile.instructor == False %}
+                                <p><i class="fa-solid fa-book text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        المحاضرات المفتوحة:
+                                        {% else %}
+                                        Lessons Bought:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;"><span
+                                            style="text-transform: capitalize;">{{profile.no_of_buys}}
+                                        </span></span></p>
+                                {% endif %}
+
+
+                                {% if profile.instructor == False %}
+
+                                <p><i class="fa-solid fa-calendar text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        تاريخ الاشتراك:
+                                        {% else %}
+                                        Joined In:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;"><span
+                                            style="text-transform: capitalize;">{{profile.join_date|date:"SHORT_DATE_FORMAT"}}</span></span>
+                                </p>
+                                {% endif %}
+
+
+
+                            </div>
+
+
+
+
+                            {% if profile.user == user %}
+                            {% if profile.instructor == True %}
+                            <a href="/settings-teacher" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-pen mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تعديل الملف الشخصي
+                                {% else %}
+                                Edit
+                                Profile
+                                {% endif %}
+                            </a>
+                            {% endif %}
+
+                            {% if profile.instructor == False %}
+                            <a href="/settings" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-pen mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تعديل الملف الشخصي
+                                {% else %}
+                                Edit
+                                Profile
+                                {% endif %}
+                            </a>
+                            {% endif %}
+
+                            <a href="/accounts/password/set " class="btn btn-primary w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-key mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تغير كلمة السر
+                                {% else %}
+                                Change Password
+                                {% endif %}
+                            </a>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+        {% if profile.user == user %}
+        {% if profile.instructor == False %}
+        <div class="container mt-2  ">
+            <div class="row pb-3 pt-3">
+
+
+                <div class="col-12 "
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box "
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                رصيد المحفظة: {{profile.money}} جنية
+                                {% else %}
+                                Wallet
+                                Credit:
+                                {{profile.money}} EGP
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/wallet/recharge" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                شحن
+                                {% else %}
+                                Recharge
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-4"
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                نتائج الامتحانات
+                                {% else %}
+                                Results
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/student/results" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i
+                                        class="fa fa-2x fa-square-poll-vertical mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                النتائج
+                                {% else %}
+                                Results
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 mt-4"
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                الوارد
+                                {% else %}
+                                Inbox
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/inbox" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-envelope mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                الوارد
+                                {% else %}
+                                Inbox
+                                {% endif %}</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-12 mt-4 "
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                نشاط الحساب
+                                {% else %}
+                                Account
+                                Activities
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/wallet/statement" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تابع
+                                {% else %}
+                                View
+                                {% endif %}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-4"
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                المدفوعات
+                                {% else %}
+                                Account
+
+                                Payments
+                                {% endif %} </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/wallet/payments" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تابع
+                                {% else %}
+                                View
+                                {% endif %}</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 mt-4 mb-5"
+                style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                <div class="box"
+                    style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                    <div class="left " style="align-content: center;">
+                        <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            تسجيلات الدخول 
+                            {% else %}
+                            Account Logins
+                            {% endif %} </h3>
+                    </div>
+
+                    <div class="right">
+                        <a href="/logins" class="btn btn-primary w-100" data-ripple="">
+                            <span style="font-size: 10px;"><i class="fa-solid fa-shield-halved fa-2x mr-3"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            تابع
+                            {% else %}
+                            View
+                            {% endif %}</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+
+
+
+
+
+
+
+
+    </div>
+    {% else %}
+
+
+    {% if profile.public == True %}
+
+    <div class="container-fluid " style="background-color: white;">
+        <div class="container ">
+
+            {% if user_profile.instructor == True %}
+            <div class="search-box" style="padding-top: 50px;">
+                <a href="/search-page" style="text-decoration: none;">
+                    <div class="input-group rounded mb-5">
+                        <input type="search" name="username" class="form-control rounded" placeholder="Search User"
+                            aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit"
+                            style="background-color: white ; border-color: #d9dde2; border: 2px solid #d9dde2; border-radius: 5px;">
+                            <span class="input-group-text border-0 pr-color" id="search-addon"
+                                style=" background-color: white">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </button>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+
+
+            <div class="row pb-3 pt-3" style="display: flex; flex-direction: row; justify-content: space-between; ">
+
+
+                <div class="col-12 col-lg-6 mb-4" style="  text-align: center; ">
+                    <div class="box "
+                        style="border-radius: 20px;  padding: 10px; display: flex; flex-direction: column; justify-content: center  ;  background-color: white ; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1);">
+
+                        <div class="profile-image" style="align-content: center;">
+                            {% if profile.image %}
+                            <img src="{{profile.image.url}}" class="rounded-circle mt-3 mb-2"
+                                style="width: 168px; height: 168px;">
+                            {% else %}
+                            <img src="{% static 'images/default-profile-image.jpg' %}" class="rounded-circle mt-3 mb-2"
+                                style="width: 168px; height: 168px;">
+                            {% endif %}
+
+                            {% if profile.instructor == True %}
+                            <h3 style="color: black; font-size: 30px; font-weight: 600; margin-top: 10px;">
+                                {{profile.name}} <i class="fa-solid fa-circle-check"></i></h3>
+                            {% endif %}
+                            {% if profile.instructor == False %}
+                            <h3 style="color: black; font-size: 30px; font-weight: 600; margin-top: 10px;">
+                                {{profile.name}}</h3>
+                            {% endif %}
+
+
+                            <h3 class="text-black"
+                                style=" font-size: 20px; font-weight: 400; margin-top: 0px; margin-bottom: 20px;">
+                                @{{profile.user}}</h3>
+
+
+                            {% if user_profile.instructor == True %}
+                            {% if profile.code %}
+                            <p><i class="fa-solid fa-barcode text-primary" style="font-size: 20px;"></i><span
+                                    style="margin-left: 10px; font-size: 18px; color: black;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    كود الطالب:
+                                    {% else %}
+                                    Student Code :
+                                    {% endif %}
+                                </span><span style="font-size: 18px;"><span style="text-transform: capitalize;">
+                                        {{profile.code}}
+                                    </span></span></p>
+                            {% endif %}
+                            {% endif %}
+
+
+
+                            {% if profile.instructor == False %}
+                            {% if profile.year == 'none' %}
+                            <p></p>
+                            {% else %}
+                            <p><i class="fa-solid fa-graduation-cap text-primary" style="font-size: 20px;"></i><span
+                                    style="margin-left: 10px; font-size: 18px; color: black;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الصف الدراسي:
+                                    {% else %}
+                                    School Year:
+                                    {% endif %}
+                                </span><span style="font-size: 18px;"><span style="text-transform: capitalize;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {% if profile.year == 'first' %}
+                                        الاول الثانوي
+                                        {% endif %}
+                                        {% if profile.year == 'second' %}
+                                        الثاني الثانوي
+                                        {% endif %}
+                                        {% if profile.year == 'third' %}
+                                        الثالث الثانوي
+                                        {% endif %}
+                                        {% else %}
+                                        {{profile.year}} Secondary
+                                        {% endif %}
+
+                                    </span></span></p>
+                            {% endif %}
+                            {% endif %}
+
+
+
+
+
+
+
+
+                            {% if profile.user == user %}
+                            <a href="/logout" class="btn btn-danger w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i
+                                        class="fa fa-2x fa-right-from-bracket mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تسجيل خروج
+                                {% else %}
+                                Logout
+                                {% endif %}
+                            </a>
+                            {% else %}
+                            <a href=""></a>
+                            {% endif %}
+
+                            {% if profile.user == user %}
+
+                            {% if profile.instructor == False %}
+                            <a href="/wallet/recharge" class="btn btn-success w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                شحن المحفظة
+                                {% else %}
+                                Recharge
+                                Wallet
+                                {% endif %}
+                            </a>
+                            {% endif %}
+
+                            {% endif %}
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="box "
+                        style=" border-radius: 20px;  padding: 10px; display: flex; flex-direction: column;  background-color: white ; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1);">
+
+                        <div class="profile-details">
+
+
+                            <div style="text-align: start; padding: 10px;">
+
+
+
+
+                                {% if profile.user == user %}
+                                {% if user.email %}
+                                <p><i class="fa-solid fa-envelope text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        البريد الالكتروني:
+                                        {% else %}
+                                        Email Address:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;">{{user.email}}</span></p>
+                                {% endif %}
+                                {% else %}
+                                <a href=""></a>
+                                {% endif %}
+
+
+
+
+
+                                {% if profile.phone %}
+                                <p><i class="fa-solid fa-phone text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        رقم الهاتف :
+                                        {% else %}
+                                        Phone Number:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;">{{profile.phone}}</span></p>
+                                {% endif %}
+
+                                {% if profile.school %}
+                                <p><i class="fa-solid fa-school text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        المدرسة:
+                                        {% else %}
+                                        School:
+                                        {% endif %}
+                                    </span><span style="font-size: 18px;"><span
+                                            style="text-transform: capitalize;">{{profile.school}}
+                                        </span></span></p>
+                                {% endif %}
+
+
+                                {% if profile.location %}
+                                <p><i class="fa-solid fa-location-dot text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        المحافظة:
+                                        {% else %}
+                                        Lives In:
+                                        {% endif %}
+                                    </span><span style="font-size: 18px;"> {{profile.location}}</span></p>
+                                {% endif %}
+
+
+
+
+                                {% if profile.instructor == False %}
+                                {% if profile.year == 'none' %}
+                                <p></p>
+                                {% else %}
+                                <p><i class="fa-solid fa-graduation-cap text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        السنة الدراسية:
+                                        {% else %}
+                                        School Year:
+                                        {% endif %}
+                                    </span><span style="font-size: 18px;"><span style="text-transform: capitalize;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            {% if profile.year == 'first' %}
+                                            الاول الثانوي
+                                            {% endif %}
+                                            {% if profile.year == 'second' %}
+                                            الثاني الثانوي
+                                            {% endif %}
+                                            {% if profile.year == 'third' %}
+                                            الثالث الثانوي
+                                            {% endif %}
+                                            {% else %}
+                                            {{profile.year}} Secondary
+                                            {% endif %}</span></span></p>
+                                {% endif %}
+                                {% endif %}
+
+
+
+                                {% if profile.instructor == False %}
+                                <p><i class="fa-solid fa-book text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        المحاضرات المفتوحة:
+                                        {% else %}
+                                        Lessons Bought:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;"><span
+                                            style="text-transform: capitalize;">{{profile.no_of_buys}}
+                                        </span></span></p>
+                                {% endif %}
+
+
+                                {% if profile.instructor == False %}
+
+                                <p><i class="fa-solid fa-calendar text-primary" style="font-size: 20px;"></i><span
+                                        style="margin-left: 10px; font-size: 18px; color: black;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        تاريخ الاشتراك:
+                                        {% else %}
+                                        Joined In:
+                                        {% endif %}
+
+                                    </span><span style="font-size: 18px;"><span
+                                            style="text-transform: capitalize;">{{profile.join_date|date:"SHORT_DATE_FORMAT"}}</span></span>
+                                </p>
+                                {% endif %}
+
+
+
+                            </div>
+
+
+
+
+                            {% if profile.user == user %}
+                            {% if profile.instructor == True %}
+                            <a href="/settings-teacher" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-pen mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تعديل الملف الشخصي
+                                {% else %}
+                                Edit
+                                Profile
+                                {% endif %}
+                            </a>
+                            {% endif %}
+
+                            {% if profile.instructor == False %}
+                            <a href="/settings" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-pen mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تعديل الملف الشخصي
+                                {% else %}
+                                Edit
+                                Profile
+                                {% endif %}
+                            </a>
+                            {% endif %}
+
+                            <a href="/accounts/password/set " class="btn btn-primary w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-key mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تغير كلمة السر
+                                {% else %}
+                                Change Password
+                                {% endif %}
+                            </a>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+        {% if profile.user == user %}
+        {% if profile.instructor == False %}
+        <div class="container mt-2  ">
+            <div class="row pb-3 pt-3">
+
+
+                <div class="col-12 "
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box "
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                رصيد المحفظة: {{profile.money}} جنية
+                                {% else %}
+                                Wallet
+                                Credit:
+                                {{profile.money}} EGP
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/wallet/recharge" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                شحن
+                                {% else %}
+                                Recharge
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-4"
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                نتائج الامتحانات
+                                {% else %}
+                                Results
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/student/results" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i
+                                        class="fa fa-2x fa-square-poll-vertical mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                النتائج
+                                {% else %}
+                                Results
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 mt-4"
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                الوارد
+                                {% else %}
+                                Inbox
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/inbox" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-envelope mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                الوارد
+                                {% else %}
+                                Inbox
+                                {% endif %}</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-12 mt-4 "
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                نشاط الحساب
+                                {% else %}
+                                Account
+                                Activities
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/wallet/statement" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تابع
+                                {% else %}
+                                View
+                                {% endif %}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-4 mb-5"
+                    style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                    <div class="box"
+                        style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                        <div class="left " style="align-content: center;">
+                            <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                المدفوعات
+                                {% else %}
+                                Account
+
+                                Payments
+                                {% endif %} </h3>
+                        </div>
+
+                        <div class="right">
+                            <a href="/wallet/payments" class="btn btn-primary w-100" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تابع
+                                {% else %}
+                                View
+                                {% endif %}</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+
+
+
+        {% if user_profile.instructor == True %}
+        <div class="container mt-2  ">
+            <div class="row pb-3 pt-3">
+
+
+                <div class="col-12 ">
+                    <div class="rounded" style="overflow-x: scroll;">
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-pen "></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            النتائج
+                            {% else %}
+                            Results
+                            {% endif %}
+                        </h3>
+
+
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <th scope="col" class="pr-color">التكليف</th>
+                                    <th scope="col" class="pr-color">النتيجة</th>
+                                    <th scope="col" class="pr-color">التاريخ</th>
+                                    {% else %}
+                                    <th scope="col" class="pr-color">Assignment</th>
+                                    <th scope="col" class="pr-color">Result</th>
+                                    <th scope="col" class="pr-color">Date</th>
+                                    {% endif %}
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                {% if results %}
+                                {% for result in results  %}
+                                <tr>
+
+                                    <td style="text-transform: capitalize; text-decoration: none;">
+                                        <a href="/assignment/{{result.assignment_id}}"
+                                            style="text-decoration: none; font-weight: bold;">{{result.assignment_name}}</a>
+                                    </td>
+                                    <td style="text-transform: capitalize;">
+                                        {{result.true_answers}} / {{result.questions_count}}
+                                    </td>
+
+                                    <td>{{result.created_at}}</td>
+
+
+                                    <td>
+                                        <div class="btn-group dropup">
+                                            <a href="/dashboard/assignment/answers/{{result.assignment_id}}?student={{profile.user.username}}"
+                                                class="btn btn-primary  w-100" style="border-radius: 0;">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                رؤية الاجابات
+                                                {% else %}
+                                                View Answers
+                                                {% endif %}
+
+                                            </a>
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <td>الطالب لم يجيب علي اي تكليف بعد</td>
+
+                                {% else %}
+                                <td>There isnt any results for {{profile.name}} yet</td>
+                                {% endif %}
+
+
+                                <td></td>
+                                <td></td>
+                                {% endif %}
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+        {% endif %}
+
+        {% if user_profile.instructor == True %}
+        <div class="container mt-2  ">
+            <div class="row pb-3 pt-3">
+
+
+                <div class="col-12 ">
+                    <div class="rounded" style="overflow-x: scroll;">
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-list"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            نشاط الحساب
+                            {% else %}
+                            Account Activity
+                            {% endif %}
+                        </h3>
+
+
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <th scope="col" class="pr-color">التاريخ</th>
+                                    <th scope="col" class="pr-color">النشاط</th>
+                                    <th scope="col" class="pr-color">القيمة</th>
+                                    <th scope="col" class="pr-color">رصيد المحفظة</th>
+                                    <th scope="col" class="pr-color">الوسيلة</th>
+                                    {% else %}
+                                    <th scope="col" class="pr-color">Date</th>
+                                    <th scope="col" class="pr-color">Activity</th>
+                                    <th scope="col" class="pr-color">Value</th>
+                                    <th scope="col" class="pr-color">Wallet</th>
+                                    <th scope="col" class="pr-color">Method</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if activities %}
+
+                                {% for activity in activities  %}
+
+                                <tr>
+                                    <th>{{activity.created_at}}</th>
+
+                                    {% if activity.activity_type == 'purchase' %}
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <td>شراء محاضرة : {{activity.lesson_name}}</td>
+                                    {% else %}
+                                    <td>Purchased : {{activity.lesson_name}}</td>
+                                    {% endif %}
+                                    {% endif %}
+
+                                    {% if activity.activity_type == 'charge' %}
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <td>شحن المحفظة : {{activity.money}} جنية</td>
+                                    {% else %}
+                                    <td>Wallet Recharge : {{activity.money}} EGP</td>
+                                    {% endif %}
+
+                                    {% endif %}
+
+                                    <td>{{activity.money}}</td>
+                                    <td>{{activity.wallet}}</td>
+                                    <td style="text-transform: capitalize;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+
+                                        {% if activity.purchase_type == 'wallet' %}
+                                        بواسطة المحفظة
+                                        {% endif %}
+
+                                        {% if activity.purchase_type == 'code' %}
+                                        بواسطة كود
+                                        {% endif %}
+
+
+                                        {% else %}
+                                        By {{activity.purchase_type}}
+                                        {% endif %}</td>
+                                </tr>
+
+                                {% endfor %}
+                                {% else %}
+                                <td>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الطالب ليس له اي نشاطات بعد
+                                    {% else %}
+                                    There isnt any activities by {{profile.name}} yet
+                                    {% endif %}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                {% endif %}
+
+
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+        {% endif %}
+
+
+
+
+
+
+
+    </div>
+
+
+
+    {% endif %}
+
+    {% if profile.public == False %}
+
+    <div class="container-fluid " style="background-color: white;">
+        <div class="container ">
+
+            {% if user_profile.instructor == True %}
+            <div class="search-box" style="padding-top: 50px;">
+                <a href="/search-page" style="text-decoration: none;">
+                    <div class="input-group rounded mb-5">
+                        <input type="search" name="username" class="form-control rounded" placeholder="Search User"
+                            aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit"
+                            style="background-color: white ; border-color: #d9dde2; border: 2px solid #d9dde2; border-radius: 5px;">
+                            <span class="input-group-text border-0 pr-color" id="search-addon"
+                                style=" background-color: white">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </button>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+
+
+            <div class="row pb-3 pt-3" style="display: flex; flex-direction: row; justify-content: space-between; ">
+
+
+                <div class="col-12 col-lg-6 mb-4" style="  text-align: center; ">
+                    <div class="box "
+                        style="border-radius: 20px;  padding: 10px; display: flex; flex-direction: column; justify-content: center  ;  background-color: white ; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1);">
+
+                        <div class="profile-image" style="align-content: center;">
+                            {% if profile.image %}
+                            <img src="{{profile.image.url}}" class="rounded-circle mt-3 mb-2"
+                                style="width: 168px; height: 168px;">
+                            {% else %}
+                            <img src="{% static 'images/default-profile-image.jpg' %}" class="rounded-circle mt-3 mb-2"
+                                style="width: 168px; height: 168px;">
+                            {% endif %}
+
+                            {% if profile.instructor == True %}
+                            <h3 style="color: black; font-size: 30px; font-weight: 600; margin-top: 10px;">
+                                {{profile.name}} <i class="fa-solid fa-circle-check"></i></h3>
+                            {% endif %}
+                            {% if profile.instructor == False %}
+                            <h3 style="color: black; font-size: 30px; font-weight: 600; margin-top: 10px;">
+                                {{profile.name}}</h3>
+                            {% endif %}
+
+
+                            <h3 class="text-black" style=" font-size: 20px; font-weight: 400; margin-top: 0px;">
+                                @{{profile.user}}</h3>
+
+
+
+                            {% if profile.instructor == False %}
+                            {% if profile.year == 'none' %}
+                            <p></p>
+                            {% else %}
+                            <p><i class="fa-solid fa-graduation-cap text-primary" style="font-size: 20px;"></i><span
+                                    style="margin-left: 10px; font-size: 18px; color: black;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الصف الدراسي:
+                                    {% else %}
+                                    School Year:
+                                    {% endif %}
+                                </span><span style="font-size: 18px;"><span style="text-transform: capitalize;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {% if profile.year == 'first' %}
+                                        الاول الثانوي
+                                        {% endif %}
+                                        {% if profile.year == 'second' %}
+                                        الثاني الثانوي
+                                        {% endif %}
+                                        {% if profile.year == 'third' %}
+                                        الثالث الثانوي
+                                        {% endif %}
+                                        {% else %}
+                                        {{profile.year}} Secondary
+                                        {% endif %}
+
+                                    </span></span></p>
+                            {% endif %}
+                            {% endif %}
+
+
+
+
+
+
+
+
+                            {% if profile.user == user %}
+                            <a href="/logout" class="btn btn-danger w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i
+                                        class="fa fa-2x fa-right-from-bracket mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تسجيل خروج
+                                {% else %}
+                                Logout
+                                {% endif %}
+                            </a>
+                            {% else %}
+                            <a href=""></a>
+                            {% endif %}
+
+                            {% if profile.user == user %}
+                            {% if profile.instructor == False %}
+                            <a href="/wallet/recharge" class="btn btn-success w-100 mt-2" data-ripple="">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                شحن المحفظة
+                                {% else %}
+                                Recharge
+                                Wallet
+                                {% endif %}
+                            </a>
+                            {% endif %}
+                            {% endif %}
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="box "
+                        style=" border-radius: 20px;  padding: 10px; display: flex; flex-direction: column;  background-color: white ; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1);">
+
+                        <div class="profile-details">
+
+
+                            <div style="text-align: center;">
+
+
+
+
+                                <h2 class="text-black mt-5 mb-5" style="font-size: 23px; color: red;"><span
+                                        style="font-size: 10px;"><i class="fa fa-2x fa-lock mr-3"></i></span>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    لقد اغلق المستخدم حسابه الخاص
+                                    {% else %}
+                                    User Has Locked His Profile
+                                    {% endif %}</h2>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+            {% if profile.user == user %}
+            {% if profile.instructor == False %}
+            <div class="container mt-2  ">
+                <div class="row pb-3 pt-3">
+
+
+                    <div class="col-12 "
+                        style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                        <div class="box "
+                            style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                            <div class="left " style="align-content: center;">
+                                <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    رصيد المحفظة: {{profile.money}} جنية
+                                    {% else %}
+                                    Wallet
+                                    Credit:
+                                    {{profile.money}} EGP
+                                    {% endif %}
+                                </h3>
+                            </div>
+
+                            <div class="right">
+                                <a href="/wallet/recharge" class="btn btn-primary w-100" data-ripple="">
+                                    <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    شحن
+                                    {% else %}
+                                    Recharge
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4"
+                        style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                        <div class="box"
+                            style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                            <div class="left " style="align-content: center;">
+                                <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    نتائج الامتحانات
+                                    {% else %}
+                                    Results
+                                    {% endif %}
+                                </h3>
+                            </div>
+
+                            <div class="right">
+                                <a href="/student/results" class="btn btn-primary w-100" data-ripple="">
+                                    <span style="font-size: 10px;"><i
+                                            class="fa fa-2x fa-square-poll-vertical mr-3"></i></span>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    النتائج
+                                    {% else %}
+                                    Results
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 mt-4"
+                        style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                        <div class="box"
+                            style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                            <div class="left " style="align-content: center;">
+                                <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الوارد
+                                    {% else %}
+                                    Inbox
+                                    {% endif %}
+                                </h3>
+                            </div>
+
+                            <div class="right">
+                                <a href="/inbox" class="btn btn-primary w-100" data-ripple="">
+                                    <span style="font-size: 10px;"><i class="fa fa-2x fa-envelope mr-3"></i></span>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الوارد
+                                    {% else %}
+                                    Inbox
+                                    {% endif %}</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-12 mt-4 "
+                        style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                        <div class="box"
+                            style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                            <div class="left " style="align-content: center;">
+                                <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    نشاط الحساب
+                                    {% else %}
+                                    Account
+                                    Activities
+                                    {% endif %}
+                                </h3>
+                            </div>
+
+                            <div class="right">
+                                <a href="/wallet/statement" class="btn btn-primary w-100" data-ripple="">
+                                    <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    تابع
+                                    {% else %}
+                                    View
+                                    {% endif %}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4 mb-5"
+                        style="background-color: white; box-shadow: 0px 0px 28px -12px rgba(0, 0, 0, 1); border-radius: 20px; text-align: center;">
+                        <div class="box"
+                            style=" padding: 10px; display: flex; flex-direction: row; justify-content: space-between;">
+
+                            <div class="left " style="align-content: center;">
+                                <h3 style="color: black; font-size: 17px; font-weight: 600; margin-top: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    المدفوعات
+                                    {% else %}
+                                    Account
+
+                                    Payments
+                                    {% endif %} </h3>
+                            </div>
+
+                            <div class="right">
+                                <a href="/wallet/payments" class="btn btn-primary w-100" data-ripple="">
+                                    <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    تابع
+                                    {% else %}
+                                    View
+                                    {% endif %}</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+
+
+
+        {% endif %}
+
+
+
+        {% endif %}
+
+
+
+
+</body>
+
+{% endblock content %}

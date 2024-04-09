@@ -1,0 +1,396 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+
+
+{% block title_ar %}
+{% if year == 'first' %}
+ الصف الاول الثانوي
+{% endif %}
+
+{% if year == 'second' %}
+ الصف الثاني الثانوي
+{% endif %}
+
+{% if year == 'third' %}
+ الصف الثالث الثانوي
+{% endif %}
+
+{% endblock title_ar %}
+
+
+
+
+
+{% else %}
+{% block title%}{{year}} Secondary{% endblock title %}
+{% endif %}
+
+{% block content %}
+
+<body>
+
+
+
+
+    <!-- Header Start -->
+    <div class="container-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center" style="min-height: 300px">
+                <h3 class="display-4 text-white text-uppercase">
+                    {% if LANGUAGE_CODE == 'ar' %}
+
+                    {% if year == 'first' %}
+                    محاضرات الصف الاول الثانوي
+                    {% endif %}
+                    {% if year == 'second' %}
+                    محاضرات الصف الثاني الثانوي
+                    {% endif %}
+                    {% if year == 'third' %}
+                    محاضرات الصف الثالث الثانوي
+                    {% endif %}
+
+                    {% else %}
+
+                    {% if year == 'first' %}
+                    First Secondary Lectures
+                    {% endif %}
+                    {% if year == 'second' %}
+                    Second Secondary Lectures
+                    {% endif %}
+                    {% if year == 'third' %}
+                    Third Secondary Lectures
+                    {% endif %}
+
+                    {% endif %}</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="/">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            الرئيسية
+                            {% else %}
+                            Home
+                            {% endif %}</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase"><a class="text-white" href="/lessons">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            المحاضرات
+                            {% else %}
+                            Lectures
+                            {% endif %}</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        
+                        {% if year == 'first' %}
+                        محاضرات الصف الاول الثانوي
+                        {% endif %}
+                        {% if year == 'second' %}
+                        محاضرات الصف الثاني الثانوي
+                        {% endif %}
+                        {% if year == 'third' %}
+                        محاضرات الصف الثالث الثانوي
+                        {% endif %}
+
+                        {% else %}
+
+                        {% if year == 'first' %}
+                        First
+                        {% endif %}
+                        {% if year == 'second' %}
+                        Second
+                        {% endif %}
+                        {% if year == 'third' %}
+                        Third
+                        {% endif %}
+
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+
+    {% if chapters|length >= 1 %}
+    <!-- Chapters Start -->
+    <div class="container-fluid py-2">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3"  data-aos="fade-right"
+                    data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    الفصول
+                    {% else %}
+                    Chapters
+                    {% endif %}
+                    </h5>
+                <h1 data-aos="fade-up" data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    جميع الفصول
+                    {% else %}
+                    All Chapters
+                    {% endif %}
+                    </h1>
+            </div>
+            <div class="row">
+
+
+
+
+
+
+                {% for post in chapters %}
+                <div class="col-lg-4 col-md-6 mb-4" style="position: relative;">
+                    <div class="rounded overflow-hidden mb-2" style=" border-bottom: 10px #fd771e solid;"> 
+                        {% if post.image %}
+                        <a href="/chapters/{{post.id}}">
+                            <img class="img-fluid" src="{{post.image.url}}" style="width: 100%; height: 230px;">
+                        </a>
+                        {% else %}
+                        <a href="/chapters/{{post.id}}">
+                            <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                style="width: 100%; height: 230px;">
+                        </a>
+                        {% endif %}
+
+                        <div class="bg-secondary pr-4 pl-4 pt-4" >
+                            <div style="display: flex; justify-content: center;">
+                                 <a class="h5" href="/chapters/{{post.id}}">{{post.title}}</a>
+                            </div>
+
+
+
+                            <div class="border-top mt-4 pt-2 pb-2">
+                                <div class="d-flex justify-content-center">
+                                    <h6 class="m-0"><i class="fa fa-money-bill text-primary mr-2"
+                                            style="font-size: 25px;"></i><span
+                                            style="font-size: 30px; color: black;">{{post.price}}</span>
+                                    </h6>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Chapters End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+    {% if lessons|length == 0 %}
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3"  data-aos="fade-right"
+                    data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    المحاضرات
+                    {% else %}
+                    Lectures
+                    {% endif %}
+                </h5>
+                    <h1 data-aos="fade-up" data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    جميع المحاضرات
+                    {% else %}
+                    All Lectures
+                    {% endif %}
+                    </h1>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">
+
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            لا يوجد اي محاضرات بعد
+                            {% else %}
+                            There isnt any lectures yet
+                            {% endif %}
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+    {% endif %}
+
+
+
+
+    {% if lessons|length >= 1 %}
+    <!-- Lectures Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3"  data-aos="fade-right"
+                    data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    المحاضرات
+                    {% else %}
+                    Lectures
+                    {% endif %}
+                    </h5>
+                <h1 data-aos="fade-up" data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    جميع المحاضرات
+                    {% else %}
+                    All Lectures
+                    {% endif %}
+                    </h1>
+            </div>
+            <div class="row">
+
+
+
+                {% for post in lessons %}
+                <div class="col-lg-4 col-md-6 mb-4 lecture-card" style="position: relative;">
+                    <div class="rounded overflow-hidden mb-2">
+                        {% if post.image %}
+                        <a href="/lessons/{{post.id}}">
+                            <img class="img-fluid" src="{{post.image.url}}" style="width: 100%; height: 230px;">
+                        </a>
+                        {% else %}
+                        <a href="/lessons/{{post.id}}">
+                            <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                style="width: 100%; height: 230px;">
+                        </a>
+                        {% endif %}
+
+                        <div class="bg-secondary p-4">
+                            <div class="d-flex justify-content-between mb-3">
+                                <a class="h5" href="/lessons/{{post.id}}">{{post.title}}</a>
+                                <span class="m-0" style="text-decoration: none;">
+                                    <a href="/like-post?post_id={{post.id}}" style="text-decoration: none;">
+                                        <i class="far fa-thumbs-up text-primary mr-2"
+                                            style="font-size: 22px; text-decoration: none;"></i>({{post.no_of_likes}})
+                                    </a>
+                                </span>
+                            </div>
+                            
+
+                            <div class="border-top mt-4 pt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="m-0"><i
+                                            class="fa fa-clock text-primary mr-2"></i>{{post.created_at|date:"M d, Y"}}
+                                    </h6>
+                                    <h6 class="m-0"><i class="fa fa-money-bill text-primary mr-2"
+                                            style="font-size: 25px;"></i><span
+                                            style="font-size: 30px; color: black;">{{post.price}}</span>
+                                    </h6>
+                                </div>
+
+
+                                <!-- <form action="/buy-lesson" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{user_profile.user}}" name="buyer" hidden />
+                                    <input type="hidden" value="{{post.id}}" name="post" hidden /> -->
+
+                                <!-- <button type="submit" class="btn btn-primary w-100 mt-4"
+                                        style="border-radius: 0;"><a href="/buy-lesson?post_id={{post.id}}"
+                                            style="text-decoration: none; color: white;">Purchase</a></button> -->
+
+
+
+
+                                <!-- <a href="/lessons/{{post.id}}" class="btn btn-primary w-100 w-100 mt-4"
+                                    style="border-radius: 0; border: 0;">
+
+                                    <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>View
+                                </a> -->
+
+
+
+                                <!-- </form> -->
+
+                                <div>
+
+
+                                    <!-- <form action="/buy-lesson" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{user_profile.user}}" name="buyer" />
+                                        <input type="hidden" value="{{post.id}}" name="post" />
+                                        <button type="submit">
+                                            <a href="/buy-lesson?post_id={{post.id}}" class="btn btn-primary w-100"
+                                                style="position: absolute; bottom: 0; left: 0; border-radius: 0;"
+                                                data-ripple="">Buy Lesson</a>
+                                        </button>
+                                    </form> -->
+
+
+
+                                    <!-- <a href="/like-post?post_id={{post.id}}" class="flex items-center">
+                                            <div class="p-2 rounded-full text-black">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                    fill="currentColor" width="25" height="25" class="">
+                                                    <path
+                                                        d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                                                </svg>
+                                                <p>({{post.no_of_likes}})</p>
+                                            </div>
+                                        </a> -->
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Lectures End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

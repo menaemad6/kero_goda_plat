@@ -1,0 +1,787 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}{{assignment.assignment_name}}{% endblock title_ar %}
+{% else %}
+{% block title%}{{assignment.assignment_name}}{% endblock title %}
+{% endif %}
+
+
+
+
+{% block head %}
+
+
+<style>
+    .box {
+        border-radius: 10px;
+    }
+
+    .attachment {
+        padding: 10px;
+    }
+
+    .attachment h6 {
+        text-decoration: underline;
+    }
+
+    .attachment:hover {
+        background-color: #E0E0E0;
+    }
+
+
+
+    /* Style the buttons that are used to open and close the accordion panel */
+
+    .accordion {
+        background-color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        border: none;
+        transition: 0.4s;
+        border: none;
+        border-radius: 80px;
+        border: none;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    .active,
+    .accordion-button:hover {
+        background-color: white;
+        color: white;
+        border: none;
+        outline: none;
+    }
+
+    .active {
+        border-radius: 10px 10px 0 0;
+        border: none;
+        outline: none;
+    }
+
+
+    .accordion-text {
+        color: black;
+    }
+
+
+
+
+    /* Style the accordion panel. Note: hidden by default */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+        border-radius: 0px 0px 10px 10px;
+    }
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+<body>
+
+
+
+
+
+
+
+
+
+    {% if user_profile.instructor == True %}
+
+
+    <!-- Assignment Submited Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+
+
+
+            <div class="row" style="padding: 0px;">
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <!-- <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-check ml-2 text-success"></i></span> -->
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <!-- Add Question  -->
+                    <div class="add mt-5">
+
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="col-12">
+                            <div class="alert alert-success message-alert mt-3 mb-3" role="alert"
+                                style="padding: 10px; ">
+                                <p style="padding: 0 ; margin: 0">
+                                    <i class="fa-solid fa-circle-check text-success" style="font-size: 20px;"></i>
+                                    <span
+                                        style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                        {{message}}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                        {% endif %}
+
+                        <button class="accordion" class="w-100 btn d-flex  text-decoration-none" style="border: none; ">
+                            <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1 accordion-text" style="text-transform: capitalize; font-size: 18px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                اضافة سؤال جديد
+                                {% else %}
+                                Add Question
+                                {% endif %}</h6>
+                        </button>
+
+
+
+
+
+
+
+                        <div class="panel pt-3 pb-2">
+
+                            <form action="/dashboard/add-question" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+
+
+                                <input type="hidden" value="{{assignment.assignment_id}}" name="assignment-id" hidden />
+
+                              
+
+
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <div class="question p-1">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-circle-question text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="q_q" class="form-control p-4" placeholder="السؤال">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-circle-check text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+
+                                        <input type="text" name="q_t" class="form-control p-4"
+                                            placeholder="الاجابة الصحيحة">
+                                    </div>
+
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a1" class="form-control p-4" placeholder="الاختيار الاول">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a2" class="form-control p-4" placeholder="الاختيار الثاني">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a3" class="form-control p-4" placeholder="الاختيار الثالث">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a4" class="form-control p-4" placeholder="الاختيار الرابع">
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="question p-1">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-circle-question text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="q_q" class="form-control p-4" placeholder="Question">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-circle-check text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+
+                                        <input type="text" name="q_t" class="form-control p-4"
+                                            placeholder="True Answer">
+                                    </div>
+
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a1" class="form-control p-4" placeholder="Answer 1">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a2" class="form-control p-4" placeholder="Answer 2">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a3" class="form-control p-4" placeholder="Answer 3">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"></span>
+                                        </div>
+
+                                        <input type="text" name="q_a4" class="form-control p-4" placeholder="Answer 4">
+                                    </div>
+                                </div>
+                                {% endif %}
+
+
+
+
+                                <div class="form-group mb-0 " style="padding: 10px;">
+                                    <button type="submit"
+                                        class="btn btn-success py-md-2 px-md-4 font-weight-semi-bold w-100">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+اضافة
+                                        {% else %}
+                                        Add
+                                        {% endif %}
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                    <!-- Add Question  -->
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    المعلومات
+                                    {% else %}
+                                    Info
+                                    {% endif %}</span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الاسئلة:
+                                    {% else %}
+                                    Questions Count:
+                                    {% endif %}<span style="color: #5b5e5e;">{{questions_count}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سؤال
+                                        {% else %}
+                                        Questions
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-user text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الطلاب المتقدمين
+                                    {% else %}
+                                    Number Of Applicants:
+                                    {% endif %}<span style="color: #5b5e5e;">{{assignment.no_of_applicants}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        طالب
+                                        {% else %}
+                                        Student
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date :
+                                    {% endif %}<span
+                                        style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-user-group text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الطلاب المتقدمين: 
+                                    {% else %}
+                                Applicants :
+                                    {% endif %}
+                                    <span
+                                        style="color: #5b5e5e; margin-left: 10px;"><a href="/dashboard/assignment/applicants/{{assignment.assignment_id}}" class="btn btn-primary">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                             تابع
+                                            {% else %}
+                                        View
+                                            {% endif %}
+                                        </a>
+                                    </span></span>
+                            </p>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                    <div class="box" style="background-color: white; padding: 15px; margin-top: 80px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الاسئلة
+                                    {% else %}
+                                    Questions
+                                    {% endif %}</span></h1>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    {% for question in questions %}
+                    <div class="box" style="background-color: white; padding: 15px; margin-top: 40px;">
+                        <div class="form-group mt-3">
+                            <label for="exampleFormControlSelect1">
+                                <p>
+                                    <i class="fa-solid fa-circle-question text-primary" style="font-size: 25px;"></i>
+                                    <span
+                                        style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize; font-size: 23px;">
+                                        {{question.number}} - {{question.question}}
+                                    </span>
+                                </p>
+                            </label>
+
+                            <div class="alert alert-success mb-5" role="alert" style="padding: 10px; ">
+                                <p style="padding: 0 ; margin: 0">
+                                    <i class="fa-solid fa-circle-check text-success" style="font-size: 20px;"></i>
+                                    <span
+                                        style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                        {{question.true}}
+                                    </span>
+                                </p>
+                            </div>
+
+
+
+
+
+                            <div class="alert " role="alert"
+                                style="padding-left: 45px; padding-right: 10px; padding-bottom: 7px; padding-top: 7px; ">
+                                <p style="padding: 0 ; margin: 0">
+                                    <span style="font-size: 18px; color: black; text-transform: capitalize;">
+                                        1- {{question.answer1}}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="alert " role="alert"
+                                style="padding-left: 45px; padding-right: 10px; padding-bottom: 7px; padding-top: 7px; ">
+                                <p style="padding: 0 ; margin: 0">
+                                    <span style="font-size: 18px; color: black; text-transform: capitalize;">
+                                        2- {{question.answer2}}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="alert " role="alert"
+                                style="padding-left: 45px; padding-right: 10px; padding-bottom: 7px; padding-top: 7px; ">
+                                <p style="padding: 0 ; margin: 0">
+                                    <span style="font-size: 18px; color: black; text-transform: capitalize;">
+                                        3- {{question.answer3}}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="alert " role="alert"
+                                style="padding-left: 45px; padding-right: 10px; padding-bottom: 7px; padding-top: 7px; ">
+                                <p style="padding: 0 ; margin: 0">
+                                    <span style="font-size: 18px; color: black; text-transform: capitalize;">
+                                        4- {{question.answer4}}
+                                    </span>
+                                </p>
+                            </div>
+
+
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle w-100" style="border-radius: 0;"
+                                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+تعديل السؤال
+                                    {% else %}
+                                    Edit
+                                    {% endif %}
+                                </button>
+                                <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+
+                                    <form action="/dashboard/edit-question" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+
+
+                                        <input type="hidden" value="{{assignment.assignment_id}}" name="assignment-id"
+                                            hidden />
+                                        <input type="hidden" value="{{question.question_id}}" name="question-id"
+                                            hidden />
+
+
+
+
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            <div class="question p-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"><i
+                                                                class="fa fa-2x fa-circle-question text-primary mr-3"
+                                                                style="font-size: 20px;"></i></span>
+                                                    </div>
+    
+    
+    
+                                                    <input type="text" name="q_q" class="form-control p-4"
+                                                        placeholder="السؤال" value="{{question.question}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"><i
+                                                                class="fa fa-2x fa-circle-check text-primary mr-3"
+                                                                style="font-size: 20px;"></i></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_t" class="form-control p-4"
+                                                        placeholder="الاجابة الصحيحة" value="{{question.true}}">
+                                                </div>
+    
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a1" class="form-control p-4"
+                                                        placeholder="الاختيار الاول" value="{{question.answer1}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a2" class="form-control p-4"
+                                                        placeholder="الاختيار الثاني" value="{{question.answer2}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a3" class="form-control p-4"
+                                                        placeholder="الاختيار الثالث" value="{{question.answer3}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a4" class="form-control p-4"
+                                                        placeholder="الاختيار الثالث" value="{{question.answer4}}">
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                            <div class="question p-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"><i
+                                                                class="fa fa-2x fa-circle-question text-primary mr-3"
+                                                                style="font-size: 20px;"></i></span>
+                                                    </div>
+    
+    
+    
+                                                    <input type="text" name="q_q" class="form-control p-4"
+                                                        placeholder="Question" value="{{question.question}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"><i
+                                                                class="fa fa-2x fa-circle-check text-primary mr-3"
+                                                                style="font-size: 20px;"></i></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_t" class="form-control p-4"
+                                                        placeholder="True Answer" value="{{question.true}}">
+                                                </div>
+    
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a1" class="form-control p-4"
+                                                        placeholder="Answer 1" value="{{question.answer1}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a2" class="form-control p-4"
+                                                        placeholder="Answer 2" value="{{question.answer2}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a3" class="form-control p-4"
+                                                        placeholder="Answer 3" value="{{question.answer3}}">
+                                                </div>
+    
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"></span>
+                                                    </div>
+    
+                                                    <input type="text" name="q_a4" class="form-control p-4"
+                                                        placeholder="Answer 4" value="{{question.answer4}}">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+
+
+
+                                        <div class="form-group mb-0 " style="padding: 10px;">
+                                            <input type="submit" value="Save"
+                                                class="btn btn-success py-md-2 px-md-4 font-weight-semi-bold w-100">
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+
+                            <div class="btn-group dropup mt-2 w-100">
+                                <button type="button" class="btn btn-danger" style="border-radius: 0;"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    
+                                    {% if LANGUAGE_CODE == 'ar' %}
+مسح السؤال
+                                    {% else %}
+                                    Delete Question 
+                                    {% endif %}<i class="fa fa-2x fa-trash ml-2" style="font-size: 18px;"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <form action="/dashboard/delete-question" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+
+                                            <p>
+                                                {% if LANGUAGE_CODE == 'ar' %}
+هل انت متاكد ان تريد مسح هذا السؤال؟
+                                                {% else %}
+                                                Are You Sure You Want To Delete This Question?
+                                                {% endif %}</p>
+
+                                            <input type="hidden" value="{{question.question_id}}" name="question-id"
+                                                hidden />
+
+                                            <input type="hidden" value="{{assignment.assignment_id}}"
+                                                name="assignment-id" hidden />
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit "
+                                                class="btn btn-danger pl-5 pr-5 w-100">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+مسح
+                                                {% else %}
+                                                Delete
+                                                {% endif %}</button>
+                                                
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+غلق
+                                                {% else %}
+                                                Close
+                                                {% endif %}</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+    </div>
+    </div>
+    </div>
+    <!--Assignment Submited End -->
+
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                /* Toggle between adding and removing the "active" class,
+                to highlight the button that controls the panel */
+                this.classList.toggle("active");
+
+                /* Toggle between hiding and showing the active panel */
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
+
+
+    {% else %}
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

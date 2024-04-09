@@ -1,0 +1,406 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% if LANGUAGE_CODE == 'ar' %}
+    <title>مينا عماد - {% block title_ar %}{% endblock title_ar %}</title>
+    {% else %}
+    <title>Mena Emad - {% block title%}{% endblock title %}</title>
+    {% endif %}
+
+    {% block head%}
+    {% endblock head %}
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="منصة الاستاذ مينا عماد" name="keywords">
+    <meta content="منصة الاستاذ مينا عماد" name="description">
+
+    <!-- Website Icon -->
+    <link href="/media/teacher-image.jpg" rel="icon">
+
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}">
+
+
+    <!-- AOS LIBRARY -->
+
+    <!-- CDN  -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- FILE  -->
+    <link rel="stylesheet" href="{% static 'AOS/dist/aos.css' %}">
+
+    <!-- AOS LIBRARY -->
+
+
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@200;300;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+
+
+
+    {% if LANGUAGE_CODE == 'ar' %}
+    <style>
+        * {
+            font-family: 'Changa', sans-serif;
+        }
+    </style>
+    {% else %}
+    <style>
+        .nav-dropdown-icon:hover {
+            color: #ff6600;
+        }
+    </style>
+    {% endif %}
+
+
+    <style>
+
+
+.loader-sections {
+            z-index: 99999;
+            background-color: #b7b6bb;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease;
+        }
+
+
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            position: relative;
+            width: 120px;
+            height: 140px;
+            background-image: radial-gradient(circle 30px, #fff 100%, transparent 0),
+                radial-gradient(circle 5px, #fff 100%, transparent 0),
+                radial-gradient(circle 5px, #fff 100%, transparent 0),
+                linear-gradient(#FFF 20px, transparent 0);
+            background-position: center 127px, 94px 102px, 16px 18px, center 114px;
+            background-size: 60px 60px, 10px 10px, 10px 10px, 4px 14px;
+            background-repeat: no-repeat;
+            z-index: 10;
+            perspective: 500px;
+        }
+
+        .loader::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -55%) rotate(-45deg);
+            border-right-color: transparent;
+            box-sizing: border-box;
+        }
+
+        .loader::after {
+            content: '';
+            position: absolute;
+            height: 80px;
+            width: 80px;
+            transform: translate(-50%, -55%) rotate(-45deg) rotateY(0deg);
+            left: 50%;
+            top: 50%;
+            box-sizing: border-box;
+            border: 7px solid #FF3D00;
+            border-radius: 50%;
+            animation: rotate 0.5s linear infinite;
+        }
+
+        @keyframes rotate {
+            to {
+                transform: translate(-50%, -55%) rotate(-45deg) rotateY(360deg)
+            }
+        }
+
+
+
+        @import url('//fonts.googleapis.com/css?family=Roboto');
+
+
+        .block-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .block-wrap button {
+            width: 100%;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+
+        .block-wrap>div {
+            width: 100%;
+            text-align: center;
+        }
+
+
+
+        .btn-google,
+        .btn-fb {
+            display: inline-block;
+            border-radius: 1px;
+            text-decoration: none;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+        }
+
+        .btn-fb:hover {
+            background-color: .218s;
+            border-color: .218s;
+            box-shadow: 218s;
+        }
+
+        .google-content,
+        .fb-content {
+            display: flex;
+            align-items: center;
+            width: 400px;
+            height: 50px;
+            color: white;
+        }
+
+        @media screen and (max-width:550px) {
+
+            .google-content,
+            .fb-content {
+                width: 300px;
+            }
+        }
+
+        @media screen and (max-width:350px) {
+
+            .google-content,
+            .fb-content {
+                width: 200px;
+
+            }
+        }
+
+
+
+
+        .social-logo {
+            padding: 15px;
+            height: inherit
+        }
+
+        .social-logo svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .social-text {
+            padding-top: 12px;
+            width: 100%;
+            line-height: 1;
+            text-align: center;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .btn-google {
+            background: #FFF
+        }
+
+        .btn-google:hover {
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+        }
+
+        .btn-google:active {
+            background-color: #eee
+        }
+
+
+
+        .google-content p {
+            color: #757575
+        }
+
+        .btn-fb {
+            padding-top: 1.5px;
+            background: #4267b2
+        }
+
+        .btn-fb:hover {
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+        }
+
+        .btn-fb:active {
+            background-color: #3b5998
+        }
+
+
+
+
+        .fb-content p {
+            color: rgba(white, .87)
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid ">
+        <div class="row align-items-center py-4 px-xl-5">
+            <div class="col-lg-3 ">
+                <a href="/" class="text-decoration-none">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    <h1 class="m-0">
+                        <span class="text-primary">مينا </span>عماد
+                    </h1>
+                    {% else %}
+                    <h2 class="m-0">
+                        <span class="text-primary">Mena </span>Emad
+                    </h2>
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-lg-3 text-right d-none d-lg-block">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-map-marker-alt text-primary mr-3"></i>
+                    <div class="text-left">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        <h6 class="font-weight-semi-bold mb-1">مكان السنتر</h6>
+                        <small>128 ش سيتي سوهاج</small>
+                        {% else %}
+                        <h6 class="font-weight-semi-bold mb-1">Our Center</h6>
+                        <small>128 , City , Sohag</small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right d-none d-lg-block">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-envelope text-primary mr-3"></i>
+                    <div class="text-left">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        <h6 class="font-weight-semi-bold mb-1">راسلنا</h6>
+                        <small>course@gmail.com</small>
+                        {% else %}
+                        <h6 class="font-weight-semi-bold mb-1">Email Us</h6>
+                        <small>course@gmail.com</small>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right d-none d-lg-block">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-phone text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            اتصل بنا
+                            {% else %}
+                            Call Us
+                            {% endif %}</h6>
+                        <small>012 345 6789</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+
+
+
+
+
+
+
+
+
+
+    {% block content%}
+    {% endblock content %}
+
+
+
+
+
+
+    <div class="loader-sections">
+        <span class="loader"></span>
+    </div>
+
+
+
+    <script>
+        const loaderSection = document.querySelector(".loader-sections")
+
+        setTimeout(() => {
+            loaderSection.classList.add("loader-hidden")
+            document.body.removeChild("loader-sections");
+        }, 200);
+
+
+        window.addEventListener("load", () => {
+            setTimeout()
+
+        })
+    </script>
+
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+
+
+    <script src="https://kit.fontawesome.com/1454af8120.js" crossorigin="anonymous"></script>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+
+</html>

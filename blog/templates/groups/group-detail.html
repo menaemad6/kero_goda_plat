@@ -1,0 +1,1115 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}المجموعات - {{group.title}}{% endblock title_ar %}
+{% else %}
+{% block title%}Groups - {{group.title}}{% endblock title %}
+{% endif %}
+
+
+
+{% block content %}
+
+<body>
+
+
+
+
+
+    {% if user.is_authenticated %}
+
+
+    {% if user_profile.instructor == True %}
+    {% endif %}
+
+
+
+
+    <!-- Chapters Start -->
+    <div class="container-fluid py-5" id="videos">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h1 data-aos="fade-up" data-aos-duration="1200">
+
+
+
+                    {{group.title}}
+
+
+                </h1>
+
+                {% if user_profile.instructor == True %}
+                <h3 data-aos="fade-up" data-aos-duration="1200" class="pr-color">
+                    {{group.code}}
+                </h3>
+                {% endif %}
+
+            </div>
+            <div class="row">
+
+
+
+
+
+
+
+                {% if user_profile.instructor == True %}
+                <!-- Settings  -->
+                <div class="col-12">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                        <button type="button" data-toggle="modal" data-target="#chapter-settings"
+                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-gear text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                اعدادات المجموعة
+                                {% else %}
+                                Group Settings
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add Lecture  -->
+                <div class="col-12">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                        <button type="button" data-toggle="modal" data-target="#add-lecture"
+                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                اضافة محاضرة
+                                {% else %}
+                                Add Lecture
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add Student  -->
+                <div class="col-12">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                        <button type="button" data-toggle="modal" data-target="#add-student"
+                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-user text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                اضافة طالب
+                                {% else %}
+                                Add Student
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Students   -->
+                <div class="col-12">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                        <button type="button" data-toggle="modal" data-target="#students"
+                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-user-group text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                اعضاء المجموعة
+                                {% else %}
+                                Group Students
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Group Link  -->
+                <!-- <div class="col-12">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+
+
+
+                        <input type="text" value="http://127.0.0.1:8000/ar/groups/invite?group_link={{group.link}}&check=view"
+                            id="groupLink" hidden>
+
+
+
+
+                        <button type="button" onclick="myFunction()"
+                            style=" border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-share text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                رابط المجموعة
+                                {% else %}
+                                Group Link
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div> -->
+
+                                <!-- Group Link   -->
+                                <div class="col-12">
+                                    <div class=" w-100 attachment mb-4"
+                                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                        <button type="button" data-toggle="modal" data-target="#link"
+                                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+                
+                
+                                            <i class="fa fa-2x fa-share text-primary mr-2" style="font-size: 30px;"></i>
+                                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                رابط المجموعة
+                                                {% else %}
+                                                Group Link
+                                                {% endif %}
+                
+                                            </h6>
+                                        </button>
+                                    </div>
+                                </div>
+
+                {% endif %}
+
+
+
+                <!-- Add Lecture -->
+                <div class="modal fade" id="add-lecture" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header pr-bg ">
+                                <h5 class="modal-title text-center" id="exampleModalLongTitle" style="color: white;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اضافة محاضرة للمجموعة
+                                    {% else %}
+                                    Add Lecture To The Group
+                                    {% endif %}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+
+
+                            <div class="modal-body text-center">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                حدد المحاضرة التي تريد اضافتها للمجموعة
+
+                                {% else %}
+                                Please Select The Lecture You Want To Add To The Group
+                                {% endif %}
+
+
+
+                                <div class="w-100 mt-3 mb-3">
+
+                                    {% for post in all_lectures  %}
+                                    <div class="w-100 bg-secondary rounded mb-2"
+                                        style="padding: 7px 9px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="width: 100%; justify-content: start; flex-direction: column; ">
+
+                                            <div class="mb-2">
+                                                {% if post.image %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid" src="{{post.image.url}}"
+                                                        style="width: 150px; height: 90px;">
+                                                </a>
+                                                {% else %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                                        style="width: 150px; height: 90px;">
+                                                </a>
+                                                {% endif %}
+                                            </div>
+
+
+                                            <div>
+                                                {{post.title}}
+                                            </div>
+
+
+                                        </div>
+
+                                        <div>
+
+
+                                            <form action="/dashboard/group-settings" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+
+                                                <input type="text" name="type" value="add-lecture" hidden>
+                                                <input type="text" name="group-id" value="{{group.id}}" hidden>
+
+
+                                                <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+
+
+
+
+
+
+                                                <button type="submit" class="btn btn-primary ">
+                                                    <i class="fa fa-2x fa-plus" style="font-size: 18px;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+
+
+
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اغلاق
+                                    {% else %}
+                                    Close
+                                    {% endif %}</button>
+
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Lecture -->
+
+                <!-- Add Student -->
+                <div class="modal fade" id="add-student" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header pr-bg ">
+                                <h5 class="modal-title text-center" id="exampleModalLongTitle" style="color: white;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اضافة طالب للمجموعة
+                                    {% else %}
+                                    Add Student To The Group
+                                    {% endif %}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+
+
+                            <div class="modal-body text-center">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                حدد الطالب الذي تريد اضافته للمجموعة
+
+                                {% else %}
+                                Please Select The Student You Want To Add To The Group
+                                {% endif %}
+
+
+
+                                <div class="w-100 mt-3 mb-3">
+
+                                    {% for student in students  %}
+                                    <div class="w-100 bg-secondary rounded mb-2"
+                                        style="padding: 7px 9px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="width: 100%; justify-content: start; flex-direction: column; ">
+
+                                            <div class="mb-2">
+                                                {% if student.image %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid " src="{{student.image.url}}"
+                                                        style="width: 110px; height: 110px; border-radius: 50%;">
+                                                </a>
+                                                {% else %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid rounded" src="{% static 'img/course-3.jpg' %}"
+                                                        style="width: 150px; height: 110px; border-radius: 50%;">
+                                                </a>
+                                                {% endif %}
+                                            </div>
+
+
+                                            <div>
+                                                {{student.name}}
+                                            </div>
+
+
+                                        </div>
+
+                                        <div>
+
+
+                                            <form action="/dashboard/group-settings" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+
+                                                <input type="text" name="type" value="add-member" hidden>
+                                                <input type="text" name="group-id" value="{{group.id}}" hidden>
+
+
+                                                <input type="text" name="member" value="{{student.user}}" hidden>
+
+
+
+
+
+
+
+
+                                                <button type="submit" class="btn btn-primary ">
+                                                    <i class="fa fa-2x fa-plus" style="font-size: 18px;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+
+
+
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اغلاق
+                                    {% else %}
+                                    Close
+                                    {% endif %}</button>
+
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Student -->
+
+
+                <!-- Students -->
+                <div class="modal fade" id="students" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header pr-bg ">
+                                <h5 class="modal-title text-center" id="exampleModalLongTitle" style="color: white;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اعضاء المجموعة
+                                    {% else %}
+                                    Group Members
+                                    {% endif %}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+
+
+                            <div class="modal-body text-center">
+
+
+
+                                <div class="w-100 mt-3 mb-3">
+
+                                    {% if members %}
+
+                                    {% for student in members  %}
+                                    <div class="w-100 bg-secondary rounded mb-2"
+                                        style="padding: 7px 9px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="width: 100%; justify-content: start; flex-direction: column; ">
+
+                                            <div class="mb-2">
+                                                {% if student.image %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid " src="{{student.image.url}}"
+                                                        style="width: 110px; height: 110px; border-radius: 50%;">
+                                                </a>
+                                                {% else %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid rounded" src="{% static 'img/course-3.jpg' %}"
+                                                        style="width: 150px; height: 110px; border-radius: 50%;">
+                                                </a>
+                                                {% endif %}
+                                            </div>
+
+
+                                            <div>
+                                                {{student.name}}
+                                            </div>
+
+
+                                        </div>
+
+                                        <div>
+
+
+                                            <form action="/dashboard/group-settings" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+
+                                                <input type="text" name="type" value="remove-member" hidden>
+                                                <input type="text" name="group-id" value="{{group.id}}" hidden>
+
+
+                                                <input type="text" name="member" value="{{student.member}}" hidden>
+
+
+
+
+
+
+
+
+                                                <button type="submit" class="btn btn-danger ">
+                                                    <i class="fa fa-2x fa-minus" style="font-size: 18px;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+
+                                    {% else %}
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    لا يوجد اي اعضاء فالمجموعة بعد
+                                    {% else %}
+                                    There isnt any members in this group yet.
+                                    {% endif %}
+
+                                    {% endif %}
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+
+
+
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اغلاق
+                                    {% else %}
+                                    Close
+                                    {% endif %}
+                                </button>
+
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Students  -->
+
+                <!-- Group Link -->
+                <div class="modal fade" id="link" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header pr-bg ">
+                                <h5 class="modal-title text-center" id="exampleModalLongTitle" style="color: white;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    رابط المجموعة
+                                    {% else %}
+                                    Group Invitation Link
+                                    {% endif %}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+
+
+                            <div class="modal-body text-center">
+
+
+
+                                <div class="w-100 mt-3 mb-3">
+
+
+                                    http://127.0.0.1:8000/ar/groups/invite?group_link={{group.link}}&check=view
+
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <input type="text" value="http://127.0.0.1:8000/ar/groups/invite?group_link={{group.link}}&check=view"
+                                id="groupLink" hidden>
+                                <button type="button" class="btn btn-primary w-100" data-dismiss="modal" onclick="myFunction()">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    نسخ
+                                    {% else %}
+                                    Save
+                                    {% endif %}
+                                </button>
+
+
+
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اغلاق
+                                    {% else %}
+                                    Close
+                                    {% endif %}
+                                </button>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Group Link  -->
+
+
+
+                <!-- Group Settings -->
+                <div class="modal fade" id="chapter-settings" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اعدادات المجموعة
+                                    {% else %}
+                                    Group Settings
+                                    {% endif %}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+                            <form action="/dashboard/group-settings" method="POST"
+                                style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <input type="text" name="type" value="settings" hidden>
+                                <input type="text" name="group-id" value="{{group.id}}" hidden>
+
+
+
+
+                                <div class="modal-body">
+
+
+                                    <div class="thumbnail w-100 mb-5">
+                                        {% if group.image %}
+                                        <a>
+                                            <img class="img-fluid" src="{{group.image.url}}"
+                                                style="width: 100%; height: 230px;">
+                                        </a>
+                                        {% else %}
+                                        <a style="display: flex; justify-content: center; align-items: center;">
+                                            <div style="width: 150px; height: 160px; border-radius: 50%; display: flex; justify-content: center; align-items: center;" class="bg-secondary">
+                                                <span style="font-size: 10px;"><i class="fa fa-2x fa-user-group"></i></span>
+                                            </div>
+                                        </a>
+                                        {% endif %}
+
+                                        <div class="form-group mb-3 mt-2">
+                                            <label for="video-input">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                صورة المجموعة
+                                                {% else %}
+                                                Group Image
+                                                {% endif %}</label>
+                                            <input type="file" class="form-control-file" id="video-input" name="image">
+                                        </div>
+
+
+                                    </div>
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="title" class="form-control" placeholder="اسم المجموعة"
+                                            aria-label="Username" aria-describedby="basic-addon1"
+                                            value="{{group.title}}">
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="title" class="form-control" placeholder="Group Name"
+                                            aria-label="Username" aria-describedby="basic-addon1"
+                                            value="{{group.title}}">
+                                    </div>
+                                    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+                                    {% if group.year %}
+                                    <div class="input-group mb-3 mt-2">
+                                        <select class="form-control" id="exampleFormControlSelect1" name="year">
+
+                                            <option value="{{group.year}}" style="text-transform: capitalize;">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+
+                                                {% if group.year == 'first'%}
+                                                الصف الاول الثانوي
+                                                {% endif %}
+
+                                                {% if group.year == 'second'%}
+                                                الصف الثاني الثانوي
+                                                {% endif %}
+
+                                                {% if group.year == 'third'%}
+                                                الصف الثالث الثانوي
+                                                {% endif %}
+
+
+                                                {% else %}
+                                                {{group.year}} Secondary
+                                                {% endif %}
+                                            </option>
+
+                                            {% if group.year == 'first'%}
+                                            {% else %}
+                                            <option value="first">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الاول الثانوي
+                                                {% else %}
+                                                First Secondary
+                                                {% endif %}
+                                            </option>
+                                            {% endif %}
+
+                                            {% if group.year == 'second'%}
+                                            {% else %}
+                                            <option value="second">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثاني الثانوي
+                                                {% else %}
+                                                Second Secondary
+                                                {% endif %}</option>
+                                            {% endif %}
+
+                                            {% if group.year == 'third'%}
+                                            {% else %}
+                                            <option value="third">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثالث الثانوي
+                                                {% else %}
+                                                Third Secondary
+                                                {% endif %}</option>
+                                            {% endif %}
+
+
+
+                                        </select>
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3 mt-2">
+                                        <select class="form-control" id="exampleFormControlSelect1" name="year">
+                                            <option value="first">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الاول الثانوي
+                                                {% else %}
+                                                First Secondary
+                                                {% endif %}</option>
+                                            <option value="second">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثاني الثانوي
+                                                {% else %}
+                                                Second Secondary
+                                                {% endif %}</option>
+                                            <option value="third">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثالث الثانوي
+                                                {% else %}
+                                                Third Secondary
+                                                {% endif %}</option>
+                                        </select>
+                                    </div>
+                                    {% endif %}
+
+
+
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        غلق
+                                        {% else %}
+                                        Close
+                                        {% endif %}</button>
+                                    <button type="submit" class="btn btn-primary pl-5 pr-5">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        حفظ
+                                        {% else %}
+                                        Save
+                                        {% endif %}</button>
+
+                                </div>
+                            </form>
+
+                            <div class="modal-footer">
+                                <form action="/dashboard/delete-group" method="POST" style="width: 100%;">
+                                {% csrf_token %}
+                                <input type="hidden" name="group-id" value="{{group.id}}" hidden>
+
+                                <button type="submit" class="btn btn-danger pl-5 pr-5" style="width: 100%;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    مسح المجموعة
+                                    {% else %}
+                                    Delete Group
+                                    {% endif %}
+                                </button>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--  Group Settings -->
+
+
+
+
+
+
+
+
+                {% if user_profile.instructor == True %}
+
+
+                {% for post in lectures %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="rounded overflow-hidden mb-2">
+                        {% if post.image %}
+                        <a href="/dashboard/lecture/{{post.lecture_id}}">
+                            <img class="img-fluid" src="{{post.image.url}}" style="width: 100%; height: 230px;">
+                        </a>
+                        {% else %}
+                        <a href="/dashboard/lecture/{{post.lecture_id}}">
+                            <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                style="width: 100%; height: 230px;">
+                        </a>
+                        {% endif %}
+
+                        <div class="bg-secondary p-4">
+                            <div class="d-flex justify-content-center mb-3">
+
+                                <a class="h5" href="/dashboard/lecture/{{post.lecture_id}}">{{post.title}}</a>
+
+                            </div>
+                           
+
+
+
+                            <div class="border-top mt-4 pt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="m-0"><i
+                                            class="fa fa-clock text-primary mr-2"></i>{{post.created_at|date:"M d, Y"}}
+                                    </h6>
+                                </div>
+
+
+
+
+                                <div class="btn-group dropup w-100 mt-4">
+                                    <button type="button" class="btn btn-danger dropdown-toggle w-100"
+                                        style="border-radius: 0;" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <i class="fa fa-2x fa-trash mr-3" style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        مسح المحاضرة
+                                        {% else %}
+                                        Delete Lesson
+                                        {% endif %}
+
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <form action="/dashboard/group-settings" method="POST"
+                                            style="margin-top: 5px; margin-bottom: 10px;">
+                                            {% csrf_token %}
+
+
+                                            <input type="text" name="type" value="remove-lecture" hidden>
+                                            <input type="text" name="group-id" value="{{group.id}}" hidden>
+
+
+                                            <div class="modal-body">
+
+                                                <p>
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    هل انت متاكد ان تريد ازالة هذة المحاضرة من الشابتر؟
+                                                    {% else %}
+                                                    Are You Sure You Want To Remove This Lecture From The Chapter
+                                                    ({{post.title}})?
+                                                    {% endif %}</p>
+
+                                                <input type="hidden" value="{{post.lecture_id}}" name="lecture-id"
+                                                    hidden />
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    اغلاق
+                                                    {% else %}
+                                                    Close
+                                                    {% endif %}</button>
+
+                                                <button type="submit" class="btn btn-danger pl-5 pr-5">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    مسح
+                                                    {% else %}
+                                                    Delete
+                                                    {% endif %}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+
+                {% else %}
+
+
+                {% for post in lectures %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="rounded overflow-hidden mb-2">
+                        {% if post.image %}
+                        <a href="/lessons/progress/{{post.lecture_id}}">
+                            <img class="img-fluid" src="{{post.image.url}}" style="width: 100%; height: 230px;">
+                        </a>
+                        {% else %}
+                        <a href="/lessons/progress/{{post.lecture_id}}">
+                            <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                style="width: 100%; height: 230px;">
+                        </a>
+                        {% endif %}
+
+                        <div class="bg-secondary p-4">
+                            <div class="d-flex justify-content-center mb-3">
+
+                                <a class="h5" href="/lessons/progress/{{post.lecture_id}}">{{post.title}}</a>
+
+                            </div>
+
+
+
+
+
+                            <div class="border-top mt-4 pt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="m-0"><i
+                                            class="fa fa-clock text-primary mr-2"></i>{{post.created_at|date:"M d, Y"}}
+                                    </h6>
+                                </div>
+
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Chapters End -->
+
+
+
+
+
+
+
+
+    <script>
+        function myFunction() {
+            // Get the text field
+            var copyText = document.getElementById("groupLink");
+
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+
+            // Alert the copied text
+            alert("تم نسخ الرابط" + copyText.value);
+
+
+        }
+    </script>
+
+
+
+
+
+    {% else %}
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

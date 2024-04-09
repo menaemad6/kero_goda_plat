@@ -1,0 +1,707 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}{{post.title}}{% endblock title_ar %}
+{% else %}
+{% block title%}{{post.title}}{% endblock title %}
+{% endif %}
+
+
+
+{% block content %}
+
+<body>
+
+
+
+
+
+
+
+    {% if user_profile.instructor == True %}
+
+
+
+
+
+
+
+
+
+    <!-- Lecture  -->
+    <div class="container-fluid" style="background-color: white;">
+        <div class="container" style="padding-top: 50px; padding-bottom: 50px;">
+            <div class="row ">
+
+                <div class="mt-4 w-100">
+                    <div class="header"
+                        style="overflow: hidden; padding-left: 20px; padding-right: 20px; width: 100%;  display: flex; flex-direction: row; justify-content: space-between;">
+                        <div style="max-width: 90%;">
+                            <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+                                {{post.title}}
+
+                            </h1>
+                        </div>
+
+                        <div>
+                            <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+
+                                <a style="text-decoration: none;" data-toggle="tooltip" data-placement="down"
+                                    title="{{post.no_of_likes}} Likes">
+                                    <i class="fa-regular fa-bookmark ml-4" style="font-size: 45px; color: #fd771e;"></i>
+                                    {{post.no_of_likes}}
+                                </a>
+
+                            </h1>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="details" style="width: 100%; padding-left: 20px; padding-right: 20px;">
+                        <h6 class="" style="text-transform: capitalize; color: black;"><span
+                                style="font-weight: bold; font-size: 20px; text-transform: uppercase;">
+                                {% if post.teacher_img %}
+                                <img src="{{post.teacher_img.url}}" class="img-fluid rounded-circle mx-auto "
+                                    style="width: 50px;">
+                                {% else %}
+                                <img src="{% static 'img/default-profile-image.jpg' %}"
+                                    class="img-fluid rounded-circle mx-auto " style="width: 50px;">
+                                {% endif %}
+                            </span>
+                            <span style="font-size: 25px; color: black; font-weight: 600;">{{post.teacher_name}}
+                            </span>, {{post.subject}} </h6>
+
+                        <h8 class="text-black"><span
+                                style="font-size: 18px; text-transform: uppercase; ">{{post.created_at|date:"M d, Y"}}
+                        </h8>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div class="tab-content col-12">
+                    {% for part in parts %}
+                    <div id="{{part.place}}" class="tab-pane fade in">
+
+                        {% if part.type == 'video' %}
+                        <div class="col-12 mb-2" style="border-bottom: 1px rgb(220, 207, 207) solid;">
+                            <div>
+
+                                <div class="text-center mt-5 mb-2">
+                                    <video controls="controls" preload="preload" class="lesson-video "
+                                        style="width: 90%;">
+                                        <source src="{{part.video.url}}" type="video/mp4">
+                                        </source>
+                                    </video>
+                                </div>
+
+                                <div class="video-caption mt-3 mb-3"
+                                    style="overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                    <p class="" style="font-size: 20px;">{{part.title}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+
+                <div class="col-12">
+                    <ul class="nav nav-tabs w-100">
+
+                        <h3 class="text-uppercase mb-4 w-100 pt-5" style="letter-spacing: 5px; margin-left: px;">
+                            Lecture Parts</h3>
+
+
+                        {% for part in parts %}
+                        <li class="active w-100 attachment mb-4"
+                            style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+
+                            {% if part.type == 'video' %}
+                            <a data-toggle="tab" class="d-flex align-items-center text-decoration-none "
+                                href="#{{part.place}}">
+                                <span class="" id="basic-addon1" style="width: 140px;">
+
+                                    {% if part.type == 'video' %}
+                                    <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                    {% endif %}
+
+
+                                    {% if part.type == 'link' %}
+                                    <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                    {% endif %}
+
+                                </span>
+                                <div class="pl-3">
+                                    <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                </div>
+                            </a>
+                            {% endif %}
+
+                            {% if part.type == 'link' %}
+                            <a class="d-flex align-items-center text-decoration-none " href="{{part.link}}">
+                                <span class="" id="basic-addon1" style="width: 140px;">
+
+                                    {% if part.type == 'video' %}
+                                    <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                    {% endif %}
+
+
+                                    {% if part.type == 'link' %}
+                                    <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                    {% endif %}
+
+                                </span>
+                                <div class="pl-3">
+                                    <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                </div>
+                            </a>
+                            {% endif %}
+
+
+
+
+                            <div class="btn-group dropup mt-4 w-100">
+                                <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <form action="/dashboard/delete-part" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+
+                                            <p>Are You Sure You Want To Delete This Part Of The Lecture?</p>
+
+                                            <input type="hidden" value="{{part.part_id}}" name="part-id" hidden />
+
+                                            <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger pl-5 pr-5 w-100">Delete</button>
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+
+
+
+
+
+                        {% if test_assignment %}
+                        <li class=" w-100 attachment mb-4"
+                            style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                            <a class="d-flex align-items-center text-decoration-none  "
+                                href="/assignment/progress/{{test_assignment.assignment_id}}">
+                                <span class="" id="basic-addon1" style="width: 140px;">
+
+
+
+
+
+
+                                    <i class="fa fa-2x fa-file text-primary mr-3" style="font-size: 80px;"></i>
+
+
+
+                                </span>
+                                <div class="pl-3">
+                                    <h6 class="m-1" style="text-transform: capitalize;">
+                                        {{test_assignment.assignment_name}}</h6>
+                                </div>
+                            </a>
+
+                            <div class="btn-group dropup mt-4 w-100">
+                                <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <form action="/delete-assignment" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+
+                                            <p>Are You Sure You Want To Delete This Assignment?</p>
+
+                                            <input type="hidden" value="{{test_assignment.assignment_id}}"
+                                                name="assignment-id" hidden />
+
+                                            <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger pl-5 pr-5 w-100">Delete</button>
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                        {% endif %}
+
+                        {% if homework_assignment %}
+                        <li class=" w-100 attachment mb-4"
+                            style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                            <a class="d-flex align-items-center text-decoration-none "
+                                href="/assignment/progress/{{homework_assignment.assignment_id}}">
+                                <span class="" id="basic-addon1" style="width: 140px;">
+
+
+                                    <i class="fa fa-2x fa-pen text-primary mr-3" style="font-size: 80px;"></i>
+
+
+
+
+
+
+
+                                </span>
+                                <div class="pl-3">
+                                    <h6 class="m-1" style="text-transform: capitalize;">
+                                        {{homework_assignment.assignment_name}}</h6>
+                                </div>
+                            </a>
+
+                            <div class="btn-group dropup mt-4 w-100">
+                                <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <form action="/delete-assignment" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+
+                                            <p>Are You Sure You Want To Delete This Assignment?</p>
+
+                                            <input type="hidden" value="{{homework_assignment.assignment_id}}"
+                                                name="assignment-id" hidden />
+
+                                            <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger pl-5 pr-5 w-100">Delete</button>
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </li>
+                        {% endif %}
+
+
+
+
+                    </ul>
+                </div>
+
+
+                <div class="col-12">
+                    <ul class="nav nav-tabs w-100">
+
+                        <h3 class="text-uppercase mb-4 w-100 pt-5" style="letter-spacing: 5px; margin-left: px;">
+                            Add Part</h3>
+
+
+
+                        <div class="container-fluid">
+                            <div class="row">
+
+
+                                {% if post.price == 0%}
+                                <!-- Lecture Info -->
+                                <div class="col-12 mb-5">
+                                    <li class=" w-100 attachment mb-4"
+                                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                        <button type="button" data-toggle="modal" data-target="#lecture-settings"
+                                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                            <i class="fa fa-2x fa-gear text-primary mr-2" style="font-size: 30px;"></i>
+                                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                                Setup Lecture</h6>
+                                        </button>
+                                    </li>
+                                </div>
+                                {% endif %}
+
+
+                                <!-- Add Video -->
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <li class=" w-100 attachment mb-4"
+                                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                        <button type="button" data-toggle="modal" data-target="#add-video"
+                                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                            <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                                Add Video</h6>
+                                        </button>
+                                    </li>
+                                </div>
+
+                                <!-- Add Assignment  -->
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <li class=" w-100 attachment mb-4"
+                                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                        <a href="/dashboard/new-assignment"
+                                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                            <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                                Add Assignment</h6>
+                                        </a>
+                                    </li>
+                                </div>
+
+                                <!-- Add Link -->
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <li class=" w-100 attachment mb-4"
+                                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                        <button type="button" data-toggle="modal" data-target="#add-link"
+                                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                            <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                                Add Link</h6>
+                                        </button>
+                                    </li>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- Lecture Settings -->
+                        <div class="modal fade" id="lecture-settings" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Lecture Settings</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+
+                                    <form action="/dashboard/add-part" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <input type="text" name="type" value="settings" hidden>
+                                        <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+
+
+
+                                        <div class="modal-body">
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-money-bill text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="price" class="form-control"
+                                                    placeholder="Lecture Price" aria-label="Username"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-pen text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="description" class="form-control"
+                                                    placeholder="Lecture Description" aria-label="Username"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="input-group mb-3 mt-2">
+                                                <select class="form-control" id="exampleFormControlSelect1" name="year">
+                                                    <option value="first">First Secondary</option>
+                                                    <option value="second">Second Secondary</option>
+                                                    <option value="third">Third Secondary</option>
+                                                </select>
+                                            </div>
+
+
+
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary pl-5 pr-5">Save</button>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Lecture Settings -->
+
+
+
+                        <!-- Add Video -->
+                        <div class="modal fade" id="add-video" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Add Video</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+
+                                    <form action="/dashboard/add-part" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <input type="text" name="type" value="video" hidden>
+                                        <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+                                        {% if videos_count == 0 %}
+                                        <input type="text" name="place" value="video" hidden>
+                                        {% endif %}
+
+                                        {% if videos_count == 1 %}
+                                        <input type="text" name="place" value="video2" hidden>
+                                        {% endif %}
+
+                                        {% if videos_count == 2 %}
+                                        <input type="text" name="place" value="video3" hidden>
+                                        {% endif %}
+
+                                        {% if videos_count == 3 %}
+                                        <input type="text" name="place" value="video4" hidden>
+                                        {% endif %}
+
+                                        {% if videos_count == 4 %}
+                                        <input type="text" name="place" value="video5" hidden>
+                                        {% endif %}
+
+
+
+                                        <div class="modal-body">
+                                            <div class="input-group mb-3">
+
+
+
+
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-video text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="title" class="form-control"
+                                                    placeholder="Video Title" aria-label="Username"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="form-group mb-2">
+                                                <label for="video-input">Upload Video</label>
+                                                <input type="file" class="form-control-file" id="video-input"
+                                                    name="video">
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary pl-5 pr-5">Save</button>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Add Video -->
+
+
+                        <!-- Add Link -->
+                        <div class="modal fade" id="add-link" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Add Link</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+
+                                    <form action="/dashboard/add-part" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <input type="text" name="type" value="link" hidden>
+                                        <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+                                        {% if links_count == 0 %}
+                                        <input type="text" name="place" value="link" hidden>
+                                        {% endif %}
+
+                                        {% if links_count == 1 %}
+                                        <input type="text" name="place" value="link2" hidden>
+                                        {% endif %}
+
+                                        {% if links_count == 2 %}
+                                        <input type="text" name="place" value="link3" hidden>
+                                        {% endif %}
+
+
+
+
+                                        <div class="modal-body">
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-pen text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="title" class="form-control"
+                                                    placeholder="URL Name" aria-label="Username"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-link text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="teext" name="link" class="form-control" placeholder="Link"
+                                                    aria-label="Username" aria-describedby="basic-addon1">
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary pl-5 pr-5">Save</button>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Add Link -->
+
+
+
+
+
+
+
+
+
+                    </ul>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Lecture  -->
+
+
+
+
+
+    {% endif %}
+
+
+
+
+
+
+    {% if user_profile.instructor == False %}
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+</body>
+
+{% endblock content %}

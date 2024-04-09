@@ -1,0 +1,1151 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}{{assignment.assignment_name}}{% endblock title_ar %}
+{% else %}
+{% block title%}{{assignment.assignment_name}}{% endblock title %}
+{% endif %}
+
+
+{% block head %}
+
+
+<style>
+    .attachment {
+        padding: 10px;
+    }
+
+    .attachment h6 {
+        text-decoration: underline;
+    }
+
+    .attachment:hover {
+        background-color: #E0E0E0;
+    }
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+<body>
+
+
+
+
+
+    {% if user_profile %}
+
+
+
+    {% if button_text == 'yes' %}
+
+
+    {% if lesson_text == 'buyed' %}
+
+    {% if text == 'complete' %}
+    <!-- Assignment Complete Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-xmark ml-2 text-danger"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الاسئلة:
+                                    {% else %}
+                                    Questions Count:
+                                    {% endif %}<span style="color: #5b5e5e;">{{questions.count}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سؤال
+                                        {% else %}
+                                        Questions
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date :
+                                    {% endif %}<span
+                                        style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <a href="/assignment/progress/{{assignment.assignment_id}}" class="btn btn-primary w-100 w-100"
+                            style="border-radius: 0; border: 0;">
+
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            اكمل
+                            {% else %}
+                            Complete
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--Assignment Complete End -->
+    {% endif %}
+
+
+    {% if text == 'start' %}
+    <!-- Assignment Start Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-xmark ml-2 text-danger"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الاسئلة:
+                                    {% else %}
+                                    Questions Count:
+                                    {% endif %}<span style="color: #5b5e5e;">{{questions.count}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سؤال
+                                        {% else %}
+                                        Questions
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date :
+                                    {% endif %}<span
+                                        style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <form action="/assignment-start" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{assignment.assignment_id}}" name="assignment" hidden />
+
+                            <button type="submit" class="btn btn-primary w-100 w-100"
+                                style="border-radius: 0; border: 0;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                ابدا
+                                {% else %}
+                                Start
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--Assignment Start End -->
+    {% endif %}
+
+    {% if text == 'submited' %}
+    <!-- Assignment Submitted Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-check ml-2 text-success"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;"> {% if LANGUAGE_CODE == 'ar' %}
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+
+                                    {% endif %}</span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الاسئلة:
+                                    {% else %}
+                                    Questions Count:
+                                    {% endif %}<span style="color: #5b5e5e;">{{questions.count}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سؤال
+                                        {% else %}
+                                        Questions
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date :
+                                    {% endif %}<span
+                                        style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <a href="#" class="btn btn-success w-100 w-100" style="border-radius: 0; border: 0;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            تم التسليم بنجاح
+                            {% else %}
+                            Submited
+                            {% endif %}
+
+                            <span style="font-size: 8px;"><i class="fa fa-2x fa-circle-check ml-2"></i></span>
+                        </a>
+
+                        <a href="/assignment/progress/{{assignment.assignment_id}}"
+                            class="btn btn-primary w-100 w-100 mt-3" style="border-radius: 0; border: 0;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            رؤية الاجابات
+                            {% else %}
+                            View Score
+                            {% endif %}
+                            <span style="font-size: 8px;"><i class="fa fa-2x fa-chart-simple ml-2"></i></span>
+                        </a>
+
+                        {% if assignment.post_id %}
+                        <a href="/lessons/progress/{{assignment.post_id}}" class="btn btn-secondary w-100 w-100 mt-3"
+                            style="border-radius: 0; border: 0;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            الرجوع الي المحاضرة
+                            {% else %}
+                            Back To Lecture
+                            {% endif %}
+                            <span style="font-size: 8px;"><i class="fa fa-2x fa-video ml-2"></i></span>
+                        </a>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Assignment Submitted End -->
+    {% endif %}
+
+
+    {% endif %}
+
+
+    {% if lesson_text == 'not' %}
+
+    <!-- Must Purchase Lesson First Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+                <!-- <h5 class="text-primary text-uppercase mb-3" >Lessons</h5> -->
+                <!-- <h1 class="">You Must Purchase This Lesson First To View It!</h1> -->
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 col-lg-7">
+                    <div class="box text-center"
+                        style="background-color: white; margin-bottom: 20px; padding-top: 10px; padding-bottom: 10px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 25px;">{{post.title}}</h1>
+                        </div>
+                    </div>
+
+                    <div class="box" style="background-color: white; padding: 20px; margin-bottom: 20px;">
+                        {% if post.image %}
+                        <img class="img-fluid" src="{{post.image.url}}" style="width: 100%;">
+                        {% else %}
+                        <img class="img-fluid" src="{% static 'img/course-3.jpg' %}" alt="">
+                        {% endif %}
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 col-lg-5">
+
+                    <div class="box" style="background-color: white; padding: 15px;">
+                        <!-- <div style="margin-bottom: 20px;">
+                                <h1 class="" style="color: black; font-size: 23px;"><span
+                                        style="border-bottom: 3px #fd771e solid;">Purchase</span></h1>
+                            </div> -->
+
+                        <a href="/lessons/{{post.id}}" class="btn btn-success w-100 w-100"
+                            style="border-radius: 0; border: 0;">
+
+                            <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>Purchase
+                        </a>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="box" style="background-color: white; margin-top: 50px; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">Details</span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-money-bill text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Price
+                                    : <span style="color: #5b5e5e;">{{post.price}} EGP</span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Date
+                                    : <span style="color: #5b5e5e;">{{post.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Must Purchase Lesson First End -->
+
+    {% endif %}
+
+
+
+    {% endif %}
+
+
+
+    {% if button_text == 'no' %}
+
+
+
+    {% if text == 'complete' %}
+    <!-- Assignment Complete Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-xmark ml-2 text-danger"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الاسئلة:
+                                    {% else %}
+                                    Questions Count:
+                                    {% endif %}<span style="color: #5b5e5e;">{{questions.count}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سؤال
+                                        {% else %}
+                                        Questions
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date :
+                                    {% endif %}<span
+                                        style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <a href="/assignment/progress/{{assignment.assignment_id}}" class="btn btn-primary w-100 w-100"
+                            style="border-radius: 0; border: 0;">
+
+                            <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            اكمل
+                            {% else %}
+                            Complete
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--Assignment Complete End -->
+    {% endif %}
+
+
+    {% if text == 'start' %}
+    <!-- Assignment Start Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-xmark ml-2 text-danger"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الاسئلة:
+                                    {% else %}
+                                    Questions Count:
+                                    {% endif %}<span style="color: #5b5e5e;">{{questions.count}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سؤال
+                                        {% else %}
+                                        Questions
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date :
+                                    {% endif %}<span
+                                        style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <form action="/assignment-start" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{assignment.assignment_id}}" name="assignment" hidden />
+
+                            <button type="submit" class="btn btn-primary w-100 w-100"
+                                style="border-radius: 0; border: 0;">
+
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                ابدا
+                                {% else %}
+                                Start
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--Assignment Start End -->
+    {% endif %}
+
+    {% if text == 'submited' %}
+    <!-- Assignment Submitted Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-check ml-2 text-success"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;"> {% if LANGUAGE_CODE == 'ar' %}
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+
+                                    {% endif %}</span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    عدد الاسئلة:
+                                    {% else %}
+                                    Questions Count:
+                                    {% endif %}<span style="color: #5b5e5e;">{{questions.count}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        سؤال
+                                        {% else %}
+                                        Questions
+                                        {% endif %}</span></span>
+                            </p>
+                        </div>
+
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date :
+                                    {% endif %}<span
+                                        style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <a href="#" class="btn btn-success w-100 w-100" style="border-radius: 0; border: 0;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            تم التسليم بنجاح
+                            {% else %}
+                            Submited
+                            {% endif %}
+
+                            <span style="font-size: 8px;"><i class="fa fa-2x fa-circle-check mr-3"></i></span>
+                        </a>
+
+                        <a href="/assignment/progress/{{assignment.assignment_id}}"
+                            class="btn btn-primary w-100 w-100 mt-3" style="border-radius: 0; border: 0;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            رؤية الاجابات
+                            {% else %}
+                            View Score
+                            {% endif %}
+                            <span style="font-size: 8px;"><i class="fa fa-2x fa-chart-simple mr-3"></i></span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Assignment Submitted End -->
+    {% endif %}
+
+
+
+
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+    {% else %}
+
+
+
+    <!-- Must Login First Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+                <!-- <h5 class="text-primary text-uppercase mb-3" >Lessons</h5> -->
+                <!-- <h1 class="">You Must Purchase This Lesson First To View It!</h1> -->
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+                <div class="col-12 col-lg-7">
+
+                    <!-- <div class="box text-center"
+                        style="background-color: white; margin-bottom: 20px; padding-top: 10px; padding-bottom: 10px;">
+                        <div>
+
+                        </div>
+                    </div> -->
+
+                    <div class="box text-center"
+                        style="border-bottom: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 15px; margin-bottom: 30px;">
+                        {% if post.image %}
+                        <img class="img-fluid mb-3" src="{{post.image.url}}" style="width: 100%;">
+                        {% else %}
+                        <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt="">
+                        {% endif %}
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-lock ml-2 text-danger ml-2 "></i></span>
+                        </h1>
+                    </div>
+
+                    <div class="box"
+                        style="border-bottom: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 20px; margin-bottom: 30px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">Lecture
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    وصف المحاضرة
+                                    {% else %}
+                                    Lecture Description
+                                    {% endif %}</span></h1>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-info text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{post.caption}}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="col-12 col-lg-5">
+
+                    <div class="box text-center"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 10px;">
+
+
+                        <p style="color: black; font-size: 30px; font-weight: bold;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            لابد ان تنشئ حساب اولا
+                            {% else %}
+                            You Must Login First!
+                            {% endif %}</p>
+
+                        <a href="/register" class="btn btn-primary w-100 w-100" style="border-radius: 5px; border: 0;">
+
+                            <span style="font-size: 10px;"><i class="fa fa-2x fa-right-from-bracket mr-3"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            اشترك
+                            {% else %}
+                            Register
+                            {% endif %}
+
+                        </a>
+                    </div>
+
+
+
+                    <div class="box details-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px; ">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    معلومات المحاضرة
+                                    {% else %}
+                                    Lecture Details
+                                    {% endif %}</span></h1>
+
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-money-bill text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    السعر
+                                    {% else %}
+                                    Price
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.price}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        جنية
+                                        {% else %}
+                                        EGP
+                                        {% endif %}
+                                    </span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div class="box parts-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px;">
+                        <div style="margin-bottom: 20px;">
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اجزاء المحاضرة
+                                    {% else %}
+                                    Lecture Parts
+                                    {% endif %}</span></h1>
+
+                        </div>
+
+
+                        {% for part in parts %}
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                {% if part.type == 'video' %}
+                                <i class="fa-solid fa-video text-primary" style="font-size: 20px;"></i>
+                                {% endif %}
+                                {% if part.type == 'link' %}
+                                <i class="fa-solid fa-link text-primary" style="font-size: 20px;"></i>
+                                {% endif %}
+
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{part.title}}</span>
+                            </p>
+                        </div>
+                        {% endfor %}
+
+                        {% if homework %}
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-file-lines text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{homework.assignment_name}}</span>
+                            </p>
+                        </div>
+                        {% endif %}
+
+                        {% if test %}
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-file-lines text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{test.assignment_name}}</span>
+                            </p>
+                        </div>
+                        {% endif %}
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Must Login First End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}الوارد{% endblock title_ar %}
+{% else %}
+{% block title%}Inbox{% endblock title %}
+{% endif %}
+
+
+{% block content %}
+
+
+<body>
+
+
+
+    {% if user_profile.premium == True %}
+
+
+    <!-- Inbox Start -->
+    <div class="container-fluid py-5" id="inbox">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-9">
+
+
+                    {% if messages|length == 0 %}
+                    <div class="contact-form bg-secondary rounded p-3">
+                        <div id="success"></div>
+
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-envelope"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            الوارد
+                            {% else %}
+                            Inbox
+                            {% endif %}
+
+                        </h3>
+
+                        <div class="text-center">
+                            <p style="font-size: 23px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                لا يوجد اي رسايل لك بعد
+                                {% else %}
+                                There Isnt Any Messages For You.
+                                {% endif %}
+                            </p>
+                        </div>
+
+                    </div>
+                    {% endif %}
+
+                    {% if messages|length >= 1 %}
+
+                    <div class="mb-5 bg-secondary rounded p-3">
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-envelope"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            الوارد
+                            {% else %}
+                            Inbox
+                            {% endif %}
+
+
+                        </h3>
+
+                        {% for comment in messages  %}
+                        <div class="media mb-3 rounded">
+
+
+                            {% if comment.username_image %}
+                            <img src="{{comment.username_image.url}}" class="img-fluid rounded-circle mr-3 mt-1"
+                                style="width: 45px;" alt="">
+                            {% else %}
+                            <img src="{% static 'img/default-profile-image.jpg' %}"
+                                class="img-fluid rounded-circle mr-3 mt-1" style="width: 45px;" alt="">
+                            {% endif%}
+
+                            <div class="media-body bg-white" style="padding: 10px;">
+                                <h6>{{comment.username_name}}
+                                    <br>
+                                    <small><i>{{comment.created_at|date:"M d, Y"}}</i></small></h6>
+
+                                <p>{{comment.comment_text}}</p>
+                                <h5 style="padding-left: 20px; color: black;">{{comment.reply}}</h5>
+
+
+
+
+
+
+                                <div class="btn-group dropup mt-4 w-100">
+                                    <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <form action="/delete-reply" method="POST"
+                                            style="margin-top: 5px; margin-bottom: 10px;">
+                                            {% csrf_token %}
+                                            <div class="modal-body">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                <p>هل انت متاكد ان تريد مسح هذا الرد؟</p>
+                                                {% else %}
+                                                <p>Are You Sure You Want To Delete This Answer?</p>
+                                                {% endif %}
+
+
+                                                <input type="hidden" value="{{comment.reply_id}}" name="reply-id"
+                                                    hidden />
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-danger pl-5 pr-5 w-100">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    مسح
+                                                    {% else %}
+                                                    Delete
+                                                    {% endif %}
+                                                </button>
+                                                <button type="button" class="btn btn-secondary w-100"
+                                                    data-dismiss="modal">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    اغلاق
+                                                    {% else %}
+                                                    Close
+                                                    {% endif %}</button>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                        {% endfor %}
+
+
+
+
+                    </div>
+
+
+                    {% endif %}
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Inbox End -->
+
+
+
+
+    {% else %}
+
+
+    <!-- Error Premium Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Premium User To Recharge Codes</p>
+                        <a href="/get-premium" class="btn btn-success mt-3 w-100">Get Premium</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Premium End -->
+
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

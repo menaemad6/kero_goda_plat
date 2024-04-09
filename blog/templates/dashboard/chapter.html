@@ -1,0 +1,977 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}لوحة التحكم{% endblock title_ar %}
+{% else %}
+{% block title%}Dashboard{% endblock title %}
+{% endif %}
+
+
+
+{% block content %}
+
+<body>
+
+
+
+
+
+    {% if user.is_authenticated %}
+
+
+    {% if user_profile.instructor == True %}
+
+
+
+
+
+    <!-- Chapters Start -->
+    <div class="container-fluid py-5" id="videos">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h1 data-aos="fade-up" data-aos-duration="1200">
+
+                    {{chapter.title}}
+
+                </h1>
+
+                <h3 data-aos="fade-up" data-aos-duration="1200" class="pr-color">
+                    {{chapter.caption}}
+                </h3>
+                {% if chapter.code %}
+                <h3 data-aos="fade-up" data-aos-duration="1200" class="pr-color">
+                    {{chapter.code}}
+                </h3>
+                {% endif %}
+            </div>
+            <div class="row">
+
+
+
+
+
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                        <button type="button" data-toggle="modal" data-target="#create-chapter"
+                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                اضافة محاضرة
+                                {% else %}
+                                Add New Lecture
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                        <button type="button" data-toggle="modal" data-target="#chapter-settings"
+                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-gear text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                اعدادات الشابتر
+                                {% else %}
+                                Chapter Settings
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-12">
+                    <div class=" w-100 attachment mb-4"
+                        style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                        <button type="button" data-toggle="modal" data-target="#upload-lecture"
+                            style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                            class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                            <i class="fa fa-2x fa-upload text-primary mr-2" style="font-size: 30px;"></i>
+                            <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                رفع محاضرة جديدة
+                                {% else %}
+                                Upload New Lecture
+                                {% endif %}
+
+                            </h6>
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <!-- Add Lecture -->
+                <div class="modal fade" id="create-chapter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header pr-bg ">
+                                <h5 class="modal-title text-center" id="exampleModalLongTitle" style="color: white;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    انشاء شابتر جديد
+                                    {% else %}
+                                    Create New Chapter
+                                    {% endif %}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+
+
+                            <div class="modal-body text-center">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                حدد المحاضرة التي تريد اضافتها في الشابتر
+
+                                {% else %}
+                                Please Select The Lecture You Want To Add To The Chapter
+                                {% endif %}
+
+
+
+                                <div class="w-100 mt-3 mb-3">
+
+                                    {% for post in posts reversed %}
+                                    <div class="w-100 bg-secondary rounded mb-2"
+                                        style="padding: 7px 9px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="width: 100%; justify-content: start; flex-direction: column; ">
+
+                                            <div class="mb-2">
+                                                {% if post.image %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid" src="{{post.image.url}}"
+                                                        style="width: 150px; height: 90px;">
+                                                </a>
+                                                {% else %}
+                                                <a style="margin-right: 10px;">
+                                                    <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                                        style="width: 150px; height: 90px;">
+                                                </a>
+                                                {% endif %}
+                                            </div>
+
+
+                                            <div>
+                                                {{post.title}}
+                                            </div>
+
+
+                                        </div>
+
+                                        <div>
+
+
+                                            <form action="/dashboard/chapter-settings" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+
+                                                <input type="text" name="type" value="add-lecture" hidden>
+                                                <input type="text" name="chapter-id" value="{{chapter.id}}" hidden>
+
+
+                                                <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+
+
+
+
+
+
+                                                <button type="submit" class="btn btn-primary ">
+                                                    <i class="fa fa-2x fa-plus" style="font-size: 18px;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+
+
+
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اغلاق
+                                    {% else %}
+                                    Close
+                                    {% endif %}</button>
+
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Lecture -->
+
+
+                <!-- Chapter Settings -->
+                <div class="modal fade" id="chapter-settings" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اعدادات الشابتر
+                                    {% else %}
+                                    Chapter Settings
+                                    {% endif %}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+                            <form action="/dashboard/chapter-settings" method="POST"
+                                style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <input type="text" name="type" value="settings" hidden>
+                                <input type="text" name="chapter-id" value="{{chapter.id}}" hidden>
+
+
+
+
+                                <div class="modal-body">
+
+
+                                    <div class="thumbnail w-100 mb-5">
+                                        {% if chapter.image %}
+                                        <a>
+                                            <img class="img-fluid" src="{{chapter.image.url}}"
+                                                style="width: 100%; height: 230px;">
+                                        </a>
+                                        {% else %}
+                                        <a>
+                                            <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                                style="width: 100%; height: 230px;">
+                                        </a>
+                                        {% endif %}
+
+                                        <div class="form-group mb-3 mt-2">
+                                            <label for="video-input">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                صورة الشابتر
+                                                {% else %}
+                                                Chapter Thumbnail
+                                                {% endif %}</label>
+                                            <input type="file" class="form-control-file" id="video-input" name="image">
+                                        </div>
+
+
+                                    </div>
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="title" class="form-control" placeholder="اسم الشابتر"
+                                            aria-label="Username" aria-describedby="basic-addon1"
+                                            value="{{chapter.title}}">
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="title" class="form-control" placeholder="Chapter Title"
+                                            aria-label="Username" aria-describedby="basic-addon1"
+                                            value="{{chapter.title}}">
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-money-bill text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="price" class="form-control" placeholder="سعر الشابتر"
+                                            aria-label="Username" aria-describedby="basic-addon1 "
+                                            value="{{chapter.price}}">
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-money-bill text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="price" class="form-control" placeholder="Chapter Price"
+                                            aria-label="Username" aria-describedby="basic-addon1"
+                                            value="{{chapter.price}}">
+                                    </div>
+                                    {% endif %}
+
+
+
+                                    {% if chapter.caption %}
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="description" class="form-control"
+                                            placeholder="وصف الشابتر" aria-label="Username"
+                                            aria-describedby="basic-addon1" value="{{chapter.caption}}">
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="description" class="form-control"
+                                            placeholder="Chapter Description" aria-label="Username"
+                                            aria-describedby="basic-addon1" value="{{chapter.caption}}">
+                                    </div>
+                                    {% endif %}
+
+                                    {% else %}
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="description" class="form-control"
+                                            placeholder="وصف الشابتر" aria-label="Username"
+                                            aria-describedby="basic-addon1">
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="text" name="description" class="form-control"
+                                            placeholder="Chapter Description" aria-label="Username"
+                                            aria-describedby="basic-addon1">
+                                    </div>
+                                    {% endif %}
+
+                                    {% endif %}
+
+
+
+
+
+
+                                    {% if chapter.year %}
+                                    <div class="input-group mb-3 mt-2">
+                                        <select class="form-control" id="exampleFormControlSelect1" name="year">
+
+                                            <option value="{{chapter.year}}" style="text-transform: capitalize;">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+
+                                                {% if chapter.year == 'first'%}
+                                                الصف الاول الثانوي
+                                                {% endif %}
+
+                                                {% if chapter.year == 'second'%}
+                                                الصف الثاني الثانوي
+                                                {% endif %}
+
+                                                {% if chapter.year == 'third'%}
+                                                الصف الثالث الثانوي
+                                                {% endif %}
+
+
+                                                {% else %}
+                                                {{chapter.year}} Secondary
+                                                {% endif %}
+                                            </option>
+
+                                            {% if chapter.year == 'first'%}
+                                            {% else %}
+                                            <option value="first">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الاول الثانوي
+                                                {% else %}
+                                                First Secondary
+                                                {% endif %}
+                                            </option>
+                                            {% endif %}
+
+                                            {% if chapter.year == 'second'%}
+                                            {% else %}
+                                            <option value="second">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثاني الثانوي
+                                                {% else %}
+                                                Second Secondary
+                                                {% endif %}</option>
+                                            {% endif %}
+
+                                            {% if chapter.year == 'third'%}
+                                            {% else %}
+                                            <option value="third">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثالث الثانوي
+                                                {% else %}
+                                                Third Secondary
+                                                {% endif %}</option>
+                                            {% endif %}
+
+
+
+                                        </select>
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3 mt-2">
+                                        <select class="form-control" id="exampleFormControlSelect1" name="year">
+                                            <option value="first">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الاول الثانوي
+                                                {% else %}
+                                                First Secondary
+                                                {% endif %}</option>
+                                            <option value="second">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثاني الثانوي
+                                                {% else %}
+                                                Second Secondary
+                                                {% endif %}</option>
+                                            <option value="third">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                الصف الثالث الثانوي
+                                                {% else %}
+                                                Third Secondary
+                                                {% endif %}</option>
+                                        </select>
+                                    </div>
+                                    {% endif %}
+
+
+
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        غلق
+                                        {% else %}
+                                        Close
+                                        {% endif %}</button>
+                                    <button type="submit" class="btn btn-primary pl-5 pr-5">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        حفظ
+                                        {% else %}
+                                        Save
+                                        {% endif %}</button>
+
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--  Chapter Settings -->
+
+
+                <!-- New Lecture -->
+                <div class="modal fade" id="upload-lecture" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    ارفع محاضرة جديدة
+                                    {% else %}
+                                    Upload New Lecture
+                                    {% endif %}
+                                </h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+
+                            <form action="/dashboard/create-lecture" method="POST"
+                                style="margin-top: 5px; margin-bottom: 10px;">
+                                {% csrf_token %}
+                                <input type="hidden" hidden name="type" value="chapter">
+                                <div class="modal-body">
+
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="teext" name="title" class="form-control" placeholder="اسم المحاضرة"
+                                            aria-label="Username" aria-describedby="basic-addon1">
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-pen text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+                                        <input type="teext" name="title" class="form-control"
+                                            placeholder="Lecture Title" aria-label="Username"
+                                            aria-describedby="basic-addon1">
+                                    </div>
+                                    {% endif %}
+
+
+
+
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        اغلاق
+                                        {% else %}
+                                        Close
+                                        {% endif %}
+                                    </button>
+
+                                    <button type="submit" class="btn btn-primary pl-5 pr-5">
+
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        ارفع
+                                        {% else %}
+                                        Create
+                                        {% endif %}
+                                    </button>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--  New Lecture -->
+
+                {% for post in lectures %}
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="rounded overflow-hidden mb-2">
+                        {% if post.image %}
+                        <a href="/dashboard/lecture/{{post.lecture_id}}">
+                            <img class="img-fluid" src="{{post.image.url}}" style="width: 100%; height: 230px;">
+                        </a>
+                        {% else %}
+                        <a href="/dashboard/lecture/{{post.lecture_id}}">
+                            <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                style="width: 100%; height: 230px;">
+                        </a>
+                        {% endif %}
+
+                        <div class="bg-secondary p-4">
+                            <div class="d-flex justify-content-center">
+
+                                <a class="h5" href="/dashboard/lecture/{{post.lecture_id}}">{{post.title}}</a>
+
+                            </div>
+
+
+
+
+
+                            <div class="border-top mt-4 pt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="m-0"><i
+                                            class="fa fa-clock text-primary mr-2"></i>{{post.created_at|date:"M d, Y"}}
+                                    </h6>
+
+
+                                </div>
+
+
+                                <div class="btn-group dropup w-100 mt-4">
+                                    <button type="button" class="btn btn-danger dropdown-toggle w-100"
+                                        style="border-radius: 0;" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <i class="fa fa-2x fa-trash mr-3" style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        مسح المحاضرة
+                                        {% else %}
+                                        Delete Lesson
+                                        {% endif %}
+
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <form action="/dashboard/chapter-settings" method="POST"
+                                            style="margin-top: 5px; margin-bottom: 10px;">
+                                            {% csrf_token %}
+
+
+                                            <input type="text" name="type" value="remove-lecture" hidden>
+                                            <input type="text" name="chapter-id" value="{{chapter.id}}" hidden>
+
+
+                                            <div class="modal-body">
+
+                                                <p>
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    هل انت متاكد ان تريد ازالة هذة المحاضرة من الشابتر؟
+                                                    {% else %}
+                                                    Are You Sure You Want To Remove This Lecture From The Chapter
+                                                    ({{post.title}})?
+                                                    {% endif %}</p>
+
+                                                <input type="hidden" value="{{post.lecture_id}}" name="lecture-id"
+                                                    hidden />
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    اغلاق
+                                                    {% else %}
+                                                    Close
+                                                    {% endif %}</button>
+
+                                                <button type="submit" class="btn btn-danger pl-5 pr-5">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    مسح
+                                                    {% else %}
+                                                    Delete
+                                                    {% endif %}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                                <!-- <button type="button" class="btn btn-danger w-100 mt-3" style="border-radius: 0;"
+                                    data-toggle="modal" data-target="#exampleModalCenter">
+                                    <i class="fa fa-2x fa-trash mr-3" style="font-size: 18px;"></i>Delete Lesson
+                                </button> -->
+
+
+                                <!-- Delete Lesson -->
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Delete Lesson</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+
+                                            <form action="/delete-lesson" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+
+                                                    <p>Are You Sure You Want To Delete ({{post.title}})?</p>
+
+                                                    <input type="hidden" value="{{post.id}}" name="post-id" hidden />
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit"
+                                                        class="btn btn-danger pl-5 pr-5">Delete</button>
+                                                </div>
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Delete Lesson -->
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                {% endfor %}
+
+
+
+
+
+
+
+                <div class="col-12 mb-4">
+
+
+                    <div class="contact-form bg-secondary rounded p-3">
+                        <div id="success"></div>
+    
+    
+                        <div class="codes-table" style="width: 100%; max-height: 600px; overflow-y: scroll;">
+    
+    
+                            <table class="table table-striped table-dark ">
+                                <thead>
+    
+    
+                                    {% if students|length >= 1 %}
+                                    <tr>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <th scope="col">الطالب</th>
+                                        <th scope="col">بواسطة</th>
+                                        <th scope="col">التاريخ</th>
+    
+                                        {% else %}
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Method</th>
+                                        <th scope="col">Date</th>
+                                        {% endif %}
+    
+                                    </tr>
+                                    {% endif %}
+                                </thead>
+    
+                                <tbody>
+                                    {% if students|length == 0 %}
+                                    <tr>
+                                        <td></td>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <td>لم يشتري احد المحاضرة بعد</td>
+                                        {% else %}
+                                        <td>The Lecture Hasnt Been Purchased By Anyone Yet.</td>
+                                        {% endif %}
+    
+                                        <td></td>
+                                    </tr>
+                                    {% endif %}
+    
+    
+                                    {% if students|length >= 1 %}
+                                    {% for student in students %}
+                                    <tr>
+                                        <td>
+                                            {% if student.name %}
+                                            <a href="/profile/{{student.username}}">{{student.name}}</a>
+                                            {% else %}
+                                            <a href="/profile/{{student.username}}">{{student.username}}</a>
+                                            
+                                            {% endif %}
+                                        </td>
+                                        <td>
+    
+                                        {% if LANGUAGE_CODE == 'ar' %}
+    
+    
+                                        {% if student.method == 'code' %}
+                                        كود
+                                        {% endif %}
+    
+                                        {% if student.method == 'wallet' %}
+                                        المحفظة
+                                        {% endif %}
+    
+                                        {% if student.method == 'chapter_code' %}
+                                        كود الشابتر
+                                        {% endif %}
+    
+
+    
+                                        {% else %}
+                                        {{student.method}}
+                                        {% endif %}
+    
+    
+    
+                                        </td>
+                                        <td>{{student.created_at}}</td>
+    
+    
+    
+    
+    
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+    
+                            </table>
+    
+    
+                        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                    </div>
+    
+    
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Chapters End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% else %}
+    <a href=""></a>
+    {% endif %}
+
+
+
+    {% if user_profile.instructor == False %}
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+    {% else %}
+    <a href=""></a>
+    {% endif %}
+
+
+
+
+
+
+
+    {% else %}
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

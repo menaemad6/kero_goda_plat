@@ -1,0 +1,1845 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+<!DOCTYPE html>
+
+<!-- {% if LANGUAGE_CODE == 'ar' %}
+<html dir="rtl" lang="ar">
+{% else %}
+<html lang="en">
+{% endif %} -->
+
+
+<html lang="en">
+
+<head>
+    {% if LANGUAGE_CODE == 'ar' %}
+    <title>مينا عماد - {% block title_ar %}{% endblock title_ar %}</title>
+    {% else %}
+    <title>Mena Emad - {% block title%}{% endblock title %}</title>
+    {% endif %}
+
+
+    {% block head%}
+    {% endblock head %}
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <meta content="منصة الاستاذ مينا عماد" name="keywords">
+    <meta content="منصة الاستاذ مينا عماد" name="description">
+
+    <!-- Website Icon -->
+    <link href="/media/teacher-image.jpg" rel="icon">
+
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}">
+
+
+
+
+    <!-- AOS LIBRARY -->
+
+    <!-- CDN  -->
+    <!-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <!-- FILE  -->
+    <!-- <link rel="stylesheet" href="{% static 'AOS/dist/aos.css' %}"> -->
+
+    <!-- AOS LIBRARY -->
+
+
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@200;300;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+
+
+    {% if LANGUAGE_CODE == 'ar' %}
+    <style>
+        * {
+            font-family: 'Changa', sans-serif;
+        }
+
+        .nav-dropdown-icon:hover {
+            color: #ff6600;
+        }
+
+        .pr-color {
+            color: #ff6600;
+        }
+
+        .pr-bg {
+            background-color: #ff6600;
+        }
+
+        .box {
+            border-radius: 15px;
+        }
+    </style>
+    {% else %}
+    <style>
+        .nav-dropdown-icon:hover {
+            color: #ff6600;
+        }
+
+        .pr-color {
+            color: #ff6600;
+        }
+
+        .pr-bg {
+            background-color: #ff6600;
+        }
+
+        .box {
+            border-radius: 15px;
+        }
+    </style>
+    {% endif %}
+
+
+
+
+
+    <style>
+        .lecture-card {
+            transition: 200ms ease;
+        }
+
+        .lecture-card:hover {
+            transform: scale(1.1);
+
+        }
+
+
+        :root {
+            --pr-color: #ff6600
+        }
+
+        .loader-sections {
+            z-index: 99999;
+            background-color: #b7b6bb;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease;
+        }
+
+
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            position: relative;
+            width: 120px;
+            height: 140px;
+            background-image: radial-gradient(circle 30px, #fff 100%, transparent 0),
+                radial-gradient(circle 5px, #fff 100%, transparent 0),
+                radial-gradient(circle 5px, #fff 100%, transparent 0),
+                linear-gradient(#FFF 20px, transparent 0);
+            background-position: center 127px, 94px 102px, 16px 18px, center 114px;
+            background-size: 60px 60px, 10px 10px, 10px 10px, 4px 14px;
+            background-repeat: no-repeat;
+            z-index: 10;
+            perspective: 500px;
+        }
+
+        .loader::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -55%) rotate(-45deg);
+            border-right-color: transparent;
+            box-sizing: border-box;
+        }
+
+        .loader::after {
+            content: '';
+            position: absolute;
+            height: 80px;
+            width: 80px;
+            transform: translate(-50%, -55%) rotate(-45deg) rotateY(0deg);
+            left: 50%;
+            top: 50%;
+            box-sizing: border-box;
+            border: 7px solid #FF3D00;
+            border-radius: 50%;
+            animation: rotate 0.5s linear infinite;
+        }
+
+        @keyframes rotate {
+            to {
+                transform: translate(-50%, -55%) rotate(-45deg) rotateY(360deg)
+            }
+        }
+
+
+
+
+
+        .controls .progress-area .progress-bar {
+            position: relative;
+            width: 0%;
+            background: var(--pr-color);
+            height: inherit;
+            border-radius: inherit;
+            cursor: pointer;
+        }
+
+        .controls .progress-area .progress-bar::before {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--pr-color);
+        }
+
+
+
+        @import url('//fonts.googleapis.com/css?family=Roboto');
+
+
+        .block-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .block-wrap button {
+            width: 100%;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+
+        .block-wrap>div {
+            width: 100%;
+            text-align: center;
+        }
+
+
+
+        .btn-google,
+        .btn-fb {
+            display: inline-block;
+            border-radius: 1px;
+            text-decoration: none;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+        }
+
+        .btn-fb:hover {
+            background-color: .218s;
+            border-color: .218s;
+            box-shadow: 218s;
+        }
+
+        .google-content,
+        .fb-content {
+            display: flex;
+            align-items: center;
+            width: 400px;
+            height: 50px;
+            color: white;
+        }
+
+        @media screen and (max-width:550px) {
+
+            .google-content,
+            .fb-content {
+                width: 300px;
+            }
+        }
+
+        @media screen and (max-width:350px) {
+
+            .google-content,
+            .fb-content {
+                width: 200px;
+
+            }
+        }
+
+
+
+
+        .social-logo {
+            padding: 15px;
+            height: inherit
+        }
+
+        .social-logo svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .social-text {
+            padding-top: 12px;
+            width: 100%;
+            line-height: 1;
+            text-align: center;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .btn-google {
+            background: #FFF
+        }
+
+        .btn-google:hover {
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+        }
+
+        .btn-google:active {
+            background-color: #eee
+        }
+
+
+
+        .google-content p {
+            color: #757575
+        }
+
+        .btn-fb {
+            padding-top: 1.5px;
+            background: #4267b2
+        }
+
+        .btn-fb:hover {
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+        }
+
+        .btn-fb:active {
+            background-color: #3b5998
+        }
+
+
+
+
+        .fb-content p {
+            color: rgba(white, .87)
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid d-none d-lg-block">
+        <div class="row align-items-center py-4 px-xl-5">
+            <div class="col-lg-3">
+                <a href="/" class="text-decoration-none">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    <h1 class="m-0">
+                        <span class="text-primary">مينا </span>عماد
+                    </h1>
+                    {% else %}
+                    <h2 class="m-0">
+                        <span class="text-primary">Mena </span>Emad
+                    </h2>
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-map-marker-alt text-primary mr-3"></i>
+                    <div class="text-left">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        <h6 class="font-weight-semi-bold mb-1">مكان السنتر</h6>
+                        <small>128 ش سيتي سوهاج</small>
+                        {% else %}
+                        <h6 class="font-weight-semi-bold mb-1">Our Center</h6>
+                        <small>128 , City , Sohag</small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-envelope text-primary mr-3"></i>
+                    <div class="text-left">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        <h6 class="font-weight-semi-bold mb-1">راسلنا</h6>
+                        <small>course@gmail.com</small>
+                        {% else %}
+                        <h6 class="font-weight-semi-bold mb-1">Email Us</h6>
+                        <small>course@gmail.com</small>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-phone text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            اتصل بنا
+                            {% else %}
+                            Call Us
+                            {% endif %}</h6>
+                        <small>012 345 6789</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid">
+        <div class="row border-top px-xl-5">
+
+
+
+            {% if user_profile %}
+
+
+
+
+
+            <div class="col-lg-9" id="main">
+                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                    <a href="/" class="text-decoration-none d-block d-lg-none">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        <h1 class="m-0">
+                            <span class="text-primary">مينا </span>عماد
+                        </h1>
+                        {% else %}
+                        <h2 class="m-0">
+                            <span class="text-primary">Mena </span>Emad
+                        </h2>
+                        {% endif %}
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+
+
+
+
+                        <div class="nav-item dropdown d-none d-lg-block">
+                            <a href="#" class="nav-link" data-toggle="dropdown">
+
+                                {% if user_profile.image %}
+                                <img src="{{user_profile.image.url}}" class="rounded-circle "
+                                    style="width:60px; border-radius: 10px; height: 60px;" alt="">
+                                {% else %}
+                                <img src="{% static 'images/default-profile-image.jpg' %}" class="rounded-circle "
+                                    style="width:60px; border-radius: 10px; height: 60px;" alt="">
+                                <img src="">
+                                {% endif %}
+
+
+
+
+                            </a>
+                            <div class="dropdown-menu rounded-0 m-0">
+
+                                <!-- <a href="/profile/{{user.username}}" class="dropdown-item">View My Profile</a>
+                                <a href="/logout" class="dropdown-item">Logout</a> -->
+
+
+                                <a href="/profile/{{user.username}}"
+                                    class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                    style="border-radius: 0;">
+                                    <i class="fa fa-2x fa-user mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الملف الشخصي
+                                    {% else %}
+                                    View Profile
+                                    {% endif %}
+
+                                </a>
+
+
+                                <div class="dropdown-divider"></div>
+                                {% if user_profile.instructor == True %}
+                                <a href=""></a>
+                                {% else %}
+
+                                {% if user_profile.money == None %}
+                                <a href="/wallet/recharge" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                    style="border-radius: 0;">
+                                    <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                        style="font-size: 18px;"></i>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    رصيد المحفظة : 0 جنيه
+                                    {% else %}
+                                    Your Wallet: 0 EGP
+                                    {% endif %}
+
+
+
+                                </a>
+                                {% else %}
+
+                                <p class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                    style="border-radius: 0;">
+                                    <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                        style="font-size: 18px;"></i>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    رصيد المحفظة : {{user_profile.money}} جنية
+                                    {% else %}
+                                    Wallet: {{user_profile.money}} EGP
+                                    {% endif %}
+
+
+
+
+                                </p>
+
+                                <a href="/wallet/recharge" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                    style="border-radius: 0;">
+                                    <i class="fa fa-2x fa-money-bill-transfer mr-3 nav-dropdown-icon"
+                                        style="font-size: 18px;"></i>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    شحن المحفظة
+                                    {% else %}
+                                    Recharge
+                                    {% endif %}
+
+
+                                </a>
+
+                                {% endif %}
+                                {% endif %}
+
+
+
+
+                                {% if user_profile.instructor == False %}
+                                <div class="dropdown-divider"></div>
+                                {% endif %}
+
+                                <a href="/notifications" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                    style="border-radius: 0;">
+                                    <i class="fa fa-2x fa-bell mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الاشعارات
+                                    {% else %}
+                                    Notifications
+                                    {% endif %}
+
+
+
+                                    {% if notifications %}
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <span class="pr-bg"
+                                        style="border-radius: 15px ; padding-top: 2px ; padding-bottom: 2px; padding-left: 8px; padding-right: 8px; color: white;">
+                                        {{notifications}}</span>
+                                    {% else %}
+                                    <span class="pr-bg"
+                                        style="margin-left: 20px;  border-radius: 15px ; padding-top: 2px ; padding-bottom: 2px; padding-left: 8px; padding-right: 8px; color: white;">
+                                        {{notifications}}</span>
+                                    {% endif %}
+                                    {% endif %}
+                                </a>
+
+
+                                {% if user_profile.instructor == False %}
+                                <a href="/inbox" class=" mt-2 btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                    style="border-radius: 0;">
+                                    <i class="fa fa-2x fa-envelope mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الوارد
+                                    {% else %}
+                                    Inbox
+                                    {% endif %}
+
+
+
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                {% endif %}
+
+                                {% if user_profile.instructor == True %}
+                                <div class="dropdown-divider"></div>
+                                {% endif %}
+
+
+                                <a href="/logout" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                    style="border-radius: 0;">
+                                    <i class="fa fa-2x fa-right-from-bracket mr-3 nav-dropdown-icon"
+                                        style="font-size: 18px;"></i>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    تسجيل خروج
+                                    {% else %}
+                                    Logout
+                                    {% endif %}
+
+
+                                </a>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="navbar-nav py-0">
+
+                            <a href="/" class="nav-link d-none d-lg-block" style="position: relative;">
+                                <i class="fa fa-2x fa-home nav-dropdown-icon" style="font-size: 30px; "></i>
+
+                            </a>
+
+                            {% if user_profile.instructor == False%}
+                            <a href="/wallet/recharge" style="position: relative;" class="nav-link d-none d-lg-block"
+                                data-toggle="tooltip" data-placement="left" title="{{user_profile.money}}">
+                                <i class="fa fa-2x fa-wallet nav-dropdown-icon" style="font-size: 30px;"></i>
+
+                                <span class="button__badge pr-bg" style="
+                                border-radius: 50%;
+                                color: white;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                width: 25px;
+                                height: 25px;
+                                font-size: 10px;
+                                
+                                position: absolute; /* Position the badge within the relatively positioned button */
+                                top: 0;
+                                right: 0;">{{user_profile.money}}</span>
+
+                            </a>
+                            {% endif %}
+
+                            <a href="/notifications" style="position: relative;" class="nav-link d-none d-lg-block"
+                                data-toggle="tooltip" data-placement="down" title="{{notifications}}">
+                                <i class="fa fa-2x fa-bell nav-dropdown-icon" style="font-size: 34px;"></i>
+                                <span class="button__badge pr-bg" style="
+                                border-radius: 50%;
+                                color: white;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                width: 25px;
+                                height: 25px;
+                                font-size: 10px;
+                                
+                                position: absolute; /* Position the badge within the relatively positioned button */
+                                top: 0;
+                                right: 0;">{{notifications}}</span>
+                            </a>
+
+
+                            <a href="/groups" style="position: relative;" class="nav-link d-none d-lg-block">
+                                <i class="fa fa-2x fa-user-group nav-dropdown-icon" style="font-size: 34px;"></i>
+                            </a>
+
+
+
+                            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+
+                                <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <button type='submit' name='language' value='en'
+                                    style="background-color: transparent; border: none; padding: 0; margin: 0;">
+                                    <div style="position: relative;" class="nav-link d-none d-lg-block"
+                                        data-toggle="tooltip" data-placement="down" title="تحويل اللغة الى الانجليزية">
+                                        <i class="fa fa-2x fa-globe nav-dropdown-icon" style="font-size: 34px;"></i>
+                                        <span class="button__badge pr-bg"
+                                            style="border-radius: 50%;color: white;display: flex;justify-content: center; align-items: center; width: 25px; height: 25px; font-size: 10px; position: absolute; top: 0; right: 0;">EN</span>
+                                    </div>
+                                </button>
+                                {% else %}
+                                <button type='submit' name='language' value='ar'
+                                    style="background-color: transparent; border: none; padding: 0; margin: 0;">
+                                    <div style="position: relative;" class="nav-link d-none d-lg-block"
+                                        data-toggle="tooltip" data-placement="down" title="Change Language To English">
+                                        <i class="fa fa-2x fa-globe nav-dropdown-icon" style="font-size: 34px;"></i>
+                                        <span class="button__badge pr-bg"
+                                            style="border-radius: 50%;color: white;display: flex;justify-content: center; align-items: center; width: 25px; height: 25px; font-size: 10px; position: absolute; top: 0; right: 0;">AR</span>
+                                    </div>
+                                </button>
+                                {% endif %}
+                            </form>
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="nav-item d-block d-lg-none pt-3">
+                                <div class="container-fluid" style="padding: 0; width: 100%; ">
+                                    <div class="row" style=" width: 100%; margin: 0;">
+
+                                        <div class="col-12"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <a href="/"
+                                                    style="text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+                                                    <i class="fa fa-2x fa-home nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الرئيسية
+                                                    {% else %}
+                                                    Home
+                                                    {% endif %}
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+
+                                        {% if user_profile.instructor == True %}
+                                        <div class="col-12"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <a href="/dashboard"
+                                                    style="text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+                                                    <i class="fa fa-2x fa-video nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    لوحة التحكم
+                                                    {% else %}
+                                                    Dashboard
+                                                    {% endif %}
+
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% else %}
+
+                                        <div class="col-12"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <a href="/lessons"
+                                                    style="text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+                                                    <i class="fa fa-2x fa-video nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    المحاضرات
+                                                    {% else %}
+                                                    Lectures
+                                                    {% endif %}
+
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        {% endif %}
+
+
+                                        <div class="col-12 mb-2"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <a href="/groups"
+                                                    style="text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+                                                    <i class="fa fa-2x fa-user-group nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    المجموعات
+                                                    {% else %}
+                                                    Groups
+                                                    {% endif %}
+
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <!-- {% if user_profile.instructor == True %}
+                            <a href="/dashboard" class="nav-item nav-link d-lg-none d-block">
+                                Dashboard
+                            </a>
+                            {% endif %}
+
+                            {% if user_profile.instructor == False %}
+                            {% if user_profile.premium == True %}
+                            <a href="/lessons" class="nav-item nav-link d-block d-lg-none">
+                                Lectures
+                            </a>
+                            {% endif %}
+                            {% if user_profile.premium == False %}
+                            <a href="/get-premium" class="nav-item nav-link d-block d-lg-none">
+                                Get Premium
+                            </a>
+                            {% endif %}
+                            {% endif %} -->
+
+
+
+
+                            <div class="nav-item dropdown d-block d-lg-none mb-3" style="padding: 0 10px;">
+                                <a href="#" class="bg-primary" data-toggle="dropdown"
+                                    style="text-decoration: none; width: 100%; height: 80px; display: flex; justify-content: center; align-items: center; color: white;">
+                                    {% if user_profile.image %}
+                                    <img src="{{user_profile.image.url}}" class="rounded-circle "
+                                        style="width:60px; border-radius: 10px; height: 60px; margin-right: 20px;"
+                                        alt="">
+
+
+                                    {% if user_profile.name %}
+                                    {{user_profile.name}}
+                                    {% else %}
+                                    {{user_profile.user}}
+                                    {% endif %}
+
+
+                                    {% else %}
+                                    <img src="{% static 'images/default-profile-image.jpg' %}" class="rounded-circle "
+                                        style="width:60px; border-radius: 10px; height: 60px;" alt="">
+                                    <img src="">
+                                    {% endif %}
+                                </a>
+
+                                <div class="dropdown-menu rounded-0 m-0">
+
+
+                                    <a href="/profile/{{user.username}}"
+                                        class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-user mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        الملف الشخصي
+                                        {% else %}
+                                        View Profile
+                                        {% endif %}
+
+
+                                    </a>
+
+
+                                    <div class="dropdown-divider"></div>
+                                    {% if user_profile.instructor == True %}
+                                    <a href=""></a>
+                                    {% else %}
+
+                                    {% if user_profile.money == None %}
+                                    <a href="/wallet/recharge"
+                                        class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        رصيد المحفظة = 0 جنية
+                                        {% else %}
+                                        Your Wallet: 0 EGP
+                                        {% endif %}
+
+                                    </a>
+                                    {% else %}
+
+                                    <p class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        رصيد المحفظة = {{user_profile.money}} جنية
+                                        {% else %}
+                                        Your Wallet: {{user_profile.money}} EGP
+                                        {% endif %}
+
+
+                                    </p>
+
+                                    <a href="/wallet/recharge"
+                                        class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-money-bill-transfer mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        شحن المحفظة
+                                        {% else %}
+                                        Rechagre
+                                        {% endif %}
+
+                                    </a>
+                                    {% endif %}
+                                    {% endif %}
+
+
+
+                                    {% if user_profile.instructor == False %}
+                                    <div class="dropdown-divider"></div>
+                                    {% endif %}
+                                    <a href="/notifications"
+                                        class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-bell mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        الاشعارات
+                                        {% else %}
+                                        Notifications
+                                        {% endif %}
+
+                                        {% if notifications %}
+                                        <span class="pr-bg"
+                                            style="margin-left: 20px;  border-radius: 15px ; padding-top: 2px ; padding-bottom: 2px; padding-left: 8px; padding-right: 8px; color: white;">
+                                            {{notifications}}</span>
+                                        {% endif %}
+                                    </a>
+
+
+                                    {% if user_profile.instructor == False %}
+                                    <a href="/inbox" class=" mt-2 btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-envelope mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        الوارد
+                                        {% else %}
+                                        Inbox
+                                        {% endif %}
+
+
+
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    {% endif %}
+
+                                    {% if user_profile.instructor == True %}
+                                    <div class="dropdown-divider"></div>
+                                    {% endif %}
+
+
+                                    <a href="/logout" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-right-from-bracket mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        تسجيل خروج
+                                        {% else %}
+                                        Logout
+                                        {% endif %}
+
+
+                                    </a>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <div class="nav-item dropdown d-block d-lg-none " style="padding: 0 10px;">
+                                <div class="bg-primary"
+                                    style=" width: 100%; height: 80px; display: flex; justify-content: center; align-items: center; color: white;">
+                                    <form action="{% url 'set_language' %}" method="post"
+                                        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 0; margin: 0;">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+
+
+
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <button type='submit' name='language' value='en'
+                                            style="background-color: transparent; border: none; padding: 0; margin: 0; display: flex; align-items: center;justify-content: center; color: white; width: 100%; height: 100%;">
+
+
+                                            <i class="fa fa-2x fa-globe nav-dropdown-icon mr-3"
+                                                style="font-size: 34px;"></i>
+
+                                            اللغة الانجليزية
+
+                                        </button>
+                                        {% else %}
+                                        <button type='submit' name='language' value='ar'
+                                            style="background-color: transparent; border: none; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; color: white; width: 100%; height: 100%;">
+
+                                            Arabic Language
+                                            <i class="fa fa-2x fa-globe nav-dropdown-icon ml-3"
+                                                style="font-size: 34px;"></i>
+
+
+
+                                        </button>
+                                        {% endif %}
+
+
+
+                                    </form>
+
+                                </div>
+
+
+
+
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+
+
+
+
+
+
+
+            {% if user_profile.instructor == True %}
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="/dashboard"
+                    class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px;">
+                    <h5 class="text-primary m-0"><i class="fa fa-pen mr-2"></i>
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        لوحة التحكم
+                        {% else %}
+                        Dashboard
+                        {% endif %}
+
+
+                    </h5>
+
+                </a>
+            </div>
+            {% endif %}
+
+
+
+            {% if user_profile.instructor == False %}
+            {% if user_profile.premium == True %}
+            <div class="col-lg-3 d-none d-lg-block ">
+                <a href="/lessons"
+                    class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px;">
+                    <h5 class="text-primary m-0"><i class="fa fa-video mr-2"></i>
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        المحاضرات
+                        {% else %}
+                        Lectures
+                        {% endif %}
+
+
+                    </h5>
+                </a>
+            </div>
+            {% endif %}
+
+            {% if user_profile.premium == False %}
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="/get-premium"
+                    class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px;">
+                    <h5 class="text-primary m-0"><i class="fa fa-pen mr-2"></i>
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        Get Premium
+                        {% else %}
+                        كن متشرك
+                        {% endif %}
+
+
+                    </h5>
+                </a>
+            </div>
+            {% endif %}
+            {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+            {% else %}
+
+            <div class="col-lg-9">
+                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                    <a href="/" class="text-decoration-none d-block d-lg-none">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        <h1 class="m-0">
+                            <span class="text-primary">مينا </span>عماد
+                        </h1>
+                        {% else %}
+                        <h2 class="m-0">
+                            <span class="text-primary">Mena </span>Emad
+                        </h2>
+                        {% endif %}
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse " id="navbarCollapse">
+
+
+                        <div class="navbar-nav py-0 ">
+
+                            <button type="button" class="nav-item nav-link d-none d-lg-block"
+                                style="border: 0; background-color: white; height: fit-content;">
+                                <a href="/" class="nav-link" style="text-decoration: none; padding: 0;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    الرئيسية
+                                    {% else %}
+                                    Home
+                                    {% endif %}
+
+
+                                </a></button>
+
+
+
+                            <div class="nav-item d-block d-lg-none pt-3">
+                                <div class="container-fluid" style="padding: 0; width: 100%; ">
+                                    <div class="row" style=" width: 100%; margin: 0;">
+
+                                        <div class="col-12"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <a href="/"
+                                                    style="text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+                                                    <i class="fa fa-2x fa-home nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الرئيسية
+                                                    {% else %}
+                                                    Home
+                                                    {% endif %}
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-12"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <a href="/lessons"
+                                                    style="text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+                                                    <i class="fa fa-2x fa-video nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    المحاضرات
+                                                    {% else %}
+                                                    Lectures
+                                                    {% endif %}
+
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12 d-block d-lg-none mt-2 mb-2" style="padding: 0 10px;">
+                                            <div class="bg-primary"
+                                                style=" width: 100%; height: 80px; display: flex; justify-content: center; align-items: center; color: white;">
+                                                <form action="{% url 'set_language' %}" method="post"
+                                                    style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 0; margin: 0;">
+                                                    {% csrf_token %}
+                                                    <input name="next" type="hidden"
+                                                        value="{{ request.get_full_path|slice:'3:' }}">
+
+
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    <button type='submit' name='language' value='en'
+                                                        style="background-color: transparent; border: none; padding: 0; margin: 0; display: flex; align-items: center;justify-content: center; color: white; width: 100%; height: 100%;">
+
+
+                                                        <i class="fa fa-2x fa-globe nav-dropdown-icon mr-3"
+                                                            style="font-size: 34px;"></i>
+
+                                                        اللغة الانجليزية
+
+                                                    </button>
+                                                    {% else %}
+                                                    <button type='submit' name='language' value='ar'
+                                                        style="background-color: transparent; border: none; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; color: white; width: 100%; height: 100%;">
+
+                                                        Arabic Language
+                                                        <i class="fa fa-2x fa-globe nav-dropdown-icon ml-3"
+                                                            style="font-size: 34px;"></i>
+
+
+
+                                                    </button>
+                                                    {% endif %}
+
+
+
+                                                </form>
+
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+
+
+                                        <div class="col-12"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <button type="button" data-toggle="modal" data-target="#login"
+                                                    class="bg-primary"
+                                                    style="font-size: 18px; border: none; text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+
+                                                    <i class="fa fa-2x fa-right-to-bracket nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    تسجيل دخول
+                                                    {% else %}
+                                                    Login
+                                                    {% endif %}
+
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12"
+                                            style="padding: 10px; display: flex; justify-content: center;">
+                                            <div class="navbar-item-link bg-primary"
+                                                style="width: 100%; height: 80px;display: flex; justify-content: center; align-items: center;">
+                                                <a href="/signup"
+                                                    style="font-size: 18px; text-decoration: none; display: flex; justify-content: center; align-items: center; color: white; width: 100%; height: 100%;">
+
+                                                    <i class="fa fa-2x fa-right-to-bracket nav-dropdown-icon"
+                                                        style="font-size: 30px; padding-right: 15px;"></i>
+
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    اشترك
+                                                    {% else %}
+                                                    Register
+                                                    {% endif %}
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <button type="button" class="nav-item nav-link d-none d-lg-none"
+                                style="border: 0; background-color: white; height: fit-content;">
+                                <a href="/lessons" class="nav-link" style="text-decoration: none; padding: 0;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    المحاضرات
+                                    {% else %}
+                                    Lectures
+                                    {% endif %}
+
+
+
+                                </a></button>
+
+
+
+                            <button type="button" data-toggle="modal" data-target="#login"
+                                class="nav-item nav-link d-none d-lg-block"
+                                style="border: 0; background-color: white; height: fit-content;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تسجيل دخول
+                                {% else %}
+                                Login
+                                {% endif %}
+                            </button>
+
+
+                            <button type="button" class="nav-item nav-link d-none d-lg-block"
+                                style="border: 0; background-color: white; height: fit-content;">
+                                <a href="/signup" class="nav-link" style="text-decoration: none; padding: 0;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اشترك
+                                    {% else %}
+                                    Register
+                                    {% endif %}
+
+
+                                </a></button>
+
+
+                            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+
+                                <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <button type='submit' name='language' value='en'
+                                    style="background-color: transparent; border: none; padding: 0; margin: 0;">
+                                    <div style="position: relative;" class="nav-link d-none d-lg-block"
+                                        data-toggle="tooltip" data-placement="down" title="تحويل اللغة الى الانجليزية">
+                                        <i class="fa fa-2x fa-globe nav-dropdown-icon" style="font-size: 34px;"></i>
+                                        <span class="button__badge pr-bg"
+                                            style="border-radius: 50%;color: white;display: flex;justify-content: center; align-items: center; width: 25px; height: 25px; font-size: 10px; position: absolute; top: 0; right: 0;">EN</span>
+                                    </div>
+                                </button>
+                                {% else %}
+                                <button type='submit' name='language' value='ar'
+                                    style="background-color: transparent; border: none; padding: 0; margin: 0;">
+                                    <div style="position: relative;" class="nav-link d-none d-lg-block"
+                                        data-toggle="tooltip" data-placement="down" title="Change Language To English">
+                                        <i class="fa fa-2x fa-globe nav-dropdown-icon" style="font-size: 34px;"></i>
+                                        <span class="button__badge pr-bg"
+                                            style="border-radius: 50%;color: white;display: flex;justify-content: center; align-items: center; width: 25px; height: 25px; font-size: 10px; position: absolute; top: 0; right: 0;">AR</span>
+                                    </div>
+                                </button>
+                                {% endif %}
+                            </form>
+
+
+
+
+
+                            <!-- <a class="nav-item nav-link" href="/signup">Register</a> -->
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+
+            <div class="col-lg-3 d-none d-lg-block ">
+                <a href="/lessons"
+                    class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px;">
+                    <h5 class="text-primary m-0"><i class="fa fa-video mr-2"></i>
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        المحاضرات
+                        {% else %}
+                        Lectures
+                        {% endif %}
+
+
+                    </h5>
+                </a>
+            </div>
+
+
+
+            <!-- Login -->
+            <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تسجيل دخول
+                                {% else %}
+                                Login
+                                {% endif %}
+
+
+
+
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+
+
+                        <div class="block-wrap mb-4 mt-4">
+
+
+                            <form action="/accounts/google/login/?process=login" method="POST">
+                                {% csrf_token %}
+                                <!-- google	 -->
+                                <div style="width: 100%">
+                                    <button type="submit" class="btn-google" style="border: 0; width: 100%;">
+                                        <div class="google-content">
+                                            <div class="social-logo">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+                                                    <defs>
+                                                        <path id="a"
+                                                            d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" />
+                                                    </defs>
+                                                    <clipPath id="b">
+                                                        <use xlink:href="#a" overflow="visible" />
+                                                    </clipPath>
+                                                    <path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
+                                                    <path clip-path="url(#b)" fill="#EA4335"
+                                                        d="M0 11l17 13 7-6.1L48 14V0H0z" />
+                                                    <path clip-path="url(#b)" fill="#34A853"
+                                                        d="M0 37l30-23 7.9 1L48 0v48H0z" />
+                                                    <path clip-path="url(#b)" fill="#4285F4"
+                                                        d="M48 48L17 24l-4-3 35-10z" />
+                                                </svg>
+                                            </div>
+                                            <p class="social-text">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                اكمل بواسطة جوجل
+                                                {% else %}
+                                                Login with Google
+                                                {% endif %}
+
+
+                                            </p>
+                                        </div>
+                                    </button>
+                                </div>
+                            </form>
+
+
+
+                            <!-- facebook	 -->
+                            <form action="/accounts/facebook/login/?process=connect" method="POST ">
+                                {% csrf_token %}
+                                <div style="width: 100%;">
+                                    <button type="submit" class="btn-fb" href="/accounts/facebook/login/?process=login"
+                                        style="border: 0;">
+                                        <div class="fb-content">
+                                            <div class="social-logo">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                    viewBox="0 0 32 32" version="1">
+                                                    <path fill="#FFFFFF"
+                                                        d="M32 30a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h28a2 2 0 0 1 2 2v28z" />
+                                                    <path fill="#4267b2"
+                                                        d="M22 32V20h4l1-5h-5v-2c0-2 1.002-3 3-3h2V5h-4c-3.675 0-6 2.881-6 7v3h-4v5h4v12h5z" />
+                                                </svg>
+                                            </div>
+                                            <p class="social-text">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                اكمل بواسطة فيسبوك
+                                                {% else %}
+                                                Login with Facebook
+                                                {% endif %}
+
+
+                                            </p>
+                                        </div>
+                                        </a>
+                                </div>
+                            </form>
+
+
+
+                        </div>
+
+
+                        <div class="text-center">
+                            <p style="margin-bottom: 20px;">
+
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                او
+                                {% else %}
+                                Or
+                                {% endif %}
+
+
+                            </p>
+                        </div>
+
+
+
+
+
+                        <form method="POST" action="/login-function" style="margin-top: 5px; margin-bottom: 10px;">
+                            {% csrf_token %}
+                            <div class="modal-body">
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i
+                                                class="fa fa-2x fa-user text-primary mr-3"
+                                                style="font-size: 20px;"></i></span>
+                                    </div>
+
+                                    <input type="text" name="username" pattern="[^\s]+" class="form-control p-4"
+                                        placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
+                                        data-validation-required-message="Enter Your Username">
+
+
+
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i
+                                                class="fa fa-2x fa-key text-primary mr-3"
+                                                style="font-size: 20px;"></i></span>
+                                    </div>
+
+                                    <input type="password" name="password" class="form-control p-4"
+                                        placeholder="Enter Your Password" aria-label="Username"
+                                        aria-describedby="basic-addon1"
+                                        data-validation-required-message="Enter Your Password">
+
+
+
+
+                                </div>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                <p class="text-base">ليس لديك حساب؟ <a href="/signup" class=""> انشئ حساب جديد</a>
+                                    {% else %}
+                                    <p class="text-base"> Not registered? <a href="/signup" class=""> Create a account
+                                        </a>
+                                        {% endif %}
+
+
+                                    </p>
+
+
+
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary py-2 px-2 w-100" type="submit" id="sendMessageButton">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    سجل
+                                    {% else %}
+                                    Login
+                                    {% endif %}</button>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+            <!--  Login -->
+            {% endif %}
+
+
+
+
+
+
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+
+
+    {% block content%}
+
+    {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white py-5 px-sm-3 px-lg-5" style="margin-top: 0px;">
+        <div class="row pt-5">
+            <div class="col-lg-7 col-md-12">
+                <div class="row">
+                    <div class="col-md-6 mb-5">
+                        <h5 class="text-primary text-uppercase mb-4">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            تواصل معنا
+                            {% else %}
+                            Get In Touch
+                            {% endif %}
+                        </h5>
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        <p><i class="fa fa-map-marker-alt mr-2"></i>سوهاج , مصر</p>
+                        {% else %}
+                        <p><i class="fa fa-map-marker-alt mr-2"></i>Sohag, EGYPT</p>
+                        {% endif %}
+
+
+                        <p><i class="fa fa-phone-alt mr-2"></i>0122 610 2013</p>
+                        <p><i class="fa fa-envelope mr-2"></i>menaemadnasef@gmail.com</p>
+                        <div class="d-flex justify-content-start mt-4">
+                            <!-- <a class="btn btn-outline-light btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a> -->
+                            <a class="btn btn-outline-light btn-square mr-2"
+                                href="https://www.facebook.com/bondok.emad"><i class="fab fa-facebook-f"></i></a>
+                            <!-- <a class="btn btn-outline-light btn-square mr-2" href="#"><i
+                                    class="fab fa-linkedin-in"></i></a> -->
+                            <a class="btn btn-outline-light btn-square" href="https://www.instagram.com/mena_emad6/"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-5">
+                        <h5 class="text-primary text-uppercase mb-4">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            روابط مفيدة
+                            {% else %}
+                            Helpfull Links
+                            {% endif %}
+                        </h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-white mb-2" href="/"><i class="fa fa-angle-right mr-2"></i>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                الرئيسية
+                                {% else %}
+                                Home
+                                {% endif %}</a>
+                            {% if user_profile %}
+                            <a class="text-white mb-2" href="/profile/{{user_profile.user}}"><i
+                                    class="fa fa-angle-right mr-2"></i>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                الملف الشخصي
+                                {% else %}
+                                Profile
+                                {% endif %}</a>
+                            {% else %}
+                            <a class="text-white mb-2" href="/login"><i class="fa fa-angle-right mr-2"></i>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تسجيل دخول
+                                {% else %}
+                                Login
+                                {% endif %}</a>
+                            <a class="text-white mb-2" href="/signup"><i class="fa fa-angle-right mr-2"></i>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                انشاء حساب جديد
+                                {% else %}
+                                Register New Account
+                                {% endif %}</a>
+                            {% endif %}
+                            <a class="text-white mb-2" href="/lessons"><i class="fa fa-angle-right mr-2"></i>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                المحاضرات
+                                {% else %}
+                                Lectures
+                                {% endif %}</a>
+
+                            {% if user_profile %}
+                            <a class="text-white mb-2" href="/wallet/recharge"><i class="fa fa-angle-right mr-2"></i>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                شحن المحفظة
+                                {% else %}
+                                Recharge Wallet
+                                {% endif %}</a>
+                            {% endif %}
+
+
+                            {% if user_profile %}
+                            <a class="text-white" href="/logout"><i class="fa fa-angle-right mr-2"></i>
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                تسجيل خروج
+                                {% else %}
+                                Logout
+                                {% endif %}</a>
+                            {% endif %}
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-lg-5 col-md-12 mb-5">
+                <h5 class="text-primary text-uppercase mb-4">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    من هو الاستاذ مينا عماد؟
+                    {% else %}
+                    Who Are Mr Mena Emad?
+                    {% endif %}
+                </h5>
+                {% if LANGUAGE_CODE == 'ar' %}
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex expedita perspiciatis delectus molestias, praesentium dolor laudantium a voluptatum incidunt accusamus?</p>
+                {% else %}
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex expedita perspiciatis delectus molestias, praesentium dolor laudantium a voluptatum incidunt accusamus?</p>
+                {% endif %}
+
+                <div class="w-100">
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Developed By  -->
+    <div style="width: 100%; min-height: 70px; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 10px 0px;"
+        class="bg-dark">
+        {% if LANGUAGE_CODE == 'ar' %}
+        <p class="pr-color" style="font-size: 25px;  ; padding: 0; margin: 0;">تم التطوير بواسطة<a
+                href="https://www.facebook.com/bondok.emad" style="text-decoration: none; color: white;"> مينا عماد</a>
+        </p>
+        <br>
+        <p class="pr-color" style="font-size: 25px;  ; padding: 0; margin: 0;">جميع الحقوق محفوظة</p>
+        <p class="pr-color" style="font-size: 25px;  ; padding: 0; margin: 0;">2023 &copy;</p>
+
+        {% else %}
+        <p class="pr-color" style="font-size: 25px;  ; padding: 0; margin: 0;">Developed By <a
+                href="https://www.facebook.com/bondok.emad" style="text-decoration: none; color: white;">Mena Emad</a>
+        </p>
+        <br>
+        <p class="pr-color" style="font-size: 25px;  ; padding: 0; margin: 0;">All Copyrights Reserved</p>
+        <p class="pr-color" style="font-size: 25px;  ; padding: 0; margin: 0; color: white;">2023 &copy;</p>
+        {% endif %}
+
+    </div>
+    <!-- Developed By  -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+
+    <div class="loader-sections">
+        <span class="loader"></span>
+    </div>
+
+
+
+
+    <script>
+        const loaderSection = document.querySelector(".loader-sections")
+
+        setTimeout(() => {
+            loaderSection.classList.add("loader-hidden")
+            document.body.removeChild("loader-sections");
+        }, 200);
+
+
+        window.addEventListener("load", () => {
+            setTimeout()
+
+        })
+    </script>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+
+
+    <script src="https://kit.fontawesome.com/1454af8120.js" crossorigin="anonymous"></script>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+    <!-- AOS LIBRARY  -->
+
+    <!-- CDN  -->
+    <!-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+
+    <!-- FILE  -->
+    <!-- <script src="{% static 'AOS/dist/aos.js' %}"></script> -->
+
+
+    <script>
+        AOS.init();
+    </script>
+    <!-- AOS LIBRARY  -->
+
+
+</body>
+
+</html>

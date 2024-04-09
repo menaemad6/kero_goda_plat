@@ -1,0 +1,924 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}{{post.title}}{% endblock title_ar %}
+{% else %}
+{% block title%}{{post.title}}{% endblock title %}
+{% endif %}
+
+
+
+{% block head %}
+
+
+<style>
+    .attachment {
+        padding: 10px;
+    }
+
+    .attachment h6 {
+        text-decoration: underline;
+    }
+
+    .attachment:hover {
+        background-color: #E0E0E0;
+    }
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+<body>
+
+
+
+
+
+    {% if user_profile %}
+
+
+    {% if text == 'yes' %}
+    <!-- Chapter Detail Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+                <!-- <h5 class="text-primary text-uppercase mb-3" >Lessons</h5> -->
+                <!-- <h1 class="">You Must Purchase This Lesson First To View It!</h1> -->
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+
+
+                <div class="col-12 col-lg-7">
+
+                    <!-- <div class="box text-center"
+                        style="background-color: white; margin-bottom: 20px; padding-top: 10px; padding-bottom: 10px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 25px;">{{post.title}}</h1>
+                        </div>
+                    </div> -->
+
+                    <div class="box text-center"
+                        style="border-bottom: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 15px; margin-bottom: 30px;">
+                        {% if post.image %}
+                        <img class="img-fluid mb-3" src="{{post.image.url}}" style="width: 100%;">
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 13px;"><i
+                                    class="fa fa-2x fa-circle-check ml-2 text-success"></i></span>
+                        </h1>
+                        {% else %}
+                        <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt="">
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-check ml-2 text-success"></i></span>
+                        </h1>
+                        {% endif %}
+                    </div>
+
+                    <div class="box"
+                        style="border-bottom: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 20px; margin-bottom: 30px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    وصف الفصل
+                                    {% else %}
+                                    Chapter Description
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-info text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{post.caption}}
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+                <div class="col-12 col-lg-5">
+
+                    <div class="box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 10px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    استكمال الفصل
+                                    {% else %}
+                                    Complete Chapter
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <a href="/chapters/progress/{{post.id}}" class="btn btn-primary w-100 w-100"
+                            style="border-radius: 5px; border: 0; margin-top: 20px;">
+
+                            <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            اكمل
+                            {% else %}
+                            Complete
+                            {% endif %}
+
+                        </a>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="box details-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px; ">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    معلومات الفصل
+                                    {% else %}
+                                    Chapter Details
+                                    {% endif %}</span></h1>
+
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-money-bill text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    السعر
+                                    {% else %}
+                                    Price
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.price}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        جنية
+                                        {% else %}
+                                        EGP
+                                        {% endif %}
+                                    </span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <div class="box parts-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px;">
+                        <div style="margin-bottom: 20px;">
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    محتوى الفصل
+                                    {% else %}
+                                    Chapter Parts
+                                    {% endif %}
+                                </span>
+                            </h1>
+                        </div>
+
+
+                        {% for part in parts %}
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+
+                                <i class="fa-solid fa-video text-primary" style="font-size: 20px;"></i>
+
+
+
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{part.title}}</span>
+                            </p>
+                        </div>
+                        {% endfor %}
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Chapter Detail End -->
+    {% endif %}
+
+
+
+    {% if text == 'no' %}
+    <!-- Chapter Detail Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container" style="padding: 0px;">
+            <div class="text-center mb-5">
+                <!-- <h5 class="text-primary text-uppercase mb-3" >Lessons</h5> -->
+                <!-- <h1 class="">You Must Purchase This Lesson First To View It!</h1> -->
+            </div>
+
+
+            <div class="row" style="padding: 0px;">
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="col-12" style="padding: 10px;">
+
+
+                    <div class="alert alert-danger col-12 message-alert" role="alert" style="padding: 10px; ">
+                        <p style="padding: 0 ; margin: 0">
+                            <i class="fa-solid fa-xmark text-danger" style="font-size: 20px;"></i>
+                            <span style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                {{message}}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+
+                <div class="col-12 col-lg-7">
+
+
+                    <div class="box text-center"
+                        style="border-bottom: 6px #fd771e solid; background-color: white; border-radius: 15px; padding: 15px; margin-bottom: 30px;">
+                        {% if post.image %}
+                        <img class="img-fluid mb-3" src="{{post.image.url}}" style="width: 100%;">
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 15px;"><i class="fa fa-2x fa-lock ml-2 text-danger"></i></span>
+                        </h1>
+                        {% else %}
+                        <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt="">
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 15px;"><i class="fa fa-2x fa-lock ml-2 text-danger"></i></span>
+                        </h1>
+                        {% endif %}
+                    </div>
+
+                    <div class="box"
+                        style="border-bottom: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 20px; margin-bottom: 30px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    وصف الفصل
+                                    {% else %}
+                                    Chapter Description
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-info text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{post.caption}}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="box text-center"
+                        style="background-color: white; margin-bottom: 50px; padding-top: 10px; padding-bottom: 10px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 25px;">{{post.title}}</h1>
+                        </div>
+                    </div> -->
+                </div>
+
+
+
+
+                <div class="col-12 col-lg-5">
+
+                    <div class="box purchase-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 10px;">
+                        <div class="mb-4">
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    طرق الدفع
+                                    {% else %}
+                                    Purchase Ways
+                                    {% endif %}
+                                </span>
+                            </h1>
+                        </div>
+
+                        <button type="button" class=" btn btn-primary w-100" style="border-radius: 5px;"
+                            data-toggle="modal" data-target="#exampleModalCenter">
+                            <i class="fa fa-2x fa-barcode mr-3" style="font-size: 18px;"></i>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            عن طريق كود
+                            {% else %}
+                            By Code
+                            {% endif %}
+
+                        </button>
+
+                        <button type="button" class="btn btn-primary w-100 mt-2" style="border-radius: 5px;"
+                            data-toggle="modal" data-target="#wallet-buy">
+                            <i class="fa fa-2x fa-money-bill mr-3" style="font-size: 18px;"></i>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            عن طريق المحفظة
+                            {% else %}
+                            By Wallet
+                            {% endif %}
+                        </button>
+                    </div>
+
+
+
+                    <!-- <form action="/buy-lesson" method="POST" style="margin-top: 5px; margin-bottom: 10px;">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{user_profile.user}}" name="buyer" hidden />
+                        <input type="hidden" value="{{post.id}}" name="post" hidden />
+
+
+
+                        <button type="submit" class="w-100" style="border-radius: 0; border: 0;">
+                            <a href="/buy-lesson?post_id={{post.id}}" class="btn btn-success w-100"
+                                style="border-radius: 0;">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-barcode mr-3"></i></span>Code</a>
+                        </button>
+                    </form> -->
+
+
+
+
+                    <!-- Code Charge -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header pr-bg">
+                                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: white;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        دفع الشابتر بواسطة كود
+                                        {% else %}
+                                        Purchase Chapter By Code
+                                        {% endif %}</h5>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/chapter-code-charge" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-barcode text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            <input type="text" name="code" class="form-control" placeholder="ادخل الكود"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            {% else %}
+                                            <input type="text" name="code" class="form-control" placeholder="Code"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            {% endif %}
+
+                                        </div>
+
+                                        <input type="hidden" value="{{post.id}}" name="chapter-id" hidden />
+                                        <input type="hidden" value="{{post.price}}" name="price" hidden />
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            اغلاق
+                                            {% else %}
+                                            Close
+                                            {% endif %}
+                                        </button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            شحن
+                                            {% else %}
+                                            Charge
+                                            {% endif %}</button>
+
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Code Charge -->
+
+
+                    <!-- Wallet -->
+                    <div class="modal fade" id="wallet-buy" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-lg modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header pr-bg ">
+                                    <h5 class="modal-title text-center" id="exampleModalLongTitle"
+                                        style="color: white;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        دفع الشابتر بواسطة المحفظة
+                                        {% else %}
+                                        Purchase Chapter By Wallet
+                                        {% endif %}</h5>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/buy-chapter" method="POST" style="margin-top: 5px; margin-bottom: 10px;">
+                                    {% csrf_token %}
+                                    <div class="modal-body text-center">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        هل انت متاكد من رغبتك في شراء الشابتر مقابل المبلغ التالي من محفظتك؟
+                                        <div>
+                                            جنية <span style="font-size: 30px;" class="pr-color">{{post.price}}</span>
+                                        </div>
+                                        {% else %}
+                                        Are you sure you want to buy ({{post.title}}) for <span style="font-size: 30px;"
+                                            class="pr-color">{{post.price}}</span> EGP ?
+                                        {% endif %}
+
+
+
+                                        <input type="hidden" value="{{user_profile.user}}" name="buyer" hidden />
+                                        <input type="hidden" value="{{post.id}}" name="chapter" hidden />
+                                        <div class="w-100 mt-3 mb-3">
+                                            <button type="button" class="btn btn-secondary w-100">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                رصيد محفظنك : {{user_profile.money}} جنية
+                                                {% else %}
+                                                Your Wallet Credit:
+                                                {{user_profile.money}} EGP
+                                                {% endif %}
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+
+
+
+
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            اغلاق
+                                            {% else %}
+                                            Close
+                                            {% endif %}</button>
+
+
+                                        <button type="submit" class="btn btn-primary pl-3 pr-3" style="color: white;">
+
+                                            <span style="font-size: 10px;"><i
+                                                    class="fa fa-2x fa-money-bill mr-3"></i></span>
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            شراء
+                                            {% else %}
+                                            Buy
+                                            {% endif %}
+
+
+                                        </button>
+
+
+                                        <!-- <button type="submit" class="btn btn-primary" style="color: white;">
+                                                <a href="/buy-lesson?post_id={{post.id}}" class="btn w-100  pl-3 pr-3"
+                                                style="border-radius: 0; color: white;">
+                                                <span style="font-size: 10px;"><i
+                                                        class="fa fa-2x fa-money-bill mr-3"></i></span>Buy
+                                                </a>
+                                            </button> -->
+
+
+
+
+                                        <!-- <button type="submit" class="w-100 " style="border-radius: 0; border: 0; background-color: chartreuse;">
+                                            <a href="/buy-lesson?post_id={{post.id}}" class="btn btn-success w-100"
+                                                style="border-radius: 0;">
+                                                <span style="font-size: 10px;"><i
+                                                        class="fa fa-2x fa-money-bill mr-3"></i></span>Buy
+                                                </a>
+                                        </button> -->
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Walet -->
+
+
+
+
+                    <!-- <form action="/buy-lesson" method="POST" style="margin-top: 10px; margin-bottom: 10px; padding: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{user_profile.user}}" name="buyer" hidden />
+                        <input type="hidden" value="{{post.id}}" name="post" hidden />
+
+
+
+                        <button type="submit" class="w-100 " style="border-radius: 0; border: 0;">
+                            <a href="/buy-lesson?post_id={{post.id}}" class="btn btn-success w-100"
+                                style="border-radius: 0;">
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-money-bill mr-3"></i></span>By
+                                Wallet</a>
+                        </button>
+                    </form> -->
+
+
+
+
+
+
+                    <div class="box details-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px; ">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    معلومات الفصل
+                                    {% else %}
+                                    Chapter Details
+                                    {% endif %}</span></h1>
+
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-money-bill text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    السعر
+                                    {% else %}
+                                    Price
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.price}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        جنية
+                                        {% else %}
+                                        EGP
+                                        {% endif %}
+                                    </span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div class="box parts-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px;">
+                        <div style="margin-bottom: 20px;">
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    محتوى الفصل
+                                    {% else %}
+                                    Chapter Parts
+                                    {% endif %}
+                                </span>
+                            </h1>
+                        </div>
+
+
+                        {% for part in parts %}
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+
+                                <i class="fa-solid fa-video text-primary" style="font-size: 20px;"></i>
+
+
+
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{part.title}}</span>
+                            </p>
+                        </div>
+                        {% endfor %}
+
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Chapter Detail End -->
+    {% endif %}
+
+
+    {% else %}
+    <!-- Must Login First Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <!-- <h5 class="text-primary text-uppercase mb-3" >Lessons</h5> -->
+                <!-- <h1 class="">You Must Purchase This Lesson First To View It!</h1> -->
+            </div>
+
+
+            <div class="row" style="padding: 10px;">
+
+                <div class="col-12 col-lg-7">
+
+                    <!-- <div class="box text-center"
+                        style="background-color: white; margin-bottom: 20px; padding-top: 10px; padding-bottom: 10px;">
+                        <div>
+
+                        </div>
+                    </div> -->
+
+                    <div class="box text-center"
+                        style="border-bottom: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 20px; margin-bottom: 30px;">
+                        {% if post.image %}
+                        <img class="img-fluid mb-3" src="{{post.image.url}}" style="width: 100%;">
+                        {% else %}
+                        <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt="">
+                        {% endif %}
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-lock ml-2 text-danger ml-2 "></i></span>
+                        </h1>
+                    </div>
+
+                    <div class="box"
+                        style="border-bottom: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 20px; margin-bottom: 30px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    وصف الفصل
+                                    {% else %}
+                                    Chapter Description
+                                    {% endif %}</span></h1>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-info text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{post.caption}}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="col-12 col-lg-5">
+
+                    <div class="box text-center"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; padding: 10px;">
+
+
+                        <p style="color: black; font-size: 30px; font-weight: bold;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            لابد ان تنشئ حساب اولا
+                            {% else %}
+                            You Must Login First!
+                            {% endif %}</p>
+
+                        <a href="/register" class="btn btn-primary w-100 w-100" style="border-radius: 5px; border: 0;">
+
+                            <span style="font-size: 10px;"><i class="fa fa-2x fa-right-from-bracket mr-3"></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            اشترك
+                            {% else %}
+                            Register
+                            {% endif %}
+
+                        </a>
+                    </div>
+
+
+
+                    <div class="box details-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px; ">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    معلومات الفصل
+                                    {% else %}
+                                    Chapter Details
+                                    {% endif %}</span></h1>
+
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-money-bill text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    السعر
+                                    {% else %}
+                                    Price
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.price}}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        جنية
+                                        {% else %}
+                                        EGP
+                                        {% endif %}
+                                    </span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    التاريخ
+                                    {% else %}
+                                    Date
+                                    {% endif %}
+
+                                    : <span style="color: #5b5e5e;">{{post.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div class="box parts-box"
+                        style="border-right: 6px #fd771e solid; border-radius: 15px; background-color: white; margin-top: 30px; padding: 15px;">
+                        <div style="margin-bottom: 20px;">
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-left: 6px #fd771e solid; padding-left: 10px;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اجزاء الفصل
+                                    {% else %}
+                                    Chapter Parts
+                                    {% endif %}</span></h1>
+
+                        </div>
+
+
+                        {% for part in parts %}
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+
+                                <i class="fa-solid fa-video text-primary" style="font-size: 20px;"></i>
+
+
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">{{part.title}}</span>
+                            </p>
+                        </div>
+                        {% endfor %}
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Must Login First End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

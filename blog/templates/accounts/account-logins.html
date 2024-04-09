@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}تسجيلات الدخول{% endblock title_ar %}
+{% else %}
+{% block title%}Logins{% endblock title %}
+{% endif %}
+
+
+
+{% block content %}
+
+
+<body>
+
+
+
+    {% if user_profile.instructor == False %}
+
+
+
+
+
+
+    {% if logins|length >= 1 %}
+    <!-- Results Start -->
+    <div class="container-fluid py-5">
+        <div class="container ">
+
+            <div class="row justify-content-center">
+                <div class="col-12">
+
+
+
+
+
+
+
+                    <div class="mb-5 rounded" style="overflow-x: scroll;">
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-shield-halved "></i></span>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            تسجيلات الدخول علي الحساب
+                            {% else %}
+                            Account Logins
+                            {% endif %}
+
+
+                        </h3>
+
+
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+
+                                    <th scope="col" class="pr-color">التاريخ</th>
+                                    {% else %}
+
+                                    <th scope="col" class="pr-color">Date</th>
+                                    {% endif %}
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for login in logins  %}
+                                <tr>
+
+
+
+                                    <td>{{login.time}}</td>
+
+
+                                </tr>
+                                {% endfor %}
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Results End -->
+    {% else %}
+
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            لا يوجد اي معلومات تسجيل دخول بعد 
+                            {% else %}
+                            There isnt any login information yet
+                            {% endif %}
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+
+
+
+    {% else %}
+
+
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">This Page is for students only.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

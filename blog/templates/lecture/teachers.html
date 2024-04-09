@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Our Teachers{% endblock title %}
+
+
+{% block content %}
+
+<body>
+
+
+
+
+    <!-- Header Start -->
+    <div class="container-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center" style="min-height: 300px">
+                <h3 class="display-4 text-white text-uppercase">Our Teachers</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="/">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">Teachers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Teachers Start -->
+    <div class="container-fluid py-5">
+        <div class="container pt-5 pb-3">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3" >Our Teachers</h5>
+                <h1>Teachers</h1>
+            </div>
+
+            <div class="row">
+                {% for x in teachers %}
+                <div class="col-12 col-md-6 col-lg-4 text-center team mb-4">
+
+                    <div class="team-item rounded overflow-hidden mb-2" data-aos="flip-down" data-aos-duration="1700">
+                        <div class="team-img position-relative bg-secondary pt-4" style="cursor: pointer;">
+                            {% if x.image %}
+                            <img class="img-fluid w-50 rounded-circle" src="{{x.image.url}}">
+                            {% else %}
+                            <img class="img-fluid" src="{% static 'img/default-image-photo.png' %}">
+                            {% endif %}
+                            <div class="team-social">
+                                <a class="btn btn-outline-light btn-square mx-1" href="/teachers/{{x.user}}">
+                                    <i class="fa-solid fa-eye "></i>
+                                </a>
+                            </div>
+
+                            <div class="bg-secondary p-4">
+                                <a href="/teachers/{{x.user.username}}" style="text-decoration: none;">
+                                    <h4>{{x.name}}</h4>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+    </div>
+    <!-- Teachers Start -->
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

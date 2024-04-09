@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}التكليفات{% endblock title_ar %}
+{% else %}
+{% block title%}Manage Assignments{% endblock title %}
+{% endif %}
+
+
+
+
+{% block content %}
+
+
+<body>
+
+
+
+    {% if user_profile.instructor == True %}
+
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary w-100" style="border-radius: 0;" data-toggle="modal"
+                        data-target="#create-assignment">
+                        <i class="fa fa-2x fa-upload mr-3" style="font-size: 18px;"></i>
+                        {% if LANGUAGE_CODE == 'ar' %}
+تكليف جديد
+                        {% else %}
+                        Upload Assignment
+                        {% endif %}
+                        
+                    </button>
+                </div>
+
+
+
+
+
+
+                        <!-- New Assignment -->
+                        <div class="modal fade" id="create-assignment" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            ارفع تكليف جديد
+                                            {% else %}
+                                            Upload New Assignment
+                                            {% endif %}</h5>
+
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+
+                                    <form action="/dashboard/create-assignment" method="POST"
+                                        style="margin-top: 5px; margin-bottom: 10px;">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-pen text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="title" class="form-control"
+                                                    placeholder="اسم التكليف" aria-label="Username"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">
+                                                    النوع</label>
+                                                <select class="form-control" id="exampleFormControlSelect1" name="type">
+                                                    <option value="test">امتحان</option>
+                                                    <option value="homework">واجب</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">المحاضرة التابع لها **</label>
+                                                <select class="form-control" id="exampleFormControlSelect1"
+                                                    name="lecture">
+                                                    <option value="none">لا يوجد</option>
+                                                    {% for lecture in posts %}
+                                                    <option value="{{lecture.id}}">{{lecture.title}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            {% else %}
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-pen text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="title" class="form-control"
+                                                    placeholder="Assignment Title" aria-label="Username"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Type **</label>
+                                                <select class="form-control" id="exampleFormControlSelect1" name="type">
+                                                    <option value="test">Test</option>
+                                                    <option value="homework">Homework</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Lecture **</label>
+                                                <select class="form-control" id="exampleFormControlSelect1"
+                                                    name="lecture">
+                                                    <option value="none">Alone</option>
+                                                    {% for lecture in posts %}
+                                                    <option value="{{lecture.id}}">{{lecture.title}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            {% endif %}
+
+
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                اغلاق
+                                                {% else %}
+                                                Close
+                                                {% endif %}
+                                            </button>
+                                            <button type="submit" class="btn btn-primary pl-5 pr-5">
+
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                ارفع
+                                                {% else %}
+                                                Create
+                                                {% endif %}
+                                            </button>
+
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--  New Assignment -->
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    {% if assignments|length == 0 %}
+
+    <!-- Activities Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-9">
+
+
+
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+                        <p style="font-size: 23px;">
+
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            انت لم تقم برفع اي تكليف بعد
+                            {% else %}
+                            You havent uploaded any assignments yet.
+                            {% endif %}</p>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Activities End -->
+
+    {% endif %}
+
+    {% if assignments|length >= 1 %}
+    <!-- Activities Start -->
+    <div class="container-fluid py-5">
+        <div class="container ">
+
+            <div class="row justify-content-center">
+                <div class="col-12">
+
+
+
+
+
+
+
+                    <div class="mb-5 rounded" style="overflow-x: scroll;">
+                        <h3 class="text-uppercase mb-4">
+                            <span class="text-primary"><i class="fa-solid fa-pen "></i></span>
+
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            التكليفات
+                            {% else %}
+                            Assignments
+                            {% endif %}
+                        </h3>
+
+
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <th scope="col" class="pr-color">اسم التكليف</th>
+                                    <th scope="col" class="pr-color">النوع</th>
+                                    <th scope="col" class="pr-color">المتقدمين</th>
+                                    <th scope="col" class="pr-color">عدد الاسئلة</th>
+                                    <th scope="col" class="pr-color">التاريخ</th>
+                                    <th scope="col" class="pr-color"></th>
+                                    <th scope="col" class="pr-color"></th>
+                                    {% else %}
+                                    <th scope="col" class="pr-color">Name</th>
+                                    <th scope="col" class="pr-color">Type</th>
+                                    <th scope="col" class="pr-color">Applicants</th>
+                                    <th scope="col" class="pr-color">Questions Count</th>
+                                    <th scope="col" class="pr-color">Date</th>
+                                    <th scope="col" class="pr-color"></th>
+                                    <th scope="col" class="pr-color"></th>
+                                    {% endif %}
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for assignment in assignments  %}
+                                <tr>
+
+
+                                    <!-- <form action="/dashboard/assignment/detail" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" hidden="true" value="{{assignment.assignment_id}}" name="assignment-id">
+                                        
+
+                                        <button type="submit" style="border: none; background-color: transparent; color: white; font-weight: bold;">{{assignment.assignment_name}}</button>
+                                    </form> -->
+
+                                    <td style="text-transform: capitalize; text-decoration: none;">
+                                        <a href="/dashboard/assignment/{{assignment.assignment_id}}"
+                                            style="text-decoration: none; font-weight: bold;">{{assignment.assignment_name}}</a>
+                                    </td>
+                                    <td style="text-transform: capitalize;">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        {% if assignment.assignment_type == 'test' %}
+                                        امتحان
+                                        {% endif %}
+
+                                        {% if assignment.assignment_type == 'homework' %}
+                                        واجب
+                                        {% endif %}
+
+                                        {% else %}
+                                        {{assignment.assignment_type}}
+                                        {% endif %}
+                                    </td>
+                                    <td style="text-transform: capitalize;">{{assignment.no_of_applicants}}</td>
+                                    <td style="text-transform: capitalize;">{{assignment.questions_count}}</td>
+                                    <td>{{assignment.created_at}}</td>
+                                    <td>
+                                        <div class="btn-group dropup">
+                                            <a href="/dashboard/assignment/applicants/{{assignment.assignment_id}}"
+                                                class="btn btn-primary  w-100" style="border-radius: 0;">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                رؤية المتقدمين
+                                                {% else %}
+                                                View Students
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group dropup">
+                                            <button type="button" class="btn btn-danger  w-100"
+                                                style="border-radius: 0;" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                مسح التكليف
+                                                {% else %}
+                                                Delete
+                                                {% endif %}
+                                            </button>
+                                            <div class="dropdown-menu">
+
+
+                                                <button type="button" class="close mr-2" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+
+                                                <form action="/dashboard-delete-assignment" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="modal-body">
+
+
+
+
+
+                                                        <input type="hidden" value="{{assignment.assignment_id}}"
+                                                            name="assignment-id" hidden />
+
+
+
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-danger pl-5 pr-5">
+                                                            {% if LANGUAGE_CODE == 'ar' %}
+                                                            مسح
+                                                            {% else %}
+                                                            Delete
+                                                            {% endif %}</button>
+                                                    </div>
+                                                </form>
+
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Activities End -->
+    {% endif %}
+
+
+
+
+    {% else %}
+
+
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

@@ -1,0 +1,2789 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}{{post.title}}{% endblock title_ar %}
+{% else %}
+{% block title%}{{post.title}}{% endblock title %}
+{% endif %}
+
+
+
+{% block head%}
+<!-- Video Player  -->
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet" />
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+
+
+    video::cue {
+        opacity: 0;
+    }
+
+    .caption_text {
+        position: absolute;
+        left: 50%;
+        bottom: 10%;
+        width: 90%;
+        max-width: 90%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        user-select: none;
+        transition: bottom 0.3s;
+    }
+
+    .caption_text.active {
+        bottom: 0%;
+    }
+
+    .caption_text mark {
+        background-color: #0000008f !important;
+        color: #fff;
+    }
+
+
+    .material-icons {
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: pointer;
+    }
+
+
+
+
+
+
+
+    /* Video player Styling */
+    .video_player {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        overflow: hidden;
+
+
+    }
+
+    .video_player .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        border: 4px solid #fff;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        z-index: 1;
+        animation: animate 0.6s linear infinite;
+        display: none;
+    }
+
+    @keyframes animate {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+
+    .video-container .video_player .thumbnail {
+        position: absolute;
+        bottom: 80px;
+        left: calc(var(--x) + 11px);
+        transform: translateX(-50%);
+        width: 165px;
+        height: 90px;
+        background: #fff;
+        border: 2px solid #fff;
+        border-radius: 3px;
+        display: none;
+        border-bottom: none;
+    }
+
+    .video-container .video_player .main-video {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        border-bottom: none;
+    }
+
+    .video_player .progressAreaTime {
+        position: absolute;
+        left: calc(var(--x) + 11px);
+        transform: translateX(-50%);
+        bottom: 50px;
+        min-width: 60px;
+        text-align: center;
+        white-space: nowrap;
+        padding: 5px 10px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 400;
+        z-index: 1;
+        display: none;
+        border-bottom: none;
+    }
+
+    .video-container .video_player .controls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 50px;
+        width: 100%;
+        background: rgb(0 0 0 / 29%);
+        box-shadow: 0 0 40px 10px rgb(0 0 0 / 25%);
+        z-index: 3;
+        transform: translateY(180%);
+        transition: 0.3s;
+        padding: 0px 5px;
+    }
+
+    .video-container .video_player .controls.active {
+        transform: translateY(0);
+    }
+
+    .video_player .controls .progress-area {
+        width: 100%;
+        height: 5px;
+        margin: auto;
+        background: #f0f0f063;
+        cursor: pointer;
+        position: relative;
+        border-bottom: none;
+    }
+
+
+
+    .controls .progress-area .bufferedBar {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        width: 100%;
+        height: inherit;
+    }
+
+    .controls .controls-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        width: 97%;
+        height: 46px;
+        margin: 0 auto;
+    }
+
+    .controls .controls-list .controls-left,
+    .controls .controls-list .controls-right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .controls .controls-left .timer {
+        display: inline-block;
+        font-size: 15px;
+        white-space: nowrap;
+        color: #fff;
+        margin-left: 5px;
+        text-align: center;
+    }
+
+    @media (max-width: 500px) {
+        .controls .controls-left .timer {
+            display: inline-block;
+            font-size: 10px;
+            white-space: nowrap;
+            color: #fff;
+            margin-left: 5px;
+            text-align: center;
+        }
+    }
+
+
+    .controls .icon {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        margin-left: 8px;
+        margin-right: 5px;
+    }
+
+    .controls .icon .material-icons {
+        font-size: 26px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .controls .icon .material-icons.fast-rewind:active {
+        transition: 0.2s;
+        transform: rotate(-45deg);
+    }
+
+    .controls .icon .material-icons.fast-forward:active {
+        transition: 0.2s;
+        transform: rotate(45deg);
+    }
+
+    .controls .icon .volume_range {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 0px;
+        height: 3px;
+        background: #fff;
+        color: #fff;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        transition: 0.4s;
+    }
+
+    .controls .icon .volume_range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: none;
+        outline: none;
+        background: #fff;
+        color: #fff;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .controls .icon:hover .volume_range {
+        display: inline-block;
+        width: 60px;
+    }
+
+    .controls .icon:hover .volume_range::-webkit-slider-thumb {
+        opacity: 1;
+        pointer-events: auto;
+        transition: 0.5s;
+    }
+
+    .controls-right .icon .auto-play {
+        width: 30px;
+        height: 10px;
+        border-radius: 20px;
+        position: relative;
+        margin-right: 8px !important;
+        background: #b6b6b6;
+    }
+
+    .controls-right .icon .auto-play::before {
+        content: "\e034";
+        position: absolute;
+        left: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 17px;
+        height: 17px;
+        line-height: 17px;
+        font-size: 14px;
+        background: #727272;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border-radius: 50%;
+        font-family: "Material Icons";
+    }
+
+    .controls-right .icon .auto-play.active::before {
+        content: "\e037";
+        left: 15px;
+        font-family: "Material Icons";
+    }
+
+    .controls-right .icon .material-icons.settingsBtn {
+        font-size: 24px;
+        transition: 0.3s;
+    }
+
+    .controls-right .icon .settingsBtn.active {
+        transform: rotate(45deg);
+    }
+
+    .video_player .captions,
+    .video_player .settings {
+        position: absolute;
+        right: 25px;
+        bottom: 62px;
+        background: rgb(28 28 28 / 90%);
+        width: 200px;
+        max-height: 250px;
+        height: auto;
+        color: #fff;
+        overflow-y: auto;
+        z-index: 20;
+        display: none;
+        border-radius: 5px;
+    }
+
+    .video_player .captions.active,
+    .video_player .settings.active {
+        display: block;
+    }
+
+    .video_player .captions .caption span,
+    .video_player .settings>div>span {
+        font-size: 14px;
+        font-weight: 300;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    .video_player .settings>div .icon {
+        font-size: 14px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+    .video_player .settings>div ul li span {
+        pointer-events: none;
+    }
+
+    .video_player .captions .caption ul,
+    .video_player .settings>div ul {
+        position: relative;
+    }
+
+    .video_player .captions .caption ul li,
+    .video_player .settings>div ul li {
+        position: relative;
+        width: 100%;
+        cursor: pointer;
+        text-align: left;
+        padding: 12px 33px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .video_player .captions .caption ul li:hover,
+    .video_player .settings>div ul li:hover {
+        background: rgba(28, 28, 28, 0.9);
+    }
+
+    .video_player .captions .caption ul li.active::before,
+    .video_player .settings>div ul li.active::before {
+        content: "\e876";
+        font-family: "Material Icons";
+        position: absolute;
+        left: 7px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding-right: 10px;
+        font-size: 18px;
+    }
+
+    .video_player .captions::-webkit-scrollbar,
+    .video_player .settings::-webkit-scrollbar {
+        width: 8px;
+        background: transparent;
+    }
+
+    .video_player .captions::-webkit-scrollbar-thumb,
+    .video_player .settings::-webkit-scrollbar-thumb {
+        height: 20px;
+        border: 2px solid transparent;
+        background: rgba(83, 83, 83, 0.9);
+        border-radius: 20px;
+    }
+
+
+
+    @media (max-width: 430px) {
+        .video-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .controls .icon {
+            margin-left: 5px;
+            margin-right: 5px;
+            font-size: 24px;
+        }
+
+        .volume,
+        .volume_range,
+        .auto-play,
+        .fast-forward,
+        .picture_in_picutre {
+            display: none;
+        }
+    }
+</style>
+<!-- Video Player  -->
+
+{% endblock head%}
+{% block content %}
+
+<body>
+
+
+
+
+
+
+
+    {% if user_profile.instructor == True %}
+
+
+
+
+
+
+
+
+
+    <!-- Lecture Details  -->
+    <div class="container-fluid border-bottom border-top">
+        <div class="row pt-2 pb-2">
+
+
+
+            <div class="col-12">
+
+                <div class="text-center pb-4 pt-3"
+                    style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                    <div>
+
+
+                        <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+                            {{post.title}}
+                        </h1>
+
+                        <h8 class="text-black"><span
+                                style="font-size: 18px; text-transform: uppercase; ">{{post.created_at|date:"M d, Y"}}
+                        </h8>
+                        <br>
+                        <h5 class="text-black"><span style="font-size: 18px; ">
+                                {{post.code}}
+                        </h5>
+                    </div>
+                    <div>
+                        <div>
+                            <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+                                {% if like == 'yes' %}
+                                <a href="/like-dashboard?post_id={{post.id}}" style="text-decoration: none;"
+                                    data-toggle="tooltip" data-placement="down" title="{{post.no_of_likes}} Likes">
+                                    <i class="fa-solid fa-bookmark ml-4" style="font-size: 45px; color: #fd771e;"></i>
+                                </a>
+                                {% endif %}
+
+                                {% if like == 'no' %}
+                                <a href="/like-dashboard?post_id={{post.id}}" style="text-decoration: none;"
+                                    data-toggle="tooltip" data-placement="down" title="{{post.no_of_likes}} Likes">
+                                    <i class="fa-regular fa-bookmark ml-4" style="font-size: 45px; color: #fd771e;"></i>
+                                </a>
+                                {% endif %}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+    </div>
+    </div>
+    <!-- Lecture Details  -->
+
+
+    <!-- Lecture Start -->
+    <div class="container-fluid border-bottom">
+        <div class="row ">
+
+
+
+            <div class="col-12 col-lg-8">
+                <div class="tab-content">
+                    {% for part in parts %}
+
+                    {% if part.place == 'video' %}
+                    <div id="{{part.place}}" class="tab-pane active">
+
+
+                        {% if part.type == 'video' %}
+                        <div class="col-12 mb-2" style="border-bottom: 1px rgb(220, 207, 207) solid;">
+                            <div>
+
+                                <div class="text-center mt-5 mb-2">
+
+
+
+                                    {% if part.video_url %}
+                                    <!-- Video With Youtube Link Here  -->
+                                    <div style="margin-top: 20px;">
+                                        <div >
+                                            <iframe width="100%" height="480" src="{{part.video_url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                    <!-- Video With Youtube Link Here  -->
+                                    {% else %}
+
+
+
+                                    {% if part.video %}
+                                    <!-- Video With Src ... File Uploaded In The Server  -->
+                                    <div class="video-container" style="margin-top: 20px;">
+                                        <div class="video_player">
+                                            <video preload="metadata" class="main-video">
+                                                <source src="{{part.video.url}}" size="480" type="video/mp4">
+                                                <source src="{{part.video.url}}" size="720" type="video/mp4">
+                                                <source src="{{part.video.url}}" size="1080" type="video/mp4">
+
+                                            </video>
+                                        </div>
+                                    </div>
+                                    <!-- Video With Src ... File Uploaded In The Server  -->
+                                    {% endif %}
+
+
+                                    {% endif %}
+
+
+
+
+
+
+
+
+
+                                </div>
+
+                                <div class="video-caption mt-3 mb-3"
+                                    style="overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                    <p class="" style="font-size: 20px;">{{part.title}} </p>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+
+                    </div>
+                    {% else %}
+                    <div id="{{part.place}}" class="tab-pane fade in">
+
+
+                        {% if part.type == 'video' %}
+                        <div class="col-12 mb-2" style="border-bottom: 1px rgb(220, 207, 207) solid;">
+                            <div>
+
+
+                                {% if part.video_url %}
+                                <!-- Video With Youtube Link Here  -->
+                                <div style="margin-top: 20px;">
+                                    <div >
+                                        <iframe width="100%" height="480" src="{{part.video_url}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <!-- Video With Youtube Link Here  -->
+                                {% else %}  
+
+
+
+                                {% if part.video %}
+                                <!-- Video With Src ... File Uploaded In The Server  -->
+                                <div class="video-container" style="margin-top: 20px;">
+                                    <div class="video_player">
+                                        <video preload="metadata" class="main-video">
+                                            <source src="{{part.video.url}}" size="480" type="video/mp4">
+                                            <source src="{{part.video.url}}" size="720" type="video/mp4">
+                                            <source src="{{part.video.url}}" size="1080" type="video/mp4">
+
+                                        </video>
+                                    </div>
+                                </div>
+                                <!-- Video With Src ... File Uploaded In The Server  -->
+                                {% endif %}
+
+
+                                {% endif %}
+
+
+
+
+                                <div class="video-caption mt-3 mb-3"
+                                    style="overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                    <p class="" style="font-size: 20px;">{{part.title}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+
+                    </div>
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+
+            <div class="col-12 col-lg-4 border-left" style="padding: 0;">
+                <nav class="navbar navbar-expand navbar-light" style="padding: 0;">
+
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                        <div class="navbar-nav" style="padding: 0px 15px;">
+
+
+
+
+                            <ul class="nav nav-tabs w-100 " style="border-bottom:none">
+                                <h3 class="text-uppercase mb-1 w-100 mt-4 text-center">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    اجزاء المحاضرة
+                                    {% else %}
+                                    Lecture Parts
+                                    {% endif %}
+                                </h3>
+
+                                <h5 class=" mb-4 w-100 mt-1 text-center">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+
+                                    عدد الاجزاء :
+                                    {{post.parts_number}}
+                                    {% else %}
+                                    {{post.parts_number}} Parts
+                                    {% endif %}
+                                </h5>
+
+                                {% for part in parts %}
+
+
+                                {% if part.place == 'video' %}
+                                <li class="active w-100 attachment mb-4"
+                                    style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+
+
+                                    {% if part.type == 'video' %}
+                                    <a data-toggle="tab" class="d-flex align-items-center text-decoration-none "
+                                        href="#{{part.place}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+                                            {% if part.type == 'video' %}
+                                            <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+
+                                            {% if part.type == 'link' %}
+                                            <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+
+                                    {% if part.type == 'link' %}
+                                    <a class="d-flex align-items-center text-decoration-none " href="{{part.link}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+                                            {% if part.type == 'video' %}
+                                            <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+
+                                            {% if part.type == 'link' %}
+                                            <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+
+
+
+                                    <div class="btn-group dropup mt-4 w-100">
+                                        <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form action="/dashboard/delete-part" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+
+                                                    <p>
+                                                        {% if LANGUAGE_CODE == 'ar' %}
+                                                        هل انت متاكد ان تريد مسح هذا الجزء من المحاضرة؟
+                                                        {% else %}
+                                                        Are You Sure You Want To Delete This Part Of The Lecture?
+                                                        {% endif %}</p>
+
+                                                    <input type="hidden" value="{{part.part_id}}" name="part-id"
+                                                        hidden />
+
+                                                    <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-danger pl-5 pr-5 w-100">
+                                                        {% if LANGUAGE_CODE == 'ar' %}
+                                                        مسح
+                                                        {% else %}
+                                                        Delete
+                                                        {% endif %}</button>
+                                                    <button type="button" class="btn btn-secondary w-100"
+                                                        data-dismiss="modal">
+                                                        {% if LANGUAGE_CODE == 'ar' %}
+                                                        غلق
+                                                        {% else %}
+                                                        Close
+                                                        {% endif %}</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% else %}
+                                <li class=" w-100 attachment mb-4"
+                                    style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+
+
+                                    {% if part.type == 'video' %}
+                                    <a data-toggle="tab" class="d-flex align-items-center text-decoration-none "
+                                        href="#{{part.place}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+                                            {% if part.type == 'video' %}
+                                            <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+
+                                            {% if part.type == 'link' %}
+                                            <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+
+                                    {% if part.type == 'link' %}
+                                    <a class="d-flex align-items-center text-decoration-none " href="{{part.link}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+                                            {% if part.type == 'video' %}
+                                            <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+
+                                            {% if part.type == 'link' %}
+                                            <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if part.type == 'assignment' %}
+                                    <a class="d-flex align-items-center text-decoration-none "
+                                        href="/dashboard/assignment/{{part.link}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+
+
+
+
+                                            <i class="fa fa-2x fa-file-lines text-primary mr-3"
+                                                style="font-size: 80px;"></i>
+
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+
+
+
+                                    <div class="btn-group dropup mt-4 w-100">
+                                        <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form action="/dashboard/delete-part" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+
+                                                    <p>
+                                                        {% if LANGUAGE_CODE == 'ar' %}
+                                                        هل انت متاكد ان تريد مسح هذا الجزء من المحاضرة؟
+                                                        {% else %}
+                                                        Are You Sure You Want To Delete This Part Of The Lecture?
+                                                        {% endif %}</p>
+
+                                                    <input type="hidden" value="{{part.part_id}}" name="part-id"
+                                                        hidden />
+                                                    <input type="hidden" value="{{part.type}}" name="part-type"
+                                                        hidden />
+
+                                                    {% if part.type == 'assignment' %}
+                                                    <input type="hidden" value="{{part.assignment_id}}"
+                                                        name="assignment_id" hidden />
+                                                    {% else %}
+                                                    <input type="hidden" value="none" name="assignment_id" hidden />
+                                                    {% endif %}
+
+                                                    <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-danger pl-5 pr-5 w-100">
+                                                        {% if LANGUAGE_CODE == 'ar' %}
+                                                        مسح
+                                                        {% else %}
+                                                        Delete
+                                                        {% endif %}</button>
+                                                    <button type="button" class="btn btn-secondary w-100"
+                                                        data-dismiss="modal">
+                                                        {% if LANGUAGE_CODE == 'ar' %}
+                                                        غلق
+                                                        {% else %}
+                                                        Close
+                                                        {% endif %}</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endif %}
+
+
+                                {% endfor %}
+
+
+
+
+
+
+                            </ul>
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </nav>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+    <!-- Lecture  End -->
+
+
+    <!-- Dashboard  -->
+
+    <div class="container ">
+        <div class="row">
+
+
+
+            <div class="col-12">
+                <ul class="nav nav-tabs w-100 pb-2" style="border-bottom: none;">
+
+                    <h3 class="text-uppercase mb-4 w-100 mt-5 text-center" style=" margin-left: px;">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        اضافة جزء
+                        {% else %}
+                        Add Part
+                        {% endif %}</h3>
+
+
+
+                    <div class="container-fluid">
+                        <div class="row">
+
+
+
+                            <!-- Lecture Info -->
+                            <div class="col-12 mb-3">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button type="button" data-toggle="modal" data-target="#lecture-settings"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-gear text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            اعدادات المحاضرة
+                                            {% else %}
+                                            Lecture Settings
+                                            {% endif %}
+                                        </h6>
+                                    </button>
+                                </li>
+                            </div>
+
+
+                            <!-- Add Video -->
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button type="button" data-toggle="modal" data-target="#add-video"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            اضافة فيديو
+                                            {% else %}
+                                            Add Video
+                                            {% endif %}
+                                        </h6>
+                                    </button>
+                                </li>
+                            </div>
+
+
+
+                            <!-- Add Assignment  -->
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button data-toggle="modal" data-target="#create-assignment"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            تكليف جديد
+                                            {% else %}
+                                            Upload Assignment
+                                            {% endif %}</h6>
+                                    </button>
+                                </li>
+                            </div>
+
+                            <!-- Add Link -->
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button type="button" data-toggle="modal" data-target="#add-link"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            اضافة رابط
+                                            {% else %}
+                                            Add Link
+                                            {% endif %}
+                                        </h6>
+                                    </button>
+                                </li>
+                            </div>
+
+
+
+                            <!-- Add Youtube Video -->
+                            <div class="col-12">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button type="button" data-toggle="modal" data-target="#add-video-url"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            اضافة فيديو يوتيوب
+                                            {% else %}
+                                            Add Youtube Video
+                                            {% endif %}
+                                        </h6>
+                                    </button>
+                                </li>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- Lecture Settings -->
+                    <div class="modal fade" id="lecture-settings" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        اعدادات المحاضرة
+                                        {% else %}
+                                        Lecture Settings
+                                        {% endif %}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-part" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <input type="text" name="type" value="settings" hidden>
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+
+
+
+                                    <div class="modal-body">
+
+
+                                        <div class="thumbnail w-100 mb-5">
+                                            {% if post.image %}
+                                            <a href="/dashboard/lecture/{{post.id}}">
+                                                <img class="img-fluid" src="{{post.image.url}}"
+                                                    style="width: 100%; height: 230px;">
+                                            </a>
+                                            {% else %}
+                                            <a href="/dashboard/lecture/{{post.id}}">
+                                                <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                                    style="width: 100%; height: 230px;">
+                                            </a>
+                                            {% endif %}
+
+                                            <div class="form-group mb-3 mt-2">
+                                                <label for="video-input">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    صورة المحاضرة
+                                                    {% else %}
+                                                    Lecture Thumbnail
+                                                    {% endif %}</label>
+                                                <input type="file" class="form-control-file" id="video-input"
+                                                    name="image">
+                                            </div>
+
+
+                                        </div>
+
+                                        {% if post.price == 0 %}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-money-bill text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="price" class="form-control"
+                                                placeholder="سعر المحاضرة" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+                                        {% else %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-money-bill text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="price" class="form-control"
+                                                placeholder="Lecture Price" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+                                        {% endif %}
+
+                                        {% else %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-money-bill text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Lecture Price"
+                                                aria-label="Username" aria-describedby="basic-addon1"
+                                                value="{{post.price}}" disabled>
+                                            <input type="text" name="price" value="{{post.price}}" hidden>
+                                        </div>
+                                        {% endif %}
+
+
+                                        {% if post.caption %}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="description" class="form-control"
+                                                placeholder="وصف المحاضرة" aria-label="Username"
+                                                aria-describedby="basic-addon1" value="{{post.caption}}">
+                                        </div>
+                                        {% else %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="description" class="form-control"
+                                                placeholder="Lecture Description" aria-label="Username"
+                                                aria-describedby="basic-addon1" value="{{post.caption}}">
+                                        </div>
+                                        {% endif %}
+
+                                        {% else %}
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="description" class="form-control"
+                                                placeholder="وصف المحاضرة" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+                                        {% else %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="description" class="form-control"
+                                                placeholder="Lecture Description" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+                                        {% endif %}
+
+                                        {% endif %}
+
+
+                                        {% if post.year %}
+                                        <div class="input-group mb-3 mt-2">
+                                            <select class="form-control" id="exampleFormControlSelect1" name="year">
+
+                                                <option value="{{post.year}}" style="text-transform: capitalize;">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+
+                                                    {% if post.year == 'first'%}
+                                                    الصف الاول الثانوي
+                                                    {% endif %}
+
+                                                    {% if post.year == 'second'%}
+                                                    الصف الثاني الثانوي
+                                                    {% endif %}
+
+                                                    {% if post.year == 'third'%}
+                                                    الصف الثالث الثانوي
+                                                    {% endif %}
+
+
+                                                    {% else %}
+                                                    {{post.year}} Secondary
+                                                    {% endif %}
+                                                </option>
+
+                                                {% if post.year == 'first'%}
+                                                {% else %}
+                                                <option value="first">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الصف الاول الثانوي
+                                                    {% else %}
+                                                    First Secondary
+                                                    {% endif %}
+                                                </option>
+                                                {% endif %}
+
+                                                {% if post.year == 'second'%}
+                                                {% else %}
+                                                <option value="second">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الصف الثاني الثانوي
+                                                    {% else %}
+                                                    Second Secondary
+                                                    {% endif %}</option>
+                                                {% endif %}
+
+                                                {% if post.year == 'third'%}
+                                                {% else %}
+                                                <option value="third">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الصف الثالث الثانوي
+                                                    {% else %}
+                                                    Third Secondary
+                                                    {% endif %}</option>
+                                                {% endif %}
+
+
+
+                                            </select>
+                                        </div>
+                                        {% else %}
+                                        <div class="input-group mb-3 mt-2">
+                                            <select class="form-control" id="exampleFormControlSelect1" name="year">
+                                                <option value="first">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الصف الاول الثانوي
+                                                    {% else %}
+                                                    First Secondary
+                                                    {% endif %}</option>
+                                                <option value="second">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الصف الثاني الثانوي
+                                                    {% else %}
+                                                    Second Secondary
+                                                    {% endif %}</option>
+                                                <option value="third">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    الصف الثالث الثانوي
+                                                    {% else %}
+                                                    Third Secondary
+                                                    {% endif %}</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
+
+
+
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            غلق
+                                            {% else %}
+                                            Close
+                                            {% endif %}</button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            حفظ
+                                            {% else %}
+                                            Save
+                                            {% endif %}</button>
+
+                                    </div>
+                                </form>
+
+
+                                <div class="modal-footer">
+                                    <form action="/delete-lesson" method="POST" class="w-100">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{post.id}}" name="post-id" hidden />
+                                        <button type="submit" class="btn btn-danger w-100">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            مسح المحاضرة
+                                            {% else %}
+                                            Delete Lecture
+                                            {% endif %}</button>
+                                    </form>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Lecture Settings -->
+
+
+
+                    <!-- Add Video -->
+                    <div class="modal fade" id="add-video" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        اضافة فيديو
+                                        {% else %}
+                                        Add Video
+                                        {% endif %}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-part" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <input type="text" name="type" value="video" hidden>
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+                                    {% if videos_count == 0 %}
+                                    <input type="text" name="place" value="video" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 1 %}
+                                    <input type="text" name="place" value="video2" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 2 %}
+                                    <input type="text" name="place" value="video3" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 3 %}
+                                    <input type="text" name="place" value="video4" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 4 %}
+                                    <input type="text" name="place" value="video5" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 5 %}
+                                    <input type="text" name="place" value="video6" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 6 %}
+                                    <input type="text" name="place" value="video7" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 7 %}
+                                    <input type="text" name="place" value="video8" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 8 %}
+                                    <input type="text" name="place" value="video9" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 9 %}
+                                    <input type="text" name="place" value="video10" hidden>
+                                    {% endif %}
+
+
+                                    {% if videos_count == 10 %}
+                                    <input type="text" name="place" value="video11" hidden>
+                                    {% endif %}
+
+
+                                    {% if videos_count == 11 %}
+                                    <input type="text" name="place" value="video12" hidden>
+                                    {% endif %}
+
+
+                                    {% if videos_count == 12 %}
+                                    <input type="text" name="place" value="video13" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 13 %}
+                                    <input type="text" name="place" value="video14" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 14 %}
+                                    <input type="text" name="place" value="video15" hidden>
+                                    {% endif %}
+
+
+
+
+                                    <div class="modal-body">
+                                        <div class="input-group mb-3">
+
+
+
+
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-video text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="عنوان الفيديو" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            {% else %}
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="Video Title" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            {% endif %}
+
+                                        </div>
+
+                                        <div class="form-group mb-2">
+                                            <label for="video-input">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                رفع فيديو جديد
+                                                {% else %}
+                                                Upload Video
+                                                {% endif %}</label>
+                                            <input type="file" class="form-control-file" id="video-input" name="video">
+                                        </div>
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            غلق
+                                            {% else %}
+                                            Close
+                                            {% endif %}</button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            حفظ
+                                            {% else %}
+                                            Save
+                                            {% endif %}</button>
+
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Add Video -->
+
+
+
+
+                    <!-- Add Video With URL -->
+                    <div class="modal fade" id="add-video-url" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        اضافة فيديو يوتيوب
+                                        {% else %}
+                                        Add Youtube Video
+                                        {% endif %}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-video" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <input type="text" name="type" value="video" hidden>
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+                                    {% if videos_count == 0 %}
+                                    <input type="text" name="place" value="video" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 1 %}
+                                    <input type="text" name="place" value="video2" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 2 %}
+                                    <input type="text" name="place" value="video3" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 3 %}
+                                    <input type="text" name="place" value="video4" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 4 %}
+                                    <input type="text" name="place" value="video5" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 5 %}
+                                    <input type="text" name="place" value="video6" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 6 %}
+                                    <input type="text" name="place" value="video7" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 7 %}
+                                    <input type="text" name="place" value="video8" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 8 %}
+                                    <input type="text" name="place" value="video9" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 9 %}
+                                    <input type="text" name="place" value="video10" hidden>
+                                    {% endif %}
+
+
+
+                                    <div class="modal-body">
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-video text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="عنوان الفيديو" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            {% else %}
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="Video Title" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            {% endif %}
+
+                                        </div>
+
+
+
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-video text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            <input type="text" name="url" class="form-control"
+                                                placeholder="رابط الفيديو" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            {% else %}
+                                            <input type="text" name="url" class="form-control" placeholder="Video URL"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            {% endif %}
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            غلق
+                                            {% else %}
+                                            Close
+                                            {% endif %}</button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            حفظ
+                                            {% else %}
+                                            Save
+                                            {% endif %}</button>
+
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Add Video With URL -->
+
+
+                    <!-- Add Link -->
+                    <div class="modal fade" id="add-link" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        اضافة رابط جديد
+                                        {% else %}
+                                        Add Link
+                                        {% endif %}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-part" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <input type="text" name="type" value="link" hidden>
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+                                    {% if links_count == 0 %}
+                                    <input type="text" name="place" value="link" hidden>
+                                    {% endif %}
+
+                                    {% if links_count == 1 %}
+                                    <input type="text" name="place" value="link2" hidden>
+                                    {% endif %}
+
+                                    {% if links_count == 2 %}
+                                    <input type="text" name="place" value="link3" hidden>
+                                    {% endif %}
+
+                                    {% if links_count == 3 %}
+                                    <input type="text" name="place" value="link4" hidden>
+                                    {% endif %}
+
+                                    {% if links_count == 4 %}
+                                    <input type="text" name="place" value="link5" hidden>
+                                    {% endif %}
+
+
+
+
+                                    <div class="modal-body">
+
+
+
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="اسم الرابط" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-link text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="teext" name="link" class="form-control" placeholder="الرابط"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+                                        {% else %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="title" class="form-control" placeholder="URL Name"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-link text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="teext" name="link" class="form-control" placeholder="Link"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+                                        {% endif %}
+
+
+
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            غلق
+                                            {% else %}
+                                            Close
+                                            {% endif %}</button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            حفظ
+                                            {% else %}
+                                            Save
+                                            {% endif %}</button>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Add Link -->
+
+
+                    <!-- New Assignment -->
+                    <div class="modal fade" id="create-assignment" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        ارفع تكليف جديد
+                                        {% else %}
+                                        Upload New Assignment
+                                        {% endif %}</h5>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-part" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;">
+                                    {% csrf_token %}
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+                                    <input type="text" name="type" value="assignment" hidden>
+
+                                    <div class="modal-body">
+
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="اسم التكليف" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">
+                                                النوع</label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                name="assignment-type">
+                                                <option value="test">امتحان</option>
+                                                <option value="homework">واجب</option>
+                                            </select>
+                                        </div>
+
+
+
+
+                                        {% else %}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="Assignment Title" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Type **</label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                name="assignment-type">
+                                                <option value="test">Test</option>
+                                                <option value="homework">Homework</option>
+                                            </select>
+                                        </div>
+
+                                        <input type="text" name="lecture" value="{{post.id}}" hidden>
+                                        {% endif %}
+
+
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            اغلاق
+                                            {% else %}
+                                            Close
+                                            {% endif %}
+                                        </button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">
+
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            ارفع
+                                            {% else %}
+                                            Create
+                                            {% endif %}
+                                        </button>
+
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  New Assignment -->
+
+
+
+
+
+
+                </ul>
+            </div>
+
+            <div class="col-12 mb-4">
+
+
+                <div class="contact-form bg-secondary rounded p-3">
+                    <div id="success"></div>
+
+
+                    <div class="codes-table" style="width: 100%; max-height: 600px; overflow-y: scroll;">
+
+
+                        <table class="table table-striped table-dark ">
+                            <thead>
+
+
+                                {% if students|length >= 1 %}
+                                <tr>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <th scope="col">الطالب</th>
+                                    <th scope="col">بواسطة</th>
+                                    <th scope="col">التاريخ</th>
+
+                                    {% else %}
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Method</th>
+                                    <th scope="col">Date</th>
+                                    {% endif %}
+
+                                </tr>
+                                {% endif %}
+                            </thead>
+
+                            <tbody>
+                                {% if students|length == 0 %}
+                                <tr>
+                                    <td></td>
+                                    {% if LANGUAGE_CODE == 'ar' %}
+                                    <td>لم يشتري احد المحاضرة بعد</td>
+                                    {% else %}
+                                    <td>The Lecture Hasnt Been Purchased By Anyone Yet.</td>
+                                    {% endif %}
+
+                                    <td></td>
+                                </tr>
+                                {% endif %}
+
+
+                                {% if students|length >= 1 %}
+                                {% for student in students %}
+                                <tr>
+                                    <td>
+                                        {% if student.name %}
+                                        <a href="/profile/{{student.username}}">{{student.name}}</a>
+                                        {% else %}
+                                        <a href="/profile/{{student.username}}">{{student.username}}</a>
+
+                                        {% endif %}
+                                    </td>
+                                    <td>
+
+                                        {% if LANGUAGE_CODE == 'ar' %}
+
+
+                                        {% if student.method == 'code' %}
+                                        كود
+                                        {% endif %}
+
+                                        {% if student.method == 'wallet' %}
+                                        المحفظة
+                                        {% endif %}
+
+                                        {% if student.method == 'lecture_code' %}
+                                        كود المحاضرة
+                                        {% endif %}
+
+                                        {% if student.method == 'chapter' %}
+                                        شراء شابتر
+                                        {% endif %}
+
+                                        {% if student.method == 'group' %}
+                                        جروب
+                                        {% endif %}
+
+
+                                        {% else %}
+                                        {{student.method}}
+                                        {% endif %}
+
+
+
+                                    </td>
+                                    <td>{{student.created_at}}</td>
+
+
+
+
+
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <!-- Dashboard  -->
+
+
+
+
+    <script>
+        // let's select all required tags or elements
+        const video_players = document.querySelectorAll(".video_player");
+        video_players.forEach(video_player => {
+            const video_player_html = `<div class="loader"></div>
+      ${video_player.innerHTML}
+      <p class="caption_text"></p>
+      <!-- <div class="thumbnail"></div> -->
+      <div class="progressAreaTime" >0:00</div>
+      
+      <div class="controls active">
+        <div class="progress-area">
+          <canvas class="bufferedBar"></canvas>
+          <div class="progress-bar">
+            <span></span>
+          </div>
+        </div>
+    
+        <div class="controls-list">
+          <div class="controls-left">
+            <span class="icon">
+              <i class="material-icons fast-rewind">replay_10</i>
+            </span>
+    
+            <span class="icon">
+              <i class="material-icons play_pause" >play_arrow</i>
+            </span>
+    
+            <span class="icon">
+              <i class="material-icons fast-forward">forward_10</i>
+            </span>
+    
+            <span class="icon">
+              <i class="material-icons volume">volume_up</i>
+    
+              <input type="range" min="0" max="100" class="volume_range" />
+            </span>
+    
+            <div class="timer">
+              <span class="current">0:00</span> /
+              <span class="duration">0:00</span>
+            </div>
+          </div>
+    
+          <div class="controls-right">
+            <span class="icon">
+              <i class="material-icons auto-play"></i>
+            </span>
+    
+            <span class="icon">
+              <i class="material-icons captionsBtn">closed_caption</i>
+            </span>
+    
+            <span class="icon">
+              <i class="material-icons settingsBtn">settings</i>
+            </span>
+    
+            <span class="icon">
+              <i class="material-icons picture_in_picutre">picture_in_picture_alt</i>
+            </span>
+    
+            <span class="icon">
+              <i class="material-icons fullscreen">fullscreen</i>
+            </span>
+          </div>
+        </div>
+      </div>
+    
+      <div class="settings">
+        <div data-label="settingHome">
+          <ul>
+            <li data-label="speed">
+              <span> Speed </span>
+              <span class="material-symbols-outlined icon">
+                arrow_forward_ios
+              </span>
+            </li>
+            <li data-label="quality">
+              <span> Quality </span>
+             <span class="material-symbols-outlined icon">
+              arrow_forward_ios
+            </span>
+            </li>
+          </ul>
+        </div>
+        <div class="playback" data-label="speed" hidden>
+          <span>
+            <i class="material-symbols-outlined icon back_arrow"  data-label="settingHome">
+              arrow_back
+            </i>
+            <span>Playback Speed </span>
+          </span>
+          <ul>
+            <li data-speed="0.25">0.25</li>
+    
+            <li data-speed="0.5">0.5</li>
+    
+            <li data-speed="0.75">0.75</li>
+    
+            <li data-speed="1" class="active">Normal</li>
+    
+            <li data-speed="1.25">1.25</li>
+    
+            <li data-speed="1.5">1.5</li>
+    
+            <li data-speed="1.75">1.75</li>
+    
+            <li data-speed="2">2</li>
+          </ul>
+        </div>
+        <div data-label="quality" hidden>
+          <span>
+            <i class="material-symbols-outlined icon back_arrow" data-label="settingHome">
+              arrow_back
+            </i>
+            <span>Playback Quality </span>
+          </span>
+          <ul>
+            <li data-quality="auto" class="active">auto</li>
+          </ul>
+        </div>
+      </div>
+      <div class="captions">
+        <div class="caption">
+          <span>Select Subtitle</span>
+          <ul>
+            
+          </ul>
+        </div>
+      </div>`;
+
+            video_player.innerHTML = video_player_html;
+
+            const mainVideo = video_player.querySelector(".main-video"),
+                progressAreaTime = video_player.querySelector(".progressAreaTime"),
+                controls = video_player.querySelector(".controls"),
+                progressArea = video_player.querySelector(".progress-area"),
+                bufferedBar = video_player.querySelector(".bufferedBar"),
+                progress_Bar = video_player.querySelector(".progress-bar"),
+                fast_rewind = video_player.querySelector(".fast-rewind"),
+                play_pause = video_player.querySelector(".play_pause"),
+                fast_forward = video_player.querySelector(".fast-forward"),
+                volume = video_player.querySelector(".volume"),
+                volume_range = video_player.querySelector(".volume_range"),
+                current = video_player.querySelector(".current"),
+                totalDuration = video_player.querySelector(".duration"),
+                auto_play = video_player.querySelector(".auto-play"),
+                settingsBtn = video_player.querySelector(".settingsBtn"),
+                captionsBtn = video_player.querySelector(".captionsBtn"),
+                picture_in_picutre = video_player.querySelector(".picture_in_picutre"),
+                fullscreen = video_player.querySelector(".fullscreen"),
+                settings = video_player.querySelector(".settings"),
+                settingHome = video_player.querySelectorAll(".settings [data-label='settingHome'] > ul > li"),
+                captions = video_player.querySelector(".captions"),
+                caption_labels = video_player.querySelector(".captions ul"),
+                playback = video_player.querySelectorAll(".playback li"),
+                tracks = video_player.querySelectorAll("track"),
+                loader = video_player.querySelector(".loader");
+
+            // let thumbnail = video_player.querySelector(".thumbnail");
+
+            if (tracks.length != 0) {
+                caption_labels.insertAdjacentHTML(
+                    "afterbegin",
+                    `<li data-track="OFF" class="active">OFF</li>`
+                );
+                for (let i = 0; i < tracks.length; i++) {
+                    let trackLi = `<li data-track="${tracks[i].label}">${tracks[i].label}</li>`;
+                    caption_labels.insertAdjacentHTML("beforeend", trackLi);
+                }
+            }
+            const caption = captions.querySelectorAll("ul li");
+
+            // Play video function
+            function playVideo() {
+                play_pause.innerHTML = "pause";
+                play_pause.title = "pause";
+                video_player.classList.add("paused");
+                mainVideo.play();
+            }
+
+            // Pause video function
+            function pauseVideo() {
+                play_pause.innerHTML = "play_arrow";
+                play_pause.title = "play";
+                video_player.classList.remove("paused");
+                mainVideo.pause();
+            }
+
+            play_pause.addEventListener("click", () => {
+                const isVideoPaused = video_player.classList.contains("paused");
+                isVideoPaused ? pauseVideo() : playVideo();
+            });
+
+            mainVideo.addEventListener("play", () => {
+                playVideo();
+            });
+
+            mainVideo.addEventListener("pause", () => {
+                pauseVideo();
+            });
+
+            // fast_rewind video function
+            fast_rewind.addEventListener("click", () => {
+                mainVideo.currentTime -= 10;
+            });
+
+            // fast_forward video function
+            fast_forward.addEventListener("click", () => {
+                mainVideo.currentTime += 10;
+            });
+
+            // Load video duration
+            mainVideo.addEventListener("loadeddata", (e) => {
+                let videoDuration = e.target.duration;
+                let totalMin = Math.floor(videoDuration / 60);
+                let totalSec = Math.floor(videoDuration % 60);
+
+                // if seconds are less then 10 then add 0 at the begning
+                totalSec < 10 ? (totalSec = "0" + totalSec) : totalSec;
+                totalDuration.innerHTML = `${totalMin} : ${totalSec}`;
+            });
+
+            // Current video duration
+            mainVideo.addEventListener("timeupdate", (e) => {
+                let currentVideoTime = e.target.currentTime;
+                let currentMin = Math.floor(currentVideoTime / 60);
+                let currentSec = Math.floor(currentVideoTime % 60);
+                // if seconds are less then 10 then add 0 at the begning
+                currentSec < 10 ? (currentSec = "0" + currentSec) : currentSec;
+                current.innerHTML = `${currentMin} : ${currentSec}`;
+
+                let videoDuration = e.target.duration;
+                // progressBar width change
+                let progressWidth = (currentVideoTime / videoDuration) * 100 + 0.5;
+                progress_Bar.style.width = `${progressWidth}%`;
+            });
+
+            // let's update playing video current time on according to the progress bar width
+
+            progressArea.addEventListener("pointerdown", (e) => {
+                progressArea.setPointerCapture(e.pointerId);
+                setTimelinePosition(e);
+                progressArea.addEventListener("pointermove", setTimelinePosition);
+                progressArea.addEventListener("pointerup", () => {
+                    progressArea.removeEventListener("pointermove", setTimelinePosition);
+                })
+            });
+
+
+            function setTimelinePosition(e) {
+                let videoDuration = mainVideo.duration;
+                let progressWidthval = progressArea.clientWidth + 2;
+                let ClickOffsetX = e.offsetX;
+                mainVideo.currentTime = (ClickOffsetX / progressWidthval) * videoDuration;
+
+                let progressWidth = (mainVideo.currentTime / videoDuration) * 100 + 0.5;
+                progress_Bar.style.width = `${progressWidth}%`;
+
+                let currentVideoTime = mainVideo.currentTime;
+                let currentMin = Math.floor(currentVideoTime / 60);
+                let currentSec = Math.floor(currentVideoTime % 60);
+                // if seconds are less then 10 then add 0 at the begning
+                currentSec < 10 ? (currentSec = "0" + currentSec) : currentSec;
+                current.innerHTML = `${currentMin} : ${currentSec}`;
+
+            }
+
+            function drawProgress(canvas, buffered, duration) {
+                let context = canvas.getContext('2d', {
+                    antialias: false
+                });
+                context.fillStyle = "#ffffffe6";
+
+                let height = canvas.height;
+                let width = canvas.width;
+                if (!height || !width) throw "Canva's width or height or not set.";
+                context.clearRect(0, 0, width, height);
+                for (let i = 0; i < buffered.length; i++) {
+                    let leadingEdge = buffered.start(i) / duration * width;
+                    let trailingEdge = buffered.end(i) / duration * width;
+                    context.fillRect(leadingEdge, 0, trailingEdge - leadingEdge, height)
+                }
+            }
+
+            mainVideo.addEventListener('progress', () => {
+                drawProgress(bufferedBar, mainVideo.buffered, mainVideo.duration);
+            })
+
+            mainVideo.addEventListener('waiting', () => {
+                loader.style.display = "block";
+            })
+
+            mainVideo.addEventListener('canplay', () => {
+                loader.style.display = "none";
+            })
+
+
+            // change volume
+            function changeVolume() {
+                mainVideo.volume = volume_range.value / 100;
+                if (volume_range.value == 0) {
+                    volume.innerHTML = "volume_off";
+                } else if (volume_range.value < 40) {
+                    volume.innerHTML = "volume_down";
+                } else {
+                    volume.innerHTML = "volume_up";
+                }
+            }
+
+            function muteVolume() {
+                if (volume_range.value == 0) {
+                    volume_range.value = 80;
+                    mainVideo.volume = 0.8;
+                    volume.innerHTML = "volume_up";
+                } else {
+                    volume_range.value = 0;
+                    mainVideo.volume = 0;
+                    volume.innerHTML = "volume_off";
+                }
+            }
+
+            volume_range.addEventListener("change", () => {
+                changeVolume();
+            });
+
+            volume.addEventListener("click", () => {
+                muteVolume();
+            });
+
+            // Update progress area time and display block on mouse move
+            progressArea.addEventListener("mousemove", (e) => {
+                let progressWidthval = progressArea.clientWidth + 2;
+                let x = e.offsetX;
+                let videoDuration = mainVideo.duration;
+                let progressTime = Math.floor((x / progressWidthval) * videoDuration);
+                let currentMin = Math.floor(progressTime / 60);
+                let currentSec = Math.floor(progressTime % 60);
+                progressAreaTime.style.setProperty("--x", `${x}px`);
+                progressAreaTime.style.display = "block";
+                if (x >= progressWidthval - 80) {
+                    x = progressWidthval - 80;
+                } else if (x <= 75) {
+                    x = 75;
+                } else {
+                    x = e.offsetX;
+                }
+
+                // if seconds are less then 10 then add 0 at the begning
+                currentSec < 10 ? (currentSec = "0" + currentSec) : currentSec;
+                progressAreaTime.innerHTML = `${currentMin} : ${currentSec}`;
+                // If you want to show your video thumbnail on progress Bar hover then comment out the following code. Make sure that you are using video from same domain where you hosted your webpage.
+
+                // thumbnail.style.setProperty("--x", `${x}px`);
+                // thumbnail.style.display = "block";
+
+                // for (var item of thumbnails) {
+                //   //
+                //   var data = item.sec.find(x1 => x1.index === Math.floor(progressTime));
+
+                //   // thumbnail found
+                //   if (data) {
+                //     if (item.data != undefined) {
+                //       thumbnail.setAttribute("style", `background-image: url(${item.data});background-position-x: ${data.backgroundPositionX}px;background-position-y: ${data.backgroundPositionY}px;--x: ${x}px;display: block;`)
+                //       return;
+                //     }
+                //   }
+                // }
+
+            });
+
+            progressArea.addEventListener("mouseleave", () => {
+                // If you want to show your video thumbnail on progress Bar hover then comment out the following code. Make sure that you are using video from same domain where you hosted your webpage.
+
+                // thumbnail.style.display = "none";
+                progressAreaTime.style.display = "none";
+            });
+
+            // Auto play
+            auto_play.addEventListener("click", () => {
+                auto_play.classList.toggle("active");
+                if (auto_play.classList.contains("active")) {
+                    auto_play.title = "Autoplay is on";
+                } else {
+                    auto_play.title = "Autoplay is off";
+                }
+            });
+
+            mainVideo.addEventListener("ended", () => {
+                if (auto_play.classList.contains("active")) {
+                    playVideo();
+                } else {
+                    play_pause.innerHTML = "replay";
+                    play_pause.title = "Replay";
+                }
+            });
+
+            // Picture in picture
+
+            picture_in_picutre.addEventListener("click", () => {
+                mainVideo.requestPictureInPicture();
+            });
+
+            // Full screen function
+
+            fullscreen.addEventListener("click", () => {
+                if (!video_player.classList.contains("openFullScreen")) {
+                    video_player.classList.add("openFullScreen");
+                    fullscreen.innerHTML = "fullscreen_exit";
+                    video_player.requestFullscreen();
+                } else {
+                    video_player.classList.remove("openFullScreen");
+                    fullscreen.innerHTML = "fullscreen";
+                    document.exitFullscreen();
+                }
+            });
+
+            // Open settings
+            settingsBtn.addEventListener("click", () => {
+                settings.classList.toggle("active");
+                settingsBtn.classList.toggle("active");
+                if (
+                    captionsBtn.classList.contains("active") ||
+                    captions.classList.contains("active")
+                ) {
+                    captions.classList.remove("active");
+                    captionsBtn.classList.remove("active");
+                }
+            });
+            // Open caption
+            captionsBtn.addEventListener("click", () => {
+                captions.classList.toggle("active");
+                captionsBtn.classList.toggle("active");
+                if (
+                    settingsBtn.classList.contains("active") ||
+                    settings.classList.contains("active")
+                ) {
+                    settings.classList.remove("active");
+                    settingsBtn.classList.remove("active");
+                }
+            });
+
+            // Playback Rate
+
+            playback.forEach((event) => {
+                event.addEventListener("click", () => {
+                    removeActiveClasses(playback);
+                    event.classList.add("active");
+                    let speed = event.getAttribute("data-speed");
+                    mainVideo.playbackRate = speed;
+                });
+            });
+
+            caption.forEach((event) => {
+                event.addEventListener("click", () => {
+                    removeActiveClasses(caption);
+                    event.classList.add("active");
+                    changeCaption(event);
+                    caption_text.innerHTML = "";
+                });
+            });
+
+            let track = mainVideo.textTracks;
+
+            function changeCaption(lable) {
+                let trackLable = lable.getAttribute("data-track");
+                for (let i = 0; i < track.length; i++) {
+                    track[i].mode = "disabled";
+                    if (track[i].label == trackLable) {
+                        track[i].mode = "showing";
+                    }
+                }
+            }
+
+            const settingDivs = video_player.querySelectorAll('.settings > div');
+            const settingBack = video_player.querySelectorAll('.settings > div .back_arrow');
+            const quality_ul = video_player.querySelector(".settings > [data-label='quality'] ul");
+            const qualities = video_player.querySelectorAll("source[size]");
+
+            qualities.forEach(event => {
+                let quality_html =
+                    `<li data-quality="${event.getAttribute('size')}">${event.getAttribute('size')}p</li>`;
+                quality_ul.insertAdjacentHTML('afterbegin', quality_html);
+            })
+
+            const quality_li = video_player.querySelectorAll(".settings > [data-label='quality'] ul > li");
+            quality_li.forEach((event) => {
+                event.addEventListener('click', (e) => {
+                    let quality = event.getAttribute('data-quality');
+                    removeActiveClasses(quality_li);
+                    event.classList.add('active');
+                    qualities.forEach(event => {
+                        if (event.getAttribute('size') == quality) {
+                            let video_current_duration = mainVideo.currentTime;
+                            let video_source = event.getAttribute('src');
+                            mainVideo.src = video_source;
+                            mainVideo.currentTime = video_current_duration;
+                            playVideo();
+                        }
+                    })
+                })
+            })
+
+            settingBack.forEach((event) => {
+                event.addEventListener('click', (e) => {
+                    let setting_label = e.target.getAttribute('data-label');
+                    for (let i = 0; i < settingDivs.length; i++) {
+                        if (settingDivs[i].getAttribute('data-label') == setting_label) {
+                            settingDivs[i].removeAttribute('hidden');
+                        } else {
+                            settingDivs[i].setAttribute('hidden', "");
+                        }
+                    }
+                })
+            })
+
+            settingHome.forEach((event) => {
+                event.addEventListener('click', (e) => {
+                    let setting_label = e.target.getAttribute('data-label');
+                    for (let i = 0; i < settingDivs.length; i++) {
+                        if (settingDivs[i].getAttribute('data-label') == setting_label) {
+                            settingDivs[i].removeAttribute('hidden');
+                        } else {
+                            settingDivs[i].setAttribute('hidden', "");
+                        }
+                    }
+                })
+            })
+
+
+            function removeActiveClasses(e) {
+                e.forEach((event) => {
+                    event.classList.remove("active");
+                });
+            }
+
+            let caption_text = video_player.querySelector(".caption_text");
+            for (let i = 0; i < track.length; i++) {
+                track[i].addEventListener("cuechange", () => {
+                    if (track[i].mode === "showing") {
+                        if (track[i].activeCues[0]) {
+                            let span = `<span><mark>${track[i].activeCues[0].text}</mark></span>`;
+                            caption_text.innerHTML = span;
+                        } else {
+                            caption_text.innerHTML = "";
+                        }
+                    }
+                });
+            }
+
+            //  blob url
+            let mainVideoSources = mainVideo.querySelectorAll("source");
+            for (let i = 0; i < mainVideoSources.length; i++) {
+                let videoUrl = mainVideoSources[i].src;
+                blobUrl(mainVideoSources[i], videoUrl);
+            }
+
+            function blobUrl(video, videoUrl) {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", videoUrl);
+                xhr.responseType = "arraybuffer";
+                xhr.onload = (e) => {
+                    let blob = new Blob([xhr.response]);
+                    let url = URL.createObjectURL(blob);
+                    video.src = url;
+                };
+                xhr.send();
+            }
+
+            mainVideo.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+            });
+
+            // Mouse move controls
+            let timer;
+            const hideControls = () => {
+                if (mainVideo.paused) return;
+                timer = setTimeout(() => {
+                    if (settingsBtn.classList.contains("active") || captionsBtn.classList.contains(
+                            "active")) {
+                        controls.classList.add("active");
+                    } else {
+                        controls.classList.remove("active");
+                        if (tracks.length != 0) {
+                            caption_text.classList.add("active");
+                        }
+                    }
+                }, 3000);
+            }
+            hideControls();
+
+            video_player.addEventListener("mousemove", () => {
+                controls.classList.add("active");
+                if (tracks.length != 0) {
+                    caption_text.classList.remove("active");
+                }
+                clearTimeout(timer);
+                hideControls();
+            });
+            if (tracks.length == 0) {
+                caption_labels.remove();
+                captions.remove();
+                captionsBtn.parentNode.remove();
+            }
+
+
+            // If you want to show your video thumbnail on progress Bar hover then comment out the following code. Make sure that you are using video from same domain where you hosted your webpage.
+
+            // var thumbnails = [];
+            // var thumbnailWidth = 158;
+            // var thumbnailHeight = 90;
+            // var horizontalItemCount = 5;
+            // var verticalItemCount = 5;
+
+            // let preview_video = document.createElement('video')
+            // preview_video.preload = "metadata";
+            // preview_video.width = "500";
+            // preview_video.height = "300"
+            // preview_video.controls = true;
+            // preview_video.src = mainVideo.querySelector("source").src;
+            // preview_video.addEventListener("loadeddata", async function () {
+            // preview_video.pause();
+
+            //   var count = 1;
+            //   var id = 1;
+            //   var x = 0,
+            //   y = 0;
+
+            //   var array = [];
+
+            //   var duration = parseInt(preview_video.duration);
+            //   for (var i = 1; i <= duration; i++) {
+            //     array.push(i);
+            //   }
+
+            //   var canvas;
+
+            //   var i, j;
+
+            //   for (i = 0, j = array.length; i < j; i += horizontalItemCount) {
+            //     for (var startIndex of array.slice(i, i + horizontalItemCount)) {
+            //       var backgroundPositionX = x * thumbnailWidth;
+            //       var backgroundPositionY = y * thumbnailHeight;
+            //       var item = thumbnails.find((x) => x.id === id);
+
+            //       if (!item) {
+            //         canvas = document.createElement("canvas");
+            //         canvas.width = thumbnailWidth * horizontalItemCount;
+            //         canvas.height = thumbnailHeight * verticalItemCount;
+            //         thumbnails.push({
+            //           id: id,
+            //           canvas: canvas,
+            //           sec: [
+            //             {
+            //               index: startIndex,
+            //               backgroundPositionX: -backgroundPositionX,
+            //               backgroundPositionY: -backgroundPositionY,
+            //             },
+            //           ],
+            //         });
+            //       } else {
+            //         canvas = item.canvas;
+            //         item.sec.push({
+            //           index: startIndex,
+            //           backgroundPositionX: -backgroundPositionX,
+            //           backgroundPositionY: -backgroundPositionY,
+            //         });
+            //       }
+            //       var context = canvas.getContext("2d");
+            //       preview_video.currentTime = startIndex;
+            //       await new Promise(function (resolve) {
+            //         var event = function () {
+            //           context.drawImage(
+            //             preview_video,
+            //             backgroundPositionX,
+            //             backgroundPositionY,
+            //             thumbnailWidth,
+            //             thumbnailHeight
+            //           );
+            //           x++;
+
+            //           // removing duplicate events
+            //           preview_video.removeEventListener("canplay", event);
+            //           resolve();
+            //         };
+            //         preview_video.addEventListener("canplay", event);
+            //       });
+
+            //       // 1 thumbnail is generated completely
+            //       count++;
+            //     }
+
+            //     // reset x coordinate
+            //     x = 0;
+
+            //     // increase y coordinate
+            //     y++;
+
+            //     // checking for overflow
+            //     if (count > horizontalItemCount * verticalItemCount) {
+            //       count = 1;
+            //       x = 0;
+            //       y = 0;
+            //       id++;
+            //     }
+            //   }
+            //   // looping through thumbnail list to update thumbnail
+            //   thumbnails.forEach(function (item) {
+            //     // converting canvas to blob to get short url
+            //     item.canvas.toBlob((blob) => (item.data = URL.createObjectURL(blob)), "image/jpeg");
+            //     // deleting unused property
+            //     delete item.canvas;
+            //   });
+            // });
+
+        });
+    </script>
+
+
+
+    {% endif %}
+
+
+
+
+
+
+    {% if user_profile.instructor == False %}
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+</body>
+
+{% endblock content %}

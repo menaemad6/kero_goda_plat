@@ -1,0 +1,433 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title%}{{assignment.assignment_name}} - {{assignment.username}}{% endblock title %}
+
+
+
+
+{% block head %}
+
+
+<style>
+    .attachment {
+        padding: 10px;
+    }
+
+    .attachment h6 {
+        text-decoration: underline;
+    }
+
+    .attachment:hover {
+        background-color: #E0E0E0;
+    }
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+<body>
+
+
+
+
+
+    {% if user_profile %}
+
+
+    {% if text == 'complete' %}
+    <!-- Assignment Start Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container">
+            <div class="text-center mb-5">
+
+            </div>
+
+
+            <div class="row" style="padding: 10px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-xmark ml-2 text-danger"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">
+                                    {% if LANGUAGE_CODE == 'ar' %}
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+                                    
+                                    {% endif %}
+                                </span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Questions
+                                    Count
+                                    : <span style="color: #5b5e5e;">{{questions.count}} Questions</span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Date
+                                    : <span style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <a href="/assignment/progress/{{assignment.assignment_id}}" class="btn btn-primary w-100 w-100"
+                            style="border-radius: 0; border: 0;">
+
+                            <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>Complete
+                        </a>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--Assignment Start End -->
+    {% endif %}
+
+
+    {% if text == 'start' %}
+    <!-- Assignment Start Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container">
+            <div class="text-center mb-5">
+
+            </div>
+
+
+            <div class="row" style="padding: 10px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-xmark ml-2 text-danger"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">                                    {% if LANGUAGE_CODE == 'ar' %}
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    معلومات الواجب
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    معلومات الامتحان
+                                    {% endif %}
+
+                                    {% else %}
+
+
+                                    {% if assignment.assignment_type == 'homework' %}
+                                    Homework Details
+                                    {% endif %}
+
+
+                                    {% if assignment.assignment_type == 'test' %}
+                                    Test Details
+                                    {% endif %}
+                                    
+                                    {% endif %}</span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Questions
+                                    Count
+                                    : <span style="color: #5b5e5e;">{{questions.count}} Questions</span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Date
+                                    : <span style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <form action="/assignment-start" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{assignment.assignment_id}}" name="assignment" hidden />
+
+                            <button type="submit" class="btn btn-primary w-100 w-100"
+                                style="border-radius: 0; border: 0;">
+
+                                <span style="font-size: 10px;"><i class="fa fa-2x fa-eye mr-3"></i></span>Start
+                            </button>
+                        </form>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--Assignment Start End -->
+    {% endif %}
+
+    {% if text == 'submited' %}
+    <!-- Assignment Start Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container">
+
+
+
+            <div class="row" style="padding: 10px;">
+
+                <div class="col-12 ">
+                    <div class="box text-center" style="background-color: white; padding: 20px;">
+                        <!-- <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt=""> -->
+                        <h1 class="" style="color: black; font-size: 28px;">{{assignment.assignment_name}}
+                            <span style="font-size: 13px; "><i
+                                    class="fa fa-2x fa-circle-check ml-2 text-success"></i></span>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 ">
+                    <div class="box mt-5" style="background-color: white; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">Details</span></h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-circle-question text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Questions
+                                    Count
+                                    : <span style="color: #5b5e5e;">{{questions.count}} Questions</span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Date
+                                    : <span style="color: #5b5e5e;">{{assignment.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box mt-4" style="background-color: white; padding: 10px;">
+                        <a href="#" class="btn btn-success w-100 w-100" style="border-radius: 0; border: 0;">
+                            Submited
+                            <span style="font-size: 8px;"><i class="fa fa-2x fa-circle-check mr-3"></i></span>
+                        </a>
+
+                        <a href="/assignment/progress/{{assignment.assignment_id}}" class="btn btn-primary w-100 w-100 mt-3" style="border-radius: 0; border: 0;">
+                            View Score
+                            <span style="font-size: 8px;"><i class="fa fa-2x fa-chart-simple mr-3"></i></span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Assignment Start End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+    {% else %}
+
+
+
+    <!-- Must Login Start -->
+    <div class="container-fluid py-5" style="background-color: #f1f1f1;">
+        <div class="container">
+            <div class="text-center mb-5">
+
+            </div>
+
+
+            <div class="row" style="padding: 10px;">
+
+                <div class="col-12 col-lg-7">
+
+
+
+                    <div class="box text-center" style="background-color: white; padding: 20px; margin-bottom: 20px;">
+                        {% if post.image %}
+                        <img class="img-fluid mb-3" src="{{post.image.url}}" style="width: 100%;">
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 15px;"><i class="fa fa-2x fa-lock ml-2 text-danger"></i></span>
+                        </h1>
+                        {% else %}
+                        <img class="img-fluid mb-3" src="{% static 'img/course-3.jpg' %}" alt="">
+                        <h1 class="" style="color: black; font-size: 28px;">{{post.title}}
+                            <span style="font-size: 15px;"><i class="fa fa-2x fa-lock ml-2 text-danger"></i></span>
+                        </h1>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-12 col-lg-5">
+
+                    <div class="box text-center" style="background-color: white; padding: 10px;">
+
+
+                        <p style="color: black; font-size: 30px; font-weight: bold;">You Must
+                            Login First!</p>
+
+                        <a href="/signin" class="btn btn-primary w-100 w-100" style="border-radius: 0; border: 0;">
+
+                            <span style="font-size: 10px;"><i
+                                    class="fa fa-2x fa-right-from-bracket mr-3"></i></span>Login
+                        </a>
+                    </div>
+
+
+
+                    <div class="box" style="background-color: white; margin-top: 22px; padding: 15px;">
+                        <div>
+                            <h1 class="" style="color: black; font-size: 23px;"><span
+                                    style="border-bottom: 3px #fd771e solid;">Details</span>
+                            </h1>
+                        </div>
+
+                        <div style="margin-top: 40px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-money-bill text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Price
+                                    : <span style="color: #5b5e5e;">{{post.price}}
+                                        EGP</span></span>
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                            <p>
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <span
+                                    style="margin-left: 10px; font-size: 18px; color: black; text-transform: capitalize;">Date
+                                    : <span style="color: #5b5e5e;">{{post.created_at|date:"SHORT_DATE_FORMAT"}}
+                                    </span></span>
+                            </p>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Must Login End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

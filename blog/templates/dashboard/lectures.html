@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}لوحة التحكم{% endblock title_ar %}
+{% else %}
+{% block title%}Dashboard{% endblock title %}
+{% endif %}
+
+
+
+{% block content %}
+
+<body>
+
+
+
+
+
+    {% if user.is_authenticated %}
+
+
+    {% if user_profile.instructor == True %}
+
+
+
+
+
+    <!-- Videos Start -->
+    <div class="container-fluid py-5" id="videos">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3" data-aos="fade-right" data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    المحاضرات
+                    {% else %}
+                    Lectures
+                    {% endif %}
+                </h5>
+                <h1 data-aos="fade-up" data-aos-duration="1200">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    محاضراتك
+                    {% else %}
+                    Your Lectures
+                    {% endif %}
+                </h1>
+            </div>
+            <div class="row">
+
+
+
+                <div class="col-lg-4 col-md-6 mb-4 d-none d-md-block">
+                    <div class="rounded overflow-hidden mb-2 bg-secondary"
+                        style="height: 440px; background-color: red; display: flex; justify-content: center; align-items: center;">
+
+                        <button type="button" class="btn btn-primary bg-secondary" style="border-radius: 0; width: 100%; height: 100%; border: none;" data-toggle="modal"
+                            data-target="#create-lecture">
+                            
+                            <i class="fa fa-2x fa-upload text-primary" style="font-size: 60px;"></i>
+                            
+                            <p class="pr-color" style="margin-top: 15px; font-size: 30px;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                محاضرة جديدة
+                                {% else %}
+                                New Lecture
+                                {% endif %}
+                            
+                            </p>
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-lg-4 col-md-6 mb-4 d-block d-md-none">
+                    <div class="rounded overflow-hidden mb-2 bg-secondary"
+                        style="height: 250px; background-color: red; display: flex; justify-content: center; align-items: center;">
+
+                        <button type="button" class="btn btn-primary bg-secondary" style="border-radius: 0; width: 100%; height: 100%; border: none;" data-toggle="modal"
+                            data-target="#create-lecture">
+                            
+                            <i class="fa fa-2x fa-upload text-primary" style="font-size: 60px;"></i>
+                            
+                            <p class="pr-color" style="margin-top: 15px; font-size: 27px; font-weight: bold;">
+                                {% if LANGUAGE_CODE == 'ar' %}
+                                محاضرة جديدة
+                                {% else %}
+                                New Lecture
+                                {% endif %}
+                            
+                            </p>
+                        </button>
+                    </div>
+                </div>
+
+
+                {% for post in posts reversed %}
+
+                <div class="col-lg-4 col-md-6 mb-4 lecture-card">
+                    <div class="rounded overflow-hidden mb-2">
+                        {% if post.image %}
+                        <a href="/dashboard/lecture/{{post.id}}">
+                            <img class="img-fluid" src="{{post.image.url}}" style="width: 100%; height: 230px;">
+                        </a>
+                        {% else %}
+                        <a href="/dashboard/lecture/{{post.id}}">
+                            <img class="img-fluid" src="{% static 'img/course-3.jpg' %}"
+                                style="width: 100%; height: 230px;">
+                        </a>
+                        {% endif %}
+
+                        <div class="bg-secondary p-4">
+                            <div class="d-flex justify-content-between mb-3">
+                                <a class="h5" href="/dashboard/lecture/{{post.slug}}">{{post.title}}</a>
+
+                                <span class="m-0" style="text-decoration: none;">
+
+                                    <i class="far fa-thumbs-up text-primary mr-2"
+                                        style="font-size: 22px; text-decoration: none;"></i>({{post.no_of_likes}})
+
+
+                                </span>
+
+                            </div>
+
+
+
+
+
+                            <div class="border-top mt-4 pt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="m-0"><i
+                                            class="fa fa-clock text-primary mr-2"></i>{{post.created_at|date:"M d, Y"}}
+                                    </h6>
+
+
+                                </div>
+
+
+                                <div class="btn-group dropup w-100 mt-4">
+                                    <button type="button" class="btn btn-danger dropdown-toggle w-100"
+                                        style="border-radius: 0;" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <i class="fa fa-2x fa-trash mr-3" style="font-size: 18px;"></i>
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                        مسح المحاضرة
+                                        {% else %}
+                                        Delete Lesson
+                                        {% endif %}
+
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <form action="/delete-lesson" method="POST"
+                                            style="margin-top: 5px; margin-bottom: 10px;">
+                                            {% csrf_token %}
+                                            <div class="modal-body">
+
+                                                <p>
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    هل انت متاكد ان تريد مسح هذة المحاضرة؟ ({{post.title}})
+                                                    {% else %}
+                                                    Are You Sure You Want To Delete ({{post.title}})?
+                                                    {% endif %}</p>
+
+                                                <input type="hidden" value="{{post.id}}" name="post-id" hidden />
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    اغلاق
+                                                    {% else %}
+                                                    Close
+                                                    {% endif %}</button>
+
+                                                <button type="submit" class="btn btn-danger pl-5 pr-5">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    مسح
+                                                    {% else %}
+                                                    Delete
+                                                    {% endif %}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                                <!-- <button type="button" class="btn btn-danger w-100 mt-3" style="border-radius: 0;"
+                                    data-toggle="modal" data-target="#exampleModalCenter">
+                                    <i class="fa fa-2x fa-trash mr-3" style="font-size: 18px;"></i>Delete Lesson
+                                </button> -->
+
+
+                                <!-- Delete Lesson -->
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Delete Lesson</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+
+                                            <form action="/delete-lesson" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+
+                                                    <p>Are You Sure You Want To Delete ({{post.title}})?</p>
+
+                                                    <input type="hidden" value="{{post.id}}" name="post-id" hidden />
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit"
+                                                        class="btn btn-danger pl-5 pr-5">Delete</button>
+                                                </div>
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Delete Lesson -->
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                {% endfor %}
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Videos End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% else %}
+    <a href=""></a>
+    {% endif %}
+
+
+
+    {% if user_profile.instructor == False %}
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+    {% else %}
+    <a href=""></a>
+    {% endif %}
+
+
+
+
+
+
+
+    {% else %}
+    <!-- Error Instructor Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Error Instructor End -->
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

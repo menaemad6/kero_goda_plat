@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}الصفوف الدراسية{% endblock title_ar %}
+{% else %}
+{% block title%}Grades{% endblock title %}
+{% endif %}
+
+
+
+
+{% block content %}
+
+<body>
+
+
+
+
+    <!-- Header Start -->
+    <div class="container-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center" style="min-height: 300px">
+                <h3 class="display-4 text-white text-uppercase">
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    المحاضرات
+                    {% else %}
+                    Lectures
+                    {% endif %}
+                    </h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="/">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                    الرئيسية
+                        {% else %}
+                        Home
+                        {% endif %}
+                        </a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                    المحاضرات
+                        {% else %}
+                        Lectures
+                        {% endif %}
+                        </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+
+
+
+    <!-- Lessons Lists -->
+    <div class="container">
+        <div class="text-center mb-5">
+            <h5 class="text-primary text-uppercase mb-3"  data-aos="fade-right" data-aos-duration="1200">
+                {% if LANGUAGE_CODE == 'ar' %}
+                السنة الدراسية
+                {% else %}
+                Grade
+                {% endif %}
+                </h5>
+            <h1 data-aos="fade-up" data-aos-duration="1200">
+                {% if LANGUAGE_CODE == 'ar' %}
+                    الصفوف الدراسية
+                {% else %}
+                Grades
+                {% endif %}
+                </h1>
+        </div>
+        <div class="row mb-5">
+
+
+            <!-- <div class="col-12 col-lg-4">
+                <form action="/lessons/grades" method="POST" >
+                    {% csrf_token %}
+
+                    <input type="hidden" value="first" name="year" hidden />
+
+
+                    <button type="submit"
+                        class="mb-3 d-flex align-items-center justify-content-center bg-secondary w-100 text-decoration-none"
+                        style="height: 67px; padding: 0 30px; height: 200px; border: none;">
+                        <h5 class="text-primary m-0">
+
+                            First Secondary</h5>
+                    </button>
+
+                </form>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <form action="/lessons/grades" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <input type="hidden" value="second" name="year" hidden />
+
+
+                    <button type="submit"
+                        class="mb-3 d-flex align-items-center justify-content-center bg-secondary w-100 text-decoration-none"
+                        style="height: 67px; padding: 0 30px; height: 200px; border: none;">
+                        <h5 class="text-primary m-0">
+
+                            Second Secondary</h5>
+                    </button>
+
+                </form>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <form action="/lessons/grades" method="POST">
+                    {% csrf_token %}
+
+                    <input type="hidden" value="third" name="year" hidden />
+
+
+                    <button type="submit"
+                        class="mb-3 d-flex align-items-center justify-content-center bg-secondary w-100 text-decoration-none"
+                        style="height: 67px; padding: 0 30px; height: 200px; border: none;">
+                        <h5 class="text-primary m-0">
+
+                            Third Secondary</h5>
+                    </button>
+
+                </form>
+            </div> -->
+
+
+
+
+
+            <div class="col-12 col-lg-4" data-aos="fade-zoom-in"
+            data-aos-easing="ease-in-back"
+            data-aos-delay="100"
+            data-aos-offset="0">
+                <a href="/lessons/?year=first"
+                    class="mb-3 d-flex align-items-center justify-content-center bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px; height: 200px;">
+                    <h5 class="text-primary m-0">
+
+                        {% if LANGUAGE_CODE == 'ar' %}
+                    الصف الاول الثانوي
+                    <i class="fa fa-list ml-2"></i>
+                    {% else %}
+                    <i class="fa fa-list mr-2"></i>
+                        First Secondary
+                        {% endif %}</h5>
+                </a>
+            </div>
+
+            <div class="col-12 col-lg-4" data-aos="fade-zoom-in"
+            data-aos-easing="ease-in-back"
+            data-aos-delay="300"
+            data-aos-offset="0">
+                <a href="/lessons/?year=second"
+                    class="mb-3 d-flex align-items-center justify-content-center bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px; height: 200px;">
+                    <h5 class="text-primary m-0">
+
+                        {% if LANGUAGE_CODE == 'ar' %}
+                    الصف الثاني الثانوي
+                    <i class="fa fa-list ml-2"></i>
+                    {% else %}
+                    <i class="fa fa-list mr-2"></i>
+                        Second Secondary
+                        {% endif %}</h5>
+                </a>
+            </div>
+
+            <div class="col-12 col-lg-4" data-aos="fade-zoom-in"
+            data-aos-easing="ease-in-back"
+            data-aos-delay="500"
+            data-aos-offset="0">
+                <a href="/lessons/?year=third"
+                    class="mb-3 d-flex align-items-center justify-content-center bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px; height: 200px;">
+                    <h5 class="text-primary m-0">
+                        
+                        {% if LANGUAGE_CODE == 'ar' %}
+                    الصف الثالث الثانوي
+                    <i class="fa fa-list ml-2"></i>
+                    {% else %}
+                    <i class="fa fa-list mr-2"></i>
+                        Third Secondary
+                        {% endif %}
+                        </h5>
+                </a>
+            </div>
+
+            <!-- <div class="col-12 col-md-4">
+                <a href="/purchased-lessons"
+                    class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                    style="height: 67px; padding: 0 30px; height: 100px;">
+                    <h5 class="text-primary m-0"><i class="fa fa-money-bill mr-2"></i>Purchased Lectures</h5>
+                </a>
+            </div> -->
+
+
+
+
+        </div>
+    </div>
+    <!-- Lessons Lists -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

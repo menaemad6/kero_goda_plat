@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}المجموعات - {{group.title}}{% endblock title_ar %}
+{% else %}
+{% block title%}Groups - {{group.title}}{% endblock title %}
+{% endif %}
+
+
+{% block head %}
+
+<style>
+    .center-div{
+        width: 100%;
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+
+<body>
+
+
+<div class="center-div">
+
+<div style=" display: flex; justify-content: center; margin-bottom: 20px;">
+        {% if group.image %}
+    <img class="img-fluid " src="{{group.image.url}}"
+        style="width: 150px; height: 160px; border-radius: 50%;">
+    {% else %}
+    <div style="width: 150px; height: 160px; border-radius: 50%; display: flex; justify-content: center; align-items: center;" class="bg-secondary">
+        <span style="font-size: 10px;"><i class="fa fa-2x fa-user-group"></i></span>
+    </div>
+    {% endif %}
+</div>
+
+<div>
+    <p style="font-size: 20px;">{{group.title}}</p>
+</div>
+
+<div>
+    {% if text == 'alr' %}
+    <a href="/groups/{{group.id}}" style="text-decoration: none; font-size: 20px;" class="btn btn-primary">
+        {% if LANGUAGE_CODE == 'ar' %}
+        رؤية المجموعة
+        {% else %}
+        View Group
+        {% endif %}
+    </a>
+    {% else %}
+    <a href="/groups/invite?group_link={{group.id}}&check=join" style="text-decoration: none; font-size: 20px;" class="btn btn-primary">
+        {% if LANGUAGE_CODE == 'ar' %}
+         انضم للمجموعة
+        {% else %}
+        Join Group
+        {% endif %}
+    </a>
+    {% endif %}
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+</body>
+
+{% endblock content %}

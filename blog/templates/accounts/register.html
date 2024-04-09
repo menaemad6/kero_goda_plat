@@ -1,0 +1,578 @@
+
+
+
+{% extends "base-register.html" %}
+{% load static %}
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}الاشتراك{% endblock title_ar %}
+{% else %}
+{% block title%}Register{% endblock title %}
+{% endif %}
+
+
+
+{% block content %}
+<body>
+
+    <!-- Register Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+
+                <div class="col-12 col-md-9">
+
+                    <button class="tablink btn btn-primary" style="border: 0; border-radius: 13px 0px 0 0;"
+                        onclick="openPage('Login', this, '#f2f1f8')" id="defaultOpen">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        تسجيل دخول
+                        {% else %}
+                        Login
+                        {% endif %}
+                    </button>
+                    <button class="tablink btn btn-primary" style="border: 0;  border-radius: 0px 13px 0 0;"
+                        onclick="openPage('Register', this, '#f2f1f8')">
+                        {% if LANGUAGE_CODE == 'ar' %}
+                        انشاء حساب
+                        {% else %}
+                        Register
+                        {% endif %}</button>
+
+
+
+
+                    <div id="Login" class="tabcontent">
+                        <div class="container-fluid">
+                            <div class="row">
+
+                                <div class="col-12 pb-4">
+
+
+                                    <div class="contact-form mt-5">
+                                        <div id="success"></div>
+
+
+                                        <div class="text-center mb-3 pb-3">
+                                            <!-- <h6 class="text-primary text-uppercase" style="font-size: 30px;" >You Must Login First</h6> -->
+                                            <h1 style="font-size: 50px;">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                تسجيل دخول
+                                                {% else %}
+                                                Login
+                                                {% endif %}
+                                            </h1>
+                                        </div>
+
+
+
+                                        <div class="block-wrap mb-3">
+
+
+                                            <form action="/accounts/google/login/?process=login" method="POST">
+                                                {% csrf_token %}
+                                                <!-- google	 -->
+                                                <div style="width: 100%">
+                                                    <button type="submit" class="btn-google"
+                                                        style="border: 0; width: 100%;">
+                                                        <div class="google-content">
+                                                            <div class="social-logo">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    viewBox="0 0 48 48">
+                                                                    <defs>
+                                                                        <path id="a"
+                                                                            d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" />
+                                                                    </defs>
+                                                                    <clipPath id="b">
+                                                                        <use xlink:href="#a" overflow="visible" />
+                                                                    </clipPath>
+                                                                    <path clip-path="url(#b)" fill="#FBBC05"
+                                                                        d="M0 37V11l17 13z" />
+                                                                    <path clip-path="url(#b)" fill="#EA4335"
+                                                                        d="M0 11l17 13 7-6.1L48 14V0H0z" />
+                                                                    <path clip-path="url(#b)" fill="#34A853"
+                                                                        d="M0 37l30-23 7.9 1L48 0v48H0z" />
+                                                                    <path clip-path="url(#b)" fill="#4285F4"
+                                                                        d="M48 48L17 24l-4-3 35-10z" />
+                                                                </svg>
+                                                            </div>
+                                                            <p>
+                                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                                اكمل بواسطة جوجل
+                                                                {% else %}
+                                                                Continue with Google
+                                                                {% endif %}</p>
+
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </form>
+
+
+
+                                            <!-- facebook	 -->
+                                            <form action="/accounts/facebook/login/?process=connect" method="POST ">
+                                                {% csrf_token %}
+                                                <div style="width: 100%;">
+                                                    <button type="submit" class="btn-fb"
+                                                        href="/accounts/facebook/login/?process=login"
+                                                        style="border: 0;">
+                                                        <div class="fb-content">
+                                                            <div class="social-logo">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="32"
+                                                                    height="32" viewBox="0 0 32 32" version="1">
+                                                                    <path fill="#FFFFFF"
+                                                                        d="M32 30a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h28a2 2 0 0 1 2 2v28z" />
+                                                                    <path fill="#4267b2"
+                                                                        d="M22 32V20h4l1-5h-5v-2c0-2 1.002-3 3-3h2V5h-4c-3.675 0-6 2.881-6 7v3h-4v5h4v12h5z" />
+                                                                </svg>
+                                                            </div>
+                                                            <p>
+                                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                                اكمل بواسطة فيسبوك
+                                                                {% else %}
+                                                                Continue with Facebook
+                                                                {% endif %}</p>
+
+                                                        </div>
+                                                        </a>
+                                                </div>
+                                            </form>
+
+
+
+                                        </div>
+
+
+
+
+                                        <p style="margin-bottom: 50px; color: black;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            او
+                                            {% else %}
+                                            Or
+                                            {% endif %}</p>
+
+
+
+
+                                        <form method="post" action="/login-function" class="p-0 pr-md-5 pl-md-5">
+
+                                            {% csrf_token %}
+
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            <div class="input-group mb-3 login-username-input">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-user text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="username" pattern="[^\s]+"
+                                                    class="form-control p-4" placeholder="اسم المستخدم" required
+                                                    aria-label="Username" aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Username">
+                                            </div>
+
+
+
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-key text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="password" name="password" class="form-control p-4"
+                                                    placeholder="كلمة السر" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Password">
+                                            </div>
+                                            {% else %}
+                                            <div class="input-group mb-3 login-username-input">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-user text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" name="username" pattern="[^\s]+"
+                                                    class="form-control p-4" placeholder="Username" required
+                                                    aria-label="Username" aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Username">
+                                            </div>
+
+
+
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-key text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="password" name="password" class="form-control p-4"
+                                                    placeholder="Password" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Password">
+                                            </div>
+                                            {% endif %}
+
+
+
+
+                                            {% if messages %}
+                                            {% for message in messages %}
+                                            <p class="text-base" style="color: red;">{{ message }}</p>
+                                            {% endfor %}
+                                            {% endif %}
+
+
+                                            <div class="text-center">
+                                                <button class="btn btn-primary py-3 px-4 w-100" type="submit"
+                                                    id="sendMessageButton">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    سجل
+                                                    {% else %}
+                                                    Login
+                                                    {% endif %}
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <p class="text-base" style="color: black;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            ليس لديك حساب بعد؟
+                                            {% else %}
+                                            Not registered?
+                                            {% endif %}
+                                            <button onclick="openPage('Register', this, '#f2f1f8')"
+                                                style="background-color: transparent; border: none;" class="pr-color">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                انشئ واحد الان
+                                                {% else %}
+                                                Create a new account
+                                                {% endif %}
+                                            </button></p>
+
+
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+
+
+                    <div id="Register" class="tabcontent">
+                        <div class="container-fluid">
+                            <div class="row">
+
+                                <div class="col-12 pb-4">
+
+
+                                    <div class="contact-form mt-5">
+                                        <div id="success"></div>
+
+
+                                        <div class="text-center mb-3 pb-3">
+                                            <!-- <h6 class="text-primary text-uppercase" style="font-size: 30px;" >You Must Login First</h6> -->
+                                            <h1 style="font-size: 50px;">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                انشاء حساب
+                                                {% else %}
+                                                Sign Up
+                                                {% endif %}</h1>
+
+                                        </div>
+
+
+
+                                        <div class="block-wrap mb-3">
+
+
+                                            <form action="/accounts/google/login/?process=login" method="POST">
+                                                {% csrf_token %}
+                                                <!-- google	 -->
+                                                <div style="width: 100%">
+                                                    <button type="submit" class="btn-google"
+                                                        style="border: 0; width: 100%;">
+                                                        <div class="google-content">
+                                                            <div class="social-logo">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    viewBox="0 0 48 48">
+                                                                    <defs>
+                                                                        <path id="a"
+                                                                            d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" />
+                                                                    </defs>
+                                                                    <clipPath id="b">
+                                                                        <use xlink:href="#a" overflow="visible" />
+                                                                    </clipPath>
+                                                                    <path clip-path="url(#b)" fill="#FBBC05"
+                                                                        d="M0 37V11l17 13z" />
+                                                                    <path clip-path="url(#b)" fill="#EA4335"
+                                                                        d="M0 11l17 13 7-6.1L48 14V0H0z" />
+                                                                    <path clip-path="url(#b)" fill="#34A853"
+                                                                        d="M0 37l30-23 7.9 1L48 0v48H0z" />
+                                                                    <path clip-path="url(#b)" fill="#4285F4"
+                                                                        d="M48 48L17 24l-4-3 35-10z" />
+                                                                </svg>
+                                                            </div>
+                                                            <p>
+                                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                                اكمل بواسطة جوجل
+                                                                {% else %}
+                                                                Login with Google
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </form>
+
+
+
+                                            <!-- facebook	 -->
+                                            <form action="/accounts/facebook/login/?process=connect" method="POST ">
+                                                {% csrf_token %}
+                                                <div style="width: 100%;">
+                                                    <button type="submit" class="btn-fb"
+                                                        href="/accounts/facebook/login/?process=login"
+                                                        style="border: 0;">
+                                                        <div class="fb-content">
+                                                            <div class="social-logo">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="32"
+                                                                    height="32" viewBox="0 0 32 32" version="1">
+                                                                    <path fill="#FFFFFF"
+                                                                        d="M32 30a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h28a2 2 0 0 1 2 2v28z" />
+                                                                    <path fill="#4267b2"
+                                                                        d="M22 32V20h4l1-5h-5v-2c0-2 1.002-3 3-3h2V5h-4c-3.675 0-6 2.881-6 7v3h-4v5h4v12h5z" />
+                                                                </svg>
+                                                            </div>
+                                                            <p>
+                                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                                اكمل بواسطة فيسبوك
+                                                                {% else %}
+                                                                Login with Facebook
+                                                                {% endif %}</p>
+                                                        </div>
+                                                        </a>
+                                                </div>
+                                            </form>
+
+
+
+                                        </div>
+
+
+
+
+
+                                        <p style="margin-bottom: 50px;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            او
+                                            {% else %}
+                                            Or
+                                            {% endif %}</p>
+
+
+
+                                        <form method="post" action="/signup-function" class="p-0 pr-md-5 pl-md-5">
+
+                                            {% csrf_token %}
+
+                                            {% if LANGUAGE_CODE == 'ar' %}
+
+                                            <div class="input-group mb-1">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-user text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" pattern="[^\s]+" name="username"
+                                                    class="form-control p-4" placeholder="اسم المستخدم" required
+                                                    aria-label="Username" aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Username">
+                                            </div>
+
+                                            <p class="text-base mb-5" style="color: red;">اسم المستخدم لابد ان لا يحتوي
+                                                علي مسافات فيه</p>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-envelope text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="email" name="email" class="form-control p-4"
+                                                    placeholder="البريد الالكتروني" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="البريد الالكتروني">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-key text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="password" name="password" class="form-control p-4"
+                                                    placeholder="كلمة السر" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="كلمة السر">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-key text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="password" name="password2" class="form-control p-4"
+                                                    placeholder="تاكيد كلمة السر" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Make Sure The 2 Passwords Is The Same">
+                                            </div>
+
+                                            {% else %}
+
+                                            <div class="input-group mb-1">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-user text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="text" pattern="[^\s]+" name="username"
+                                                    class="form-control p-4" placeholder="Username" required
+                                                    aria-label="Username" aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Username">
+                                            </div>
+
+                                            <p class="text-base mb-5" style="color: red;">Username must not have spaces
+                                                in it!</p>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-envelope text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="email" name="email" class="form-control p-4"
+                                                    placeholder="Email Address" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Email Address">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-key text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="password" name="password" class="form-control p-4"
+                                                    placeholder="Password" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Enter Your Password">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i
+                                                            class="fa fa-2x fa-key text-primary mr-3"
+                                                            style="font-size: 20px;"></i></span>
+                                                </div>
+                                                <input type="password" name="password2" class="form-control p-4"
+                                                    placeholder="Confrim Your Password" required aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                    data-validation-required-message="Make Sure The 2 Passwords Is The Same">
+                                            </div>
+
+                                            {% endif %}
+
+
+
+
+
+
+                                            {% if messages %}
+                                            {% for message in messages %}
+                                            <p class="text-base" style="color: red;">{{ message }}</p>
+                                            {% endfor %}
+                                            {% endif %}
+
+
+
+                                            <div class="text-center">
+                                                <button class="btn btn-primary py-3 px-4 w-100" type="submit"
+                                                    id="sendMessageButton">
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+                                                    اشترك
+                                                    {% else %}
+                                                    Register
+                                                    {% endif %}
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <p class="text-base" style="color: black;">
+                                            {% if LANGUAGE_CODE == 'ar' %}
+                                            لديك حساب بالفعل؟
+                                            {% else %}
+                                            Already have an account?
+                                            {% endif %}
+                                            <button onclick="openPage('Login', this, '#f2f1f8')"
+                                                style="background-color: transparent; border: none;" class="pr-color">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                سجل دخول
+                                                {% else %}
+                                                Login
+                                                {% endif %}</button></p>
+
+
+
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Register End -->
+
+
+</body>
+{% endblock content %}

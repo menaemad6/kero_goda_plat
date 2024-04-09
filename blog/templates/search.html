@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load static %}
+
+
+{% if LANGUAGE_CODE == 'ar' %}
+{% block title_ar %}البحث{% endblock title_ar %}
+{% else %}
+{% block title%}Search{% endblock title %}
+{% endif %}
+
+
+{% block content %}
+
+
+
+
+<body>
+
+
+
+    {% if user_profile.instructor == True %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 mt-5">
+                <form action="/search" method="POST">
+                    {% csrf_token %}
+
+                    {% if LANGUAGE_CODE == 'ar' %}
+                    <div class="input-group rounded mb-5">
+                        <input type="search" name="username" class="form-control rounded" placeholder="ابحث عن طالب"
+                            aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" style="background-color: white ; border-color: #d9dde2; border: 2px solid #d9dde2; border-radius: 5px;">
+                            <span class="input-group-text border-0 pr-color" id="search-addon" style=" background-color: white">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="input-group rounded mb-5">
+                        <input type="search" name="username" class="form-control rounded" placeholder="Search User"
+                            aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" style="background-color: white ; border-color: #d9dde2; border: 2px solid #d9dde2; border-radius: 5px;">
+                            <span class="input-group-text border-0 pr-color" id="search-addon" style=" background-color: white">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </button>
+                    </div>
+                    {% endif %}
+
+
+
+                </form>
+            </div>
+            
+
+
+
+            <div class="col-12 col-lg-8">
+
+                {% if username_profile_list|length == 0 %}
+                <div class="search-error text-center" style="width: 100%;">
+                    <p>
+                        {% if LANGUAGE_CODE == 'ar' %}
+لا يوجد اي نتائج 
+                        {% else %}
+                        There Isnt Any Results
+                        {% endif %}</p>
+                </div>
+                {% endif %}
+
+
+                {% if username_profile_list|length >= 1 %}
+                <p style="font-size: 22px;">
+                    {% if LANGUAGE_CODE == 'ar' %}
+النتائج
+                    {% else %}
+                    Results:
+                    {% endif %}
+                    </p>
+                {% for users in username_profile_list %}
+                <div class="search-item w-100 mb-4"
+                    style="background-color: #f2f1f8; height: 180px; display: flex; flex-direction: row; overflow: hidden; padding: 10px; border-radius: 10px; position: relative;">
+                    <div class="left-side" style="width: 130px; ">
+                        {% if users.image %}
+                        <img src="{{users.image.url}}" class="rounded-circle" style="width: 120px; height: 120px;">
+                        {% else %}
+                        <img src="{% static 'img/default-profile-image.jpg' %}">
+                        {% endif %}
+
+                        <!-- <img class="img-fluid" src="{{users.image.url}}" style="height: 150px; width: 130px;"> -->
+                    </div>
+                    <div class="right-side ml-3" style="width: 70%;">
+                        <a href="/profile/{{users.user}}"
+                            style=" font-size: 25px; font-weight: 600; text-transform: capitalize; text-decoration: none;"
+                            class="mt-2 pr-color">{{users.user}}</a>
+                        <p class="description mt-2" style="font-size: 16px;">{{users.bio}}</p>
+                        <p class="info" style="margin-top: -15px; font-size: 14px;">{{users.location}}</p>
+
+                    </div>
+
+                    <a href="/profile/{{users.user}}" class="btn btn-primary w-100"
+                        style="position: absolute; bottom: 0; left: 0; border-radius: 0;" data-ripple="">
+                        {% if LANGUAGE_CODE == 'ar' %}
+حساب الطالب
+                        {% else %}
+                        View User
+                        {% endif %}</a>
+
+                </div>
+                {% endfor %}
+                {% endif %}
+
+
+            </div>
+
+
+
+            <div class="col-12 col-lg-4">
+                <p style="font-size: 21px;">
+                    {% if LANGUAGE_CODE == 'ar' %}
+المقترحات
+                    {% else %}
+                    Suggestions:
+                    {% endif %}</p>
+                {% for suggestion in suggestions_username_profile_list %}
+                <div class="search-item w-100 mb-3"
+                    style="background-color: #f2f1f8; height: 150px; display: flex; flex-direction: row; overflow: hidden; padding: 10px; border-radius: 10px; position: relative;">
+                    <div class="left-side" style="width: 130px; ">
+                        {% if suggestion.image %}
+                        <img src="{{suggestion.image.url}}" class="rounded-circle" style="width: 90px; height: 90px;">
+                        {% else %}
+                        <img src="{% static 'img/default-profile-image.jpg' %}" class="rounded-circle" style="width: 90px; height: 90px;">
+                        {% endif %}
+
+                        <!-- <img class="img-fluid" src="{{suggestion.image.url}}" style="height: 130px; width: 130px;">  -->
+                    </div>
+                    <div class="right-side ml-3" style="width: 80%;">
+                        <a href="/profile/{{suggestion.user}}"
+                            style=" font-size: 20px; font-weight: 500; text-transform: capitalize; text-decoration: none;"
+                            class="mt-2 pr-color">{{suggestion.user}}</a>
+                        <p class="description mt-2" style="max-height: 40%; overflow: hidden; font-size: 14px;">
+                            {{suggestion.bio}}</p>
+
+
+                        <a href="/profile/{{suggestion.user}}" class="btn btn-primary w-100"
+                            style="position: absolute; bottom: 0; left: 0; border-radius: 0;" data-ripple="">
+                            {% if LANGUAGE_CODE == 'ar' %}
+حساب الطالب
+                            {% else %}
+                            View User
+                            {% endif %}</a>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+
+    {% else %}
+
+        <!-- Error Instructor Start -->
+        <div class="container-fluid py-5">
+            <div class="container py-5">
+    
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="contact-form bg-secondary rounded p-5 text-center">
+                            <div id="success"></div>
+    
+                            <p style="font-size: 23px;">You Must Be Instructor To View Search Page</p>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Error Instructor End -->
+
+        {% endif %}
+
+
+
+
+
+</body>
+{% endblock content %}

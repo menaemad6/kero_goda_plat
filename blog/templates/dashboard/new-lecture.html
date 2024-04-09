@@ -1,0 +1,1751 @@
+{% load static %}
+{% load i18n %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Ecourse - {{post.title}} - {{post.teacher_name}}</title>
+
+
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Website Icon -->
+    <link href="{% static 'img/site-logo.png' %}" rel="icon">
+
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}">
+
+
+
+
+    <!-- AOS LIBRARY -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- AOS LIBRARY -->
+
+
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+
+    <style>
+        .nav-dropdown-icon:hover {
+            color: #ff6600;
+        }
+
+        .pr-color {
+            color: #ff6600;
+        }
+
+        .pr-bg {
+            background-color: #ff6600;
+        }
+    </style>
+
+
+
+
+    <style>
+        @import url('//fonts.googleapis.com/css?family=Roboto');
+
+
+        .block-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .block-wrap button {
+            width: 100%;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+
+        .block-wrap>div {
+            width: 100%;
+            text-align: center;
+        }
+
+
+
+        .btn-google,
+        .btn-fb {
+            display: inline-block;
+            border-radius: 1px;
+            text-decoration: none;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+        }
+
+        .btn-fb:hover {
+            background-color: .218s;
+            border-color: .218s;
+            box-shadow: 218s;
+        }
+
+        .google-content,
+        .fb-content {
+            display: flex;
+            align-items: center;
+            width: 400px;
+            height: 50px;
+            color: white;
+        }
+
+        @media screen and (max-width:550px) {
+
+            .google-content,
+            .fb-content {
+                width: 300px;
+            }
+        }
+
+        @media screen and (max-width:350px) {
+
+            .google-content,
+            .fb-content {
+                width: 200px;
+
+            }
+        }
+
+
+
+
+        .social-logo {
+            padding: 15px;
+            height: inherit
+        }
+
+        .social-logo svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .social-text {
+            padding-top: 12px;
+            width: 100%;
+            line-height: 1;
+            text-align: center;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .btn-google {
+            background: #FFF
+        }
+
+        .btn-google:hover {
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+        }
+
+        .btn-google:active {
+            background-color: #eee
+        }
+
+
+
+        .google-content p {
+            color: #757575
+        }
+
+        .btn-fb {
+            padding-top: 1.5px;
+            background: #4267b2
+        }
+
+        .btn-fb:hover {
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+        }
+
+        .btn-fb:active {
+            background-color: #3b5998
+        }
+
+
+
+
+        .fb-content p {
+            color: rgba(white, .87)
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+
+
+    {% if user_profile.instructor == True %}
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid d-none d-lg-block">
+        <div class="row align-items-center py-4 px-xl-5">
+            <div class="col-lg-3">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0"><span class="text-primary">E</span>COURSES</h1>
+                </a>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-map-marker-alt text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">Our Center</h6>
+                        <small>128 , City , Sohag</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-envelope text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">Email Us</h6>
+                        <small>course@gmail.com</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-2x fa-phone text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">Call Us</h6>
+                        <small>012 345 6789</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+        <!-- Navbar Start -->
+        <div class="container-fluid">
+            <div class="row border-top px-xl-5">
+    
+    
+    
+                {% if user_profile %}
+    
+    
+    
+    
+    
+                <div class="col-lg-9" id="main">
+                    <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                        <a href="" class="text-decoration-none d-block d-lg-none">
+                            <h1 class="m-0"><span class="text-primary">E</span>COURSES</h1>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+    
+    
+    
+    
+                            <div class="nav-item dropdown d-none d-lg-block">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+    
+                                    {% if user_profile.image %}
+                                    <img src="{{user_profile.image.url}}" class="rounded-circle "
+                                        style="width:60px; border-radius: 10px; max-height: 70px;" alt="">
+                                    {% else %}
+                                    <img src="{% static 'images/default-profile-image.jpg' %}" class="rounded-circle "
+                                        style="width:60px; border-radius: 10px;" alt="">
+                                    <img src="">
+                                    {% endif %}
+    
+    
+    
+    
+                                </a>
+                                <div class="dropdown-menu rounded-0 m-0">
+    
+                                    <!-- <a href="/profile/{{user.username}}" class="dropdown-item">View My Profile</a>
+                                    <a href="/logout" class="dropdown-item">Logout</a> -->
+    
+    
+                                    <a href="/profile/{{user.username}}"
+                                        class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-user mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+    
+                                        View Profile
+    
+                                    </a>
+    
+    
+                                    <div class="dropdown-divider"></div>
+                                    {% if user_profile.instructor == True %}
+                                    <a href=""></a>
+                                    {% else %}
+    
+                                    {% if user_profile.money == None %}
+                                    <a href="/wallet/recharge" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+    
+                                        Your Wallet: 0 EGP
+    
+                                    </a>
+                                    {% else %}
+    
+                                    <p class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+    
+                                        Wallet: {{user_profile.money}} EGP
+    
+    
+                                    </p>
+    
+                                    <a href="/wallet/recharge" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-money-bill-transfer mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+    
+                                        Recharge
+    
+                                    </a>
+    
+                                    {% endif %}
+                                    {% endif %}
+    
+    
+    
+    
+                                    {% if user_profile.instructor == False %}
+                                    <div class="dropdown-divider"></div>
+                                    {% endif %}
+    
+                                    <a href="/notifications" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-bell mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+    
+                                        Notifications
+    
+    
+                                        {% if notifications %}
+                                        <span class="pr-bg"
+                                            style="margin-left: 20px;  border-radius: 15px ; padding-top: 2px ; padding-bottom: 2px; padding-left: 8px; padding-right: 8px; color: white;">
+                                            {{notifications}}</span>
+                                        {% endif %}
+                                    </a>
+    
+    
+                                    {% if user_profile.instructor == False %}
+                                    <a href="/inbox" class=" mt-2 btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-envelope mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+    
+                                        Inbox
+    
+    
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    {% endif %}
+    
+                                    {% if user_profile.instructor == True %}
+                                    <div class="dropdown-divider"></div>
+                                    {% endif %}
+    
+    
+                                    <a href="/logout" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                        style="border-radius: 0;">
+                                        <i class="fa fa-2x fa-right-from-bracket mr-3 nav-dropdown-icon"
+                                            style="font-size: 18px;"></i>
+    
+    
+                                        Logout
+    
+                                    </a>
+    
+                                </div>
+                            </div>
+    
+    
+    
+    
+    
+                            <div class="navbar-nav py-0">
+                                <a href="/" class="nav-item nav-link">
+    
+                                    Home
+    
+                                </a>
+    
+    
+    
+    
+                                {% if user_profile.instructor == True %}
+                                <a href="/dashboard" class="nav-item nav-link d-lg-none d-block">
+                                    Dashboard
+    
+                                </a>
+                                {% else %}
+                                <a href=""></a>
+                                {% endif %}
+    
+                                {% if user_profile.instructor == False %}
+                                {% if user_profile.premium == True %}
+                                <a href="/lessons" class="nav-item nav-link d-block d-lg-none">
+    
+                                    Lectures
+    
+                                </a>
+                                {% else %}
+                                <a href=""></a>
+                                {% endif %}
+    
+    
+                                {% if user_profile.premium == False %}
+                                <a href="/get-premium" class="nav-item nav-link d-block d-lg-none">
+                                    Get Premium
+                                </a>
+                                {% else %}
+                                <a href=""></a>
+                                {% endif %}
+    
+    
+                                {% else %}
+                                <a href=""></a>
+                                {% endif %}
+    
+                                <a href="/news" class="nav-item nav-link">
+    
+                                    News
+    
+                                </a>
+    
+    
+    
+    
+                                <div class="nav-item dropdown d-block d-lg-none">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                        {% if user_profile.image %}
+                                        <img src="{{user_profile.image.url}}" class="rounded-circle "
+                                            style="width:60px; border-radius: 10px; max-height: 70px;" alt="">
+                                        {% else %}
+                                        <img src="{% static 'images/default-profile-image.jpg' %}" class="rounded-circle "
+                                            style="width:60px; border-radius: 10px;" alt="">
+                                        <img src="">
+                                        {% endif %}
+                                        My Profile
+                                    </a>
+                                    <div class="dropdown-menu rounded-0 m-0">
+                                        <!-- <a href="/profile/{{user.username}}" class="dropdown-item">View My Profile</a>
+                                        <a href="/logout" class="dropdown-item">Logout</a> -->
+    
+                                        <a href="/profile/{{user.username}}"
+                                            class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                            style="border-radius: 0;">
+                                            <i class="fa fa-2x fa-user mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+    
+                                            View Profile
+    
+    
+                                        </a>
+    
+    
+                                        <div class="dropdown-divider"></div>
+                                        {% if user_profile.instructor == True %}
+                                        <a href=""></a>
+                                        {% else %}
+    
+                                        {% if user_profile.money == None %}
+                                        <a href="/wallet/recharge"
+                                            class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                            style="border-radius: 0;">
+                                            <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                                style="font-size: 18px;"></i>
+    
+                                            Your Wallet: 0 EGP
+    
+    
+                                        </a>
+                                        {% else %}
+    
+                                        <p class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                            style="border-radius: 0;">
+                                            <i class="fa fa-2x fa-money-bill mr-3 nav-dropdown-icon"
+                                                style="font-size: 18px;"></i>
+    
+                                            Your Wallet: {{user_profile.money}} EGP
+    
+    
+                                        </p>
+    
+                                        <a href="/wallet/recharge"
+                                            class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                            style="border-radius: 0;">
+                                            <i class="fa fa-2x fa-money-bill-transfer mr-3 nav-dropdown-icon"
+                                                style="font-size: 18px;"></i>
+    
+                                            Rechagre
+    
+                                        </a>
+    
+    
+                                        <!-- <a href="/wallet/recharge" class="dropdown-item">Your Wallet: {{user_profile.money}}
+                                            EGP</a> -->
+                                        {% endif %}
+                                        {% endif %}
+    
+                                        {% if user_profile.instructor == False %}
+                                        <div class="dropdown-divider"></div>
+                                        {% endif %}
+    
+                                        <a href="/notifications"
+                                            class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                            style="border-radius: 0;">
+                                            <i class="fa fa-2x fa-bell mr-3 nav-dropdown-icon" style="font-size: 18px;"></i>
+    
+                                            Notifications
+    
+    
+                                            {% if notifications %}
+                                            <span class="pr-bg"
+                                                style="margin-left: 20px;  border-radius: 15px ; padding-top: 2px ; padding-bottom: 2px; padding-left: 8px; padding-right: 8px; color: white;">
+                                                {{notifications}}</span>
+                                            {% endif %}
+                                        </a>
+    
+    
+                                        {% if user_profile.instructor == False %}
+                                        <a href="/inbox" class=" mt-2 btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                            style="border-radius: 0;">
+                                            <i class="fa fa-2x fa-envelope mr-3 nav-dropdown-icon"
+                                                style="font-size: 18px;"></i>
+    
+                                            Inbox
+    
+    
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        {% endif %}
+    
+                                        {% if user_profile.instructor == True %}
+                                        <div class="dropdown-divider"></div>
+                                        {% endif %}
+    
+    
+                                        <a href="/logout" class="btn btn-primary dropdown-item w-100 nav-dropdown-icon"
+                                            style="border-radius: 0;">
+                                            <i class="fa fa-2x fa-right-from-bracket mr-3 nav-dropdown-icon"
+                                                style="font-size: 18px;"></i>
+    
+                                            Logout
+    
+                                        </a>
+    
+                                    </div>
+                                </div>
+    
+    
+    
+    
+                            </div>
+    
+                        </div>
+                    </nav>
+                </div>
+    
+    
+    
+    
+    
+    
+    
+                {% if user_profile.instructor == True %}
+                <div class="col-lg-3 d-none d-lg-block">
+                    <a href="/dashboard"
+                        class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                        style="height: 67px; padding: 0 30px;">
+                        <h5 class="text-primary m-0"><i class="fa fa-pen mr-2"></i>
+    
+                            Dashboard
+    
+                        </h5>
+    
+                    </a>
+                </div>
+                {% endif %}
+    
+    
+    
+                {% if user_profile.instructor == False %}
+                {% if user_profile.premium == True %}
+                <div class="col-lg-3 d-none d-lg-block ">
+                    <a href="/lessons"
+                        class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                        style="height: 67px; padding: 0 30px;">
+                        <h5 class="text-primary m-0"><i class="fa fa-book mr-2"></i>
+    
+                            Lectures
+    
+                        </h5>
+                    </a>
+                </div>
+                {% endif %}
+    
+                {% if user_profile.premium == False %}
+                <div class="col-lg-3 d-none d-lg-block">
+                    <a href="/get-premium"
+                        class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                        style="height: 67px; padding: 0 30px;">
+                        <h5 class="text-primary m-0"><i class="fa fa-pen mr-2"></i>
+    
+                            Get Premium
+    
+                        </h5>
+                    </a>
+                </div>
+                {% endif %}
+                {% endif %}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                {% else %}
+    
+                <div class="col-lg-9">
+                    <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                        <a href="" class="text-decoration-none d-block d-lg-none">
+                            <h1 class="m-0"><span class="text-primary">E</span>COURSES</h1>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+    
+    
+                            <div class="navbar-nav py-0">
+    
+                                <button type="button" class="nav-item nav-link"
+                                    style="border: 0; background-color: white; height: fit-content;">
+                                    <a href="/" class="nav-link" style="text-decoration: none; padding: 0;">
+    
+                                        Home
+    
+                                    </a></button>
+    
+                                <button type="button" class="nav-item nav-link d-block d-lg-none"
+                                    style="border: 0; background-color: white; height: fit-content;">
+                                    <a href="/lessons" class="nav-link" style="text-decoration: none; padding: 0;">
+    
+                                        Lectures
+    
+    
+                                    </a></button>
+    
+                                <button type="button" class="nav-item nav-link"
+                                    style="border: 0; background-color: white; height: fit-content;">
+                                    <a href="/news" class="nav-link" style="text-decoration: none; padding: 0;">
+    
+                                        News
+    
+                                    </a></button>
+    
+                                <button type="button" data-toggle="modal" data-target="#login" class="nav-item nav-link"
+                                    style="border: 0; background-color: white; height: fit-content;">
+    
+                                    Login
+    
+                                </button>
+    
+    
+                                <button type="button" class="nav-item nav-link"
+                                    style="border: 0; background-color: white; height: fit-content;">
+                                    <a href="/signup" class="nav-link" style="text-decoration: none; padding: 0;">
+    
+                                        Register
+    
+                                    </a></button>
+    
+    
+    
+                                <!-- <a class="nav-item nav-link" href="/signup">Register</a> -->
+    
+    
+    
+    
+    
+                            </div>
+    
+                        </div>
+                    </nav>
+                </div>
+    
+                <div class="col-lg-3 d-none d-lg-block ">
+                    <a href="/lessons"
+                        class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                        style="height: 67px; padding: 0 30px;">
+                        <h5 class="text-primary m-0"><i class="fa fa-book mr-2"></i>
+    
+                            Lectures
+    
+                        </h5>
+                    </a>
+                </div>
+    
+    
+    
+                <!-- Login -->
+                <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+    
+                                    Login
+    
+    
+    
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+    
+    
+    
+                            <div class="block-wrap mb-4 mt-4">
+    
+    
+                                <form action="/accounts/google/login/?process=login" method="POST">
+                                    {% csrf_token %}
+                                    <!-- google	 -->
+                                    <div style="width: 100%">
+                                        <button type="submit" class="btn-google" style="border: 0; width: 100%;">
+                                            <div class="google-content">
+                                                <div class="social-logo">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+                                                        <defs>
+                                                            <path id="a"
+                                                                d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" />
+                                                        </defs>
+                                                        <clipPath id="b">
+                                                            <use xlink:href="#a" overflow="visible" />
+                                                        </clipPath>
+                                                        <path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
+                                                        <path clip-path="url(#b)" fill="#EA4335"
+                                                            d="M0 11l17 13 7-6.1L48 14V0H0z" />
+                                                        <path clip-path="url(#b)" fill="#34A853"
+                                                            d="M0 37l30-23 7.9 1L48 0v48H0z" />
+                                                        <path clip-path="url(#b)" fill="#4285F4"
+                                                            d="M48 48L17 24l-4-3 35-10z" />
+                                                    </svg>
+                                                </div>
+                                                <p class="social-text">
+    
+                                                    Login with Google
+    
+                                                </p>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </form>
+    
+    
+    
+                                <!-- facebook	 -->
+                                <form action="/accounts/facebook/login/?process=connect" method="POST ">
+                                    {% csrf_token %}
+                                    <div style="width: 100%;">
+                                        <button type="submit" class="btn-fb" href="/accounts/facebook/login/?process=login"
+                                            style="border: 0;">
+                                            <div class="fb-content">
+                                                <div class="social-logo">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                        viewBox="0 0 32 32" version="1">
+                                                        <path fill="#FFFFFF"
+                                                            d="M32 30a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h28a2 2 0 0 1 2 2v28z" />
+                                                        <path fill="#4267b2"
+                                                            d="M22 32V20h4l1-5h-5v-2c0-2 1.002-3 3-3h2V5h-4c-3.675 0-6 2.881-6 7v3h-4v5h4v12h5z" />
+                                                    </svg>
+                                                </div>
+                                                <p class="social-text">
+    
+                                                    Login with Facebook
+    
+                                                </p>
+                                            </div>
+                                            </a>
+                                    </div>
+                                </form>
+    
+    
+    
+                            </div>
+    
+    
+                            <div class="text-center">
+                                <p style="margin-bottom: 20px;">
+    
+                                    Or
+    
+                                </p>
+                            </div>
+    
+    
+    
+    
+    
+                            <form method="POST" action="/signin" style="margin-top: 5px; margin-bottom: 10px;">
+                                {% csrf_token %}
+                                <div class="modal-body">
+    
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-user text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+    
+                                        <input type="text" name="username" class="form-control p-4" placeholder="Username"
+                                            aria-label="Username" aria-describedby="basic-addon1"
+                                            data-validation-required-message="Enter Your Username">
+    
+    
+    
+                                    </div>
+    
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa fa-2x fa-key text-primary mr-3"
+                                                    style="font-size: 20px;"></i></span>
+                                        </div>
+    
+                                        <input type="password" name="password" class="form-control p-4"
+                                            placeholder="Enter Your Password" aria-label="Username"
+                                            aria-describedby="basic-addon1"
+                                            data-validation-required-message="Enter Your Password">
+    
+    
+    
+    
+                                    </div>
+    
+                                    <p class="text-base"> Not registered? <a href="/signup" class=""> Create a account </a>
+                                    </p>
+    
+    
+    
+    
+    
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary py-2 px-2 w-100" type="submit"
+                                        id="sendMessageButton">Login</button>
+                                </div>
+    
+                            </form>
+    
+    
+                        </div>
+                    </div>
+                </div>
+                <!--  Login -->
+                {% endif %}
+    
+    
+    
+    
+    
+    
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+
+
+
+
+
+    <!-- Lecture Details  -->
+    <div class="container-fluid border-bottom border-top">
+        <div class="row pt-2 pb-2">
+
+            <!-- <div class="col-4 d-none d-lg-block">
+
+            </div> -->
+
+            <!-- <div class="col-6 text-center" style="display: flex; justify-content: end; align-items: center;">
+                <div>
+
+
+                    <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+                        {{post.title}}
+                    </h1>
+
+                    <h8 class="text-black"><span
+                            style="font-size: 18px; text-transform: uppercase; ">{{post.created_at|date:"M d, Y"}}
+                    </h8>
+                </div>
+
+            </div>
+
+            <div class="col-6" style="display: flex; justify-content: start; align-items: center;" >
+                <div>
+                    <div>
+                        <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+
+                            <a style="text-decoration: none;" data-toggle="tooltip" data-placement="down"
+                                title="{{post.no_of_likes}} Likes">
+                                <i class="fa-regular fa-bookmark ml-4" style="font-size: 45px; color: #fd771e;"></i>
+                                {{post.no_of_likes}}
+                            </a>
+
+                        </h1>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-12">
+
+                <div class="text-center pb-4 pt-3" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                    <div>
+
+
+                        <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+                            {{post.title}}
+                        </h1>
+
+                        <h8 class="text-black"><span
+                                style="font-size: 18px; text-transform: uppercase; ">{{post.created_at|date:"M d, Y"}}
+                        </h8>
+                    </div>
+                    <div>
+                        <div>
+                            <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+                                {% if like == 'yes' %}
+                                <a href="/like-dashboard?post_id={{post.id}}" style="text-decoration: none;"
+                                    data-toggle="tooltip" data-placement="down" title="{{post.no_of_likes}} Likes">
+                                    <i class="fa-solid fa-bookmark ml-4" style="font-size: 45px; color: #fd771e;"></i>
+                                </a>
+                                {% endif %}
+
+                                {% if like == 'no' %}
+                                <a href="/like-dashboard?post_id={{post.id}}" style="text-decoration: none;"
+                                    data-toggle="tooltip" data-placement="down" title="{{post.no_of_likes}} Likes">
+                                    <i class="fa-regular fa-bookmark ml-4" style="font-size: 45px; color: #fd771e;"></i>
+                                </a>
+                                {% endif %}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- <div class="col-6 col-lg-4" style="display: flex; justify-content: end; align-items: center;">
+                <div>
+                    <h1 class="mb-2" style="color: #fd771e;; font-size: 43px; font-weight: bolder;">
+
+                        <a style="text-decoration: none;" data-toggle="tooltip" data-placement="down"
+                            title="{{post.no_of_likes}} Likes">
+                            <i class="fa-regular fa-bookmark ml-4" style="font-size: 45px; color: #fd771e;"></i>
+                            {{post.no_of_likes}}
+                        </a>
+
+                    </h1>
+                </div>
+            </div> -->
+
+
+
+
+
+        </div>
+
+
+    </div>
+    </div>
+    <!-- Lecture Details  -->
+
+
+    <!-- Lecture Start -->
+    <div class="container-fluid border-bottom">
+        <div class="row ">
+
+
+
+            <div class="col-12 col-lg-8">
+                <div class="tab-content">
+                    {% for part in parts %}
+                    <div id="{{part.place}}" class="tab-pane fade in">
+
+                        {% if part.type == 'video' %}
+                        <div class="col-12 mb-2" style="border-bottom: 1px rgb(220, 207, 207) solid;">
+                            <div>
+
+                                <div class="text-center mt-5 mb-2">
+                                    <video controls="controls" preload="preload" class="lesson-video "
+                                        style="width: 90%;">
+                                        <source src="{{part.video.url}}" type="video/mp4">
+                                        </source>
+                                    </video>
+                                </div>
+
+                                <div class="video-caption mt-3 mb-3"
+                                    style="overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                    <p class="" style="font-size: 20px;">{{part.title}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+
+            <div class="col-12 col-lg-4" style="padding: 0;">
+                <nav class="navbar navbar-expand navbar-light" style="padding: 0;">
+
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                        <div class="navbar-nav" style="padding: 10px;">
+
+
+
+
+                            <ul class="nav nav-tabs w-100 " style="border-bottom:none">
+                                <h3 class="text-uppercase mb-4 w-100 mt-3" >
+                                    Lecture Parts</h3>
+
+                                {% for part in parts %}
+                                <li class="active w-100 attachment mb-4"
+                                    style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+
+                                    {% if part.type == 'video' %}
+                                    <a data-toggle="tab" class="d-flex align-items-center text-decoration-none "
+                                        href="#{{part.place}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+                                            {% if part.type == 'video' %}
+                                            <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+
+                                            {% if part.type == 'link' %}
+                                            <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if part.type == 'link' %}
+                                    <a class="d-flex align-items-center text-decoration-none " href="{{part.link}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+                                            {% if part.type == 'video' %}
+                                            <i class="fa fa-2x fa-video text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+
+                                            {% if part.type == 'link' %}
+                                            <i class="fa fa-2x fa-link text-primary mr-3" style="font-size: 80px;"></i>
+                                            {% endif %}
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">{{part.title}}</h6>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+
+
+
+                                    <div class="btn-group dropup mt-4 w-100">
+                                        <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form action="/dashboard/delete-part" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+
+                                                    <p>Are You Sure You Want To Delete This Part Of The Lecture?</p>
+
+                                                    <input type="hidden" value="{{part.part_id}}" name="part-id"
+                                                        hidden />
+
+                                                    <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit"
+                                                        class="btn btn-danger pl-5 pr-5 w-100">Delete</button>
+                                                    <button type="button" class="btn btn-secondary w-100"
+                                                        data-dismiss="modal">Close</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+
+
+
+
+
+                                {% if test_assignment %}
+                                <li class=" w-100 attachment mb-4"
+                                    style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <a class="d-flex align-items-center text-decoration-none  "
+                                        href="/assignment/progress/{{test_assignment.assignment_id}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+
+
+
+
+
+                                            <i class="fa fa-2x fa-file text-primary mr-3" style="font-size: 80px;"></i>
+
+
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">
+                                                {{test_assignment.assignment_name}}</h6>
+                                        </div>
+                                    </a>
+
+                                    <div class="btn-group dropup mt-4 w-100">
+                                        <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form action="/delete-assignment" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+
+                                                    <p>Are You Sure You Want To Delete This Assignment?</p>
+
+                                                    <input type="hidden" value="{{test_assignment.assignment_id}}"
+                                                        name="assignment-id" hidden />
+
+                                                    <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit"
+                                                        class="btn btn-danger pl-5 pr-5 w-100">Delete</button>
+                                                    <button type="button" class="btn btn-secondary w-100"
+                                                        data-dismiss="modal">Close</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endif %}
+
+                                {% if homework_assignment %}
+                                <li class=" w-100 attachment mb-4"
+                                    style="padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <a class="d-flex align-items-center text-decoration-none "
+                                        href="/assignment/progress/{{homework_assignment.assignment_id}}">
+                                        <span class="" id="basic-addon1" style="width: 140px;">
+
+
+                                            <i class="fa fa-2x fa-pen text-primary mr-3" style="font-size: 80px;"></i>
+
+
+
+
+
+
+
+                                        </span>
+                                        <div class="pl-3">
+                                            <h6 class="m-1" style="text-transform: capitalize;">
+                                                {{homework_assignment.assignment_name}}</h6>
+                                        </div>
+                                    </a>
+
+                                    <div class="btn-group dropup mt-4 w-100">
+                                        <button type="button" class="btn btn-danger w-100" style="border-radius: 0;"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-2x fa-trash" style="font-size: 18px;"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form action="/delete-assignment" method="POST"
+                                                style="margin-top: 5px; margin-bottom: 10px;">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+
+                                                    <p>Are You Sure You Want To Delete This Assignment?</p>
+
+                                                    <input type="hidden" value="{{homework_assignment.assignment_id}}"
+                                                        name="assignment-id" hidden />
+
+                                                    <input type="hidden" value="{{post.id}}" name="lecture-id" hidden />
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit"
+                                                        class="btn btn-danger pl-5 pr-5 w-100">Delete</button>
+                                                    <button type="button" class="btn btn-secondary w-100"
+                                                        data-dismiss="modal">Close</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                {% endif %}
+                            </ul>
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </nav>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+    <!-- Lecture  End -->
+
+
+    <!-- Dashboard  -->
+
+    <div class="container ">
+        <div class="row">
+
+
+
+            <div class="col-12">
+                <ul class="nav nav-tabs w-100 pb-2" style="border-bottom: none;">
+
+                    <h3 class="text-uppercase mb-4 w-100 mt-5" style="letter-spacing: 5px; margin-left: px;">
+                        Add Part</h3>
+
+
+
+                    <div class="container-fluid">
+                        <div class="row">
+
+
+                            {% if post.price == 0%}
+                            <!-- Lecture Info -->
+                            <div class="col-12 mb-5">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button type="button" data-toggle="modal" data-target="#lecture-settings"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-gear text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            Setup Lecture</h6>
+                                    </button>
+                                </li>
+                            </div>
+                            {% endif %}
+
+
+                            <!-- Add Video -->
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button type="button" data-toggle="modal" data-target="#add-video"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            Add Video</h6>
+                                    </button>
+                                </li>
+                            </div>
+
+                            <!-- Add Assignment  -->
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <a href="/dashboard/new-assignment"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            Add Assignment</h6>
+                                    </a>
+                                </li>
+                            </div>
+
+                            <!-- Add Link -->
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <li class=" w-100 attachment mb-4"
+                                    style="border-radius: 10px; box-shadow: 0px 0px 20px -10px rgba(0, 0, 0, 1);">
+                                    <button type="button" data-toggle="modal" data-target="#add-link"
+                                        style="border: none; background-color: transparent; border-radius: 10px; padding: 20px;"
+                                        class="w-100 btn d-flex align-items-center text-decoration-none justify-content-center">
+
+
+                                        <i class="fa fa-2x fa-plus text-primary mr-2" style="font-size: 30px;"></i>
+                                        <h6 class="m-1" style="text-transform: capitalize; font-size: 18px;">
+                                            Add Link</h6>
+                                    </button>
+                                </li>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- Lecture Settings -->
+                    <div class="modal fade" id="lecture-settings" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Lecture Settings</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-part" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <input type="text" name="type" value="settings" hidden>
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+
+
+
+                                    <div class="modal-body">
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-money-bill text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="price" class="form-control"
+                                                placeholder="Lecture Price" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="description" class="form-control"
+                                                placeholder="Lecture Description" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="input-group mb-3 mt-2">
+                                            <select class="form-control" id="exampleFormControlSelect1" name="year">
+                                                <option value="first">First Secondary</option>
+                                                <option value="second">Second Secondary</option>
+                                                <option value="third">Third Secondary</option>
+                                            </select>
+                                        </div>
+
+
+
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">Save</button>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Lecture Settings -->
+
+
+
+                    <!-- Add Video -->
+                    <div class="modal fade" id="add-video" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Video</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-part" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <input type="text" name="type" value="video" hidden>
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+                                    {% if videos_count == 0 %}
+                                    <input type="text" name="place" value="video" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 1 %}
+                                    <input type="text" name="place" value="video2" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 2 %}
+                                    <input type="text" name="place" value="video3" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 3 %}
+                                    <input type="text" name="place" value="video4" hidden>
+                                    {% endif %}
+
+                                    {% if videos_count == 4 %}
+                                    <input type="text" name="place" value="video5" hidden>
+                                    {% endif %}
+
+
+
+                                    <div class="modal-body">
+                                        <div class="input-group mb-3">
+
+
+
+
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-video text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="title" class="form-control"
+                                                placeholder="Video Title" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="form-group mb-2">
+                                            <label for="video-input">Upload Video</label>
+                                            <input type="file" class="form-control-file" id="video-input" name="video">
+                                        </div>
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">Save</button>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Add Video -->
+
+
+                    <!-- Add Link -->
+                    <div class="modal fade" id="add-link" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Link</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <form action="/dashboard/add-part" method="POST"
+                                    style="margin-top: 5px; margin-bottom: 10px;" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <input type="text" name="type" value="link" hidden>
+                                    <input type="text" name="lecture-id" value="{{post.id}}" hidden>
+
+                                    {% if links_count == 0 %}
+                                    <input type="text" name="place" value="link" hidden>
+                                    {% endif %}
+
+                                    {% if links_count == 1 %}
+                                    <input type="text" name="place" value="link2" hidden>
+                                    {% endif %}
+
+                                    {% if links_count == 2 %}
+                                    <input type="text" name="place" value="link3" hidden>
+                                    {% endif %}
+
+
+
+
+                                    <div class="modal-body">
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-pen text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="text" name="title" class="form-control" placeholder="URL Name"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="fa fa-2x fa-link text-primary mr-3"
+                                                        style="font-size: 20px;"></i></span>
+                                            </div>
+                                            <input type="teext" name="link" class="form-control" placeholder="Link"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary pl-5 pr-5">Save</button>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Add Link -->
+
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+
+
+
+        </div>
+    </div>
+    <!-- Dashboard  -->
+
+
+
+
+
+    {% endif %}
+
+
+
+
+    {% if user_profile.instructor == False %}
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form bg-secondary rounded p-5 text-center">
+                        <div id="success"></div>
+
+                        <p style="font-size: 23px;">You Must Be Instructor To View Dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white py-5 px-sm-3 px-lg-5" style="margin-top: 0px;">
+        <div class="row pt-5">
+            <div class="col-lg-7 col-md-12">
+                <div class="row">
+                    <div class="col-md-6 mb-5">
+                        <h5 class="text-primary text-uppercase mb-4" >Get In Touch</h5>
+                        <p><i class="fa fa-map-marker-alt mr-2"></i>Sohag, EGYPT</p>
+                        <p><i class="fa fa-phone-alt mr-2"></i>0122 610 2013</p>
+                        <p><i class="fa fa-envelope mr-2"></i>menaemadnasef@gmail.com</p>
+                        <div class="d-flex justify-content-start mt-4">
+                            <!-- <a class="btn btn-outline-light btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a> -->
+                            <a class="btn btn-outline-light btn-square mr-2"
+                                href="https://www.facebook.com/bondok.emad"><i class="fab fa-facebook-f"></i></a>
+                            <!-- <a class="btn btn-outline-light btn-square mr-2" href="#"><i
+                                    class="fab fa-linkedin-in"></i></a> -->
+                            <a class="btn btn-outline-light btn-square" href="https://www.instagram.com/mena_emad6/"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-5">
+                        <h5 class="text-primary text-uppercase mb-4" >Helpfull Links</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-white mb-2" href="/"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            {% if user_profile %}
+                            <a class="text-white mb-2" href="/profile/{{user_profile.user}}"><i
+                                    class="fa fa-angle-right mr-2"></i>Profile</a>
+                            {% else %}
+                            <a class="text-white mb-2" href="/login"><i class="fa fa-angle-right mr-2"></i>Login</a>
+                            <a class="text-white mb-2" href="/signup"><i class="fa fa-angle-right mr-2"></i>Register New
+                                Account</a>
+                            {% endif %}
+                            <a class="text-white mb-2" href="/lessons"><i
+                                    class="fa fa-angle-right mr-2"></i>Lectures</a>
+
+                            {% if user_profile %}
+                            <a class="text-white mb-2" href="/wallet/recharge"><i
+                                    class="fa fa-angle-right mr-2"></i>Recharge Wallet</a>
+                            {% endif %}
+
+                            <a class="text-white mb-2" href="/news"><i class="fa fa-angle-right mr-2"></i>News</a>
+                            {% if user_profile %}
+                            <a class="text-white" href="/logout"><i class="fa fa-angle-right mr-2"></i>Logout</a>
+                            {% endif %}
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-12 mb-5">
+                <h5 class="text-primary text-uppercase mb-4" >Who Are We</h5>
+                <p>We are an education technology startup that aims to help teachers teach and students learn.</p>
+                <div class="w-100">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+
+
+    <script src="https://kit.fontawesome.com/1454af8120.js" crossorigin="anonymous"></script>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+    <!-- AOS LIBRARY  -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <!-- AOS LIBRARY  -->
+
+
+</body>
+
+</html>
