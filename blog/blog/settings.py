@@ -61,14 +61,12 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
 
         'APP': {
-            'client_id': '1237901653484073',
-            'secret': 'f9966e22f65451a9e3dd8361f4ae092d',
+
         }
     },
     'google': {
         'APP': {
-            'client_id': '553344241849-7g57m6dma8cvfi6g5jvsuu6q4ub1ggln.apps.googleusercontent.com',
-            'secret': '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',
+
         }
     }
 }
