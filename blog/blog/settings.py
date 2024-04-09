@@ -57,19 +57,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = '/setup-account-social/1'
 SITE_ID = 1
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
 
-        'APP': {
-
-        }
-    },
-    'google': {
-        'APP': {
-
-        }
-    }
-}
 
 import core
 
